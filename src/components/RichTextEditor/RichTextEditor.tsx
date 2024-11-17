@@ -28,6 +28,7 @@ const RichEditor = () => {
 			TextAlign.configure({ types: ['heading', 'paragraph'] }),
 			Placeholder.configure({ placeholder: 'Todays notes' }),
 		],
+
 		content,
 	});
 
@@ -36,7 +37,7 @@ const RichEditor = () => {
 			ref={editorContainerRef}
 			editor={editor}
 			content={content}
-			className="flex flex-grow p-6 cursor-text focus-within:bg-background-alt hover:bg-background-alt rounded"
+			className='h-full'
 		>
 			{editor && <Bubble editor={editor} />}
 			<RichTextEditor.Content />

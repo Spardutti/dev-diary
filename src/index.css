@@ -8,20 +8,19 @@
 }
 
 .tiptap {
-  all: unset;
-
-  & > * {
-    all: unset;
-
-  }
-
-  .is-empty {
-    @apply text-neutral-500
-  }
-
-a {
-    @apply text-blue-500 underline cursor-pointer
+  @apply focus-within:bg-background-alt bg-background hover:bg-background-alt h-full min-h-0;
 }
-}
-
  
+
+.mantine-RichTextEditor-root {
+  height: 100%;
+  border: none;
+}
+
+.mantine-RichTextEditor-content {
+  height: 100%;
+}
+
+.mantine-RichTextEditor-typographyStylesProvider {
+  height: 100%;
+}

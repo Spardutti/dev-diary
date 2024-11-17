@@ -4,6 +4,7 @@ import { routes } from '@/app/routes';
 import Layout from '@/components/Layout';
 import { createTheme, MantineProvider } from '@mantine/core';
 
+import '@mantine/core/styles.css';
 import '@mantine/tiptap/styles.css';
 
 const theme = createTheme({});
