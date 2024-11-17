@@ -1,7 +1,9 @@
+import DailyNotes from '@/components/DailyNotes';
+
 const Dashboard = () => {
 	return (
-		<div>
-			<p>dashboard</p>
+		<div className="flex flex-grow flex-col">
+			<DailyNotes />
 		</div>
 	);
 };

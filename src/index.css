@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+	font-family: 'Signika Negative', sans-serif;
+}
+
+.tiptap {
+  all: unset;
+
+  & > * {
+    all: unset;
+
+  }
+
+  .is-empty {
+    @apply text-neutral-500
+  }
+
+a {
+    @apply text-blue-500 underline cursor-pointer
+}
+}
+
+ 
