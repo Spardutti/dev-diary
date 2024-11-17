@@ -1,11 +1,32 @@
-import type { ReactNode } from 'react';
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { routes } from '@/app/routes';
+import Layout from '@/components/Layout';
 
-const Providers = ({ children }: { children: ReactNode }) => {
-	const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+const Providers = () => {
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: { retry: false },
+		},
+	});
 
-	return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<BrowserRouter>
+				<Routes>
+					<Route element={<Layout />}>
+						{routes.map(({ path, element }) => (
+							<Route
+								key={path}
+								path={path}
+								element={element}
+							/>
+						))}
+					</Route>
+				</Routes>
+			</BrowserRouter>
+		</QueryClientProvider>
+	);
 };
 
 export default Providers;
