@@ -1,0 +1,105 @@
+{
+	"extends": [
+		"alloy",
+		"alloy/react",
+		"alloy/typescript",
+		"plugin:import/recommended"
+	],
+	"env": {
+		// Your environments (which contains several predefined global variables)
+		//
+		// browser: true,
+		// node: true,
+		// mocha: true,
+		// jest: true,
+		// jquery: true
+		"browser": true
+	},
+	"globals": {
+		// Your global variables (setting to false means it's not allowed to be reassigned)
+		//
+		// myGlobal: false
+	},
+	"rules": {
+		"react/function-component-definition": [
+			"warn",
+			{
+				"namedComponents": "arrow-function"
+			}
+		],
+		"func-style": [
+			"warn",
+			"expression",
+			{
+				"allowArrowFunctions": true
+			}
+		],
+		"complexity": [
+			"error",
+			10
+		],
+		"max-depth": [
+			"error",
+			4
+		],
+		"react/jsx-max-depth": [
+			"warn",
+			{
+				"max": 4
+			}
+		],
+		"react/jsx-props-no-spreading": [
+			"warn",
+			{
+				"exceptions": [
+					"ComponentName"
+				]
+			}
+		],
+		"max-lines-per-function": [
+			"warn",
+			{
+				"max": 200
+			}
+		],
+		"no-console": "warn",
+		"import/order": [
+			"warn",
+			{
+				"groups": [
+					"type",
+					"builtin",
+					"object",
+					"external",
+					"internal",
+					"parent",
+					"sibling",
+					"index"
+				],
+				"pathGroups": [
+					{
+						"pattern": "~/**",
+						"group": "external",
+						"position": "after"
+					}
+				],
+				"newlines-between": "always"
+			}
+		],
+		"react/jsx-max-props-per-line": [
+			2,
+			{
+				"maximum": 1
+			}
+		],
+		"react/jsx-sort-props": [
+			"warn",
+			{
+				"callbacksLast": true,
+				"shorthandFirst": true,
+				"noSortAlphabetically": false,
+				"reservedFirst": true
+			}
+		]
+	}
+}
