@@ -1,54 +1,13 @@
-import { RichTextEditor, Link } from '@mantine/tiptap';
 import type { Editor } from '@tiptap/react';
 import { BubbleMenu, useEditor } from '@tiptap/react';
-import Highlight from '@tiptap/extension-highlight';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
-import Superscript from '@tiptap/extension-superscript';
-import SubScript from '@tiptap/extension-subscript';
-import { useRef } from 'react';
-import Placeholder from '@tiptap/extension-placeholder';
 import { FaBold, FaItalic, FaStrikethrough } from 'react-icons/fa';
-import TaskItem from '@tiptap/extension-task-item';
-import TaskList from '@tiptap/extension-task-list';
-import ListItem from '@tiptap/extension-list-item';
 
 interface RichEditorProps {
 	content: string;
 }
 
 const RichEditor = ({ content }: RichEditorProps) => {
-	const editorContainerRef = useRef<HTMLDivElement>(null);
-
-	const editor = useEditor({
-		extensions: [
-			StarterKit,
-			Underline,
-			Link,
-			Superscript,
-			SubScript,
-			Highlight,
-			TextAlign.configure({ types: ['heading', 'paragraph'] }),
-			Placeholder.configure({ placeholder: 'Todays notes' }),
-			TaskList,
-			TaskItem,
-			ListItem,
-		],
-
-		content,
-	});
-
-	return (
-		<RichTextEditor
-			ref={editorContainerRef}
-			editor={editor}
-			content={content}
-		>
-			{editor && <Bubble editor={editor} />}
-			<RichTextEditor.Content />
-		</RichTextEditor>
-	);
+	return <p>asd</p>;
 };
 
 export default RichEditor;
