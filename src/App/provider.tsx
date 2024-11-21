@@ -1,10 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { routes } from '@/app/routes';
+import { routeDefinitions } from '@/app/routes';
 import Layout from '@/components/Layout';
-
-import '@mantine/core/styles.css';
-import '@mantine/tiptap/styles.css';
+import { AuthProvider } from '@/context/useAuth';
+import Home from '@/app/pages/Home';
 
 const Providers = () => {
 	const queryClient = new QueryClient({
@@ -16,17 +15,24 @@ const Providers = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
-				<Routes>
-					<Route element={<Layout />}>
-						{routes.map(({ path, element }) => (
-							<Route
-								key={path}
-								path={path}
-								element={element}
-							/>
-						))}
-					</Route>
-				</Routes>
+				<AuthProvider>
+					<Routes>
+						<Route
+							element={<Home />}
+							path="/"
+						/>
+
+						<Route element={<Layout />}>
+							{routeDefinitions.map(({ path, element }) => (
+								<Route
+									key={path}
+									path={path}
+									element={element}
+								/>
+							))}
+						</Route>
+					</Routes>
+				</AuthProvider>
 			</BrowserRouter>
 		</QueryClientProvider>
 	);

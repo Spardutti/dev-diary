@@ -1,13 +1,23 @@
 // src/app/routes.ts
 import Dashboard from '@/app/pages/Dashboard';
+import ProtectedRoute from '@/features/auth/components/ProtectedRoute';
 
-export const routes = [
+export const paths = {
+	dashboard: '/dashboard',
+	test: '/test',
+};
+
+export const routeDefinitions = [
 	{
-		path: '/', // Child route for Dashboard
-		element: <Dashboard />, // Dashboard rendered inside <Outlet />
+		path: paths.dashboard,
+		element: (
+			<ProtectedRoute>
+				<Dashboard />
+			</ProtectedRoute>
+		),
 	},
 	{
-		path: '/test', // Another child route
-		element: <p>Test Page</p>, // Rendered inside <Outlet />
+		path: paths.test,
+		element: <p>Test Page</p>,
 	},
 ];
