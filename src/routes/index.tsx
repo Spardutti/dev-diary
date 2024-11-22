@@ -1,11 +1,10 @@
-import Button from '@/components/Common/Button';
+import { createFileRoute } from '@tanstack/react-router';
+import { Button } from 'react-aria-components';
 import { useAuth } from '@/context/useAuth';
-
-// interface HomeProps {}
 
 const Home = () => {
 	const { guestLogin } = useAuth();
-	
+
 	return (
 		<div className="bg-background flex flex-col gap-2 h-screen text-text">
 			<p>This is home</p>
@@ -16,4 +15,6 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export const Route = createFileRoute('/')({
+	component: Home,
+});

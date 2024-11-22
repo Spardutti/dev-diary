@@ -3,9 +3,8 @@ import { useLogin, useGuestLogin } from '@/features/auth/api/auth';
 import { setDefaultHeaders } from '@/lib/axios';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { useNavigate } from 'react-router';
-import { paths } from '@/app/routes';
 import type { IUser } from '@/features/auth/types/IUser';
+import { router } from '@/App';
 
 interface IAuth {
 	login: (data: { email: string; password: string }) => Promise<void>;
@@ -26,8 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		}
 		return storedToken;
 	});
-
-	const navigate = useNavigate();
 
 	const { data: profile, isLoading: profileLoading, isError } = useGetProfile(token);
 	const { mutateAsync: loginMutation } = useLogin();
@@ -65,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			localStorage.setItem('authToken', userToken);
 			setDefaultHeaders(userToken);
 
-			navigate(paths.dashboard);
+			router.navigate({ to: '/dashboard' });
 		} catch (error) {
 			console.error('Guest login failed:', error);
 			throw error;
@@ -75,7 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const logout = () => {
 		setToken(null);
 		localStorage.removeItem('authToken');
-		navigate(paths.home);
+		router.navigate({ to: '/' });
 	};
 
 	const isAuthenticated = !!token && !!profile?.data;
@@ -104,3 +101,5 @@ export const useAuth = () => {
 	}
 	return context;
 };
+
+export type AuthContext = ReturnType<typeof useAuth>;
