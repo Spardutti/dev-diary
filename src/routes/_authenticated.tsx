@@ -1,18 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import DailyNotes from '@/components/DailyNotes';
-import Todos from '@/components/Todos';
+import Layout from '@/components/Layout';
 
-const Dashboard = () => {
-	return (
-		<div className="flex flex-grow">
-			<DailyNotes />
-
-			<Todos />
-		</div>
-	);
-};
-
-export const Route = createFileRoute('/dashboard')({
+export const Route = createFileRoute('/_authenticated')({
 	beforeLoad: () => {
 		const token = localStorage.getItem('authToken');
 
@@ -28,5 +17,5 @@ export const Route = createFileRoute('/dashboard')({
 			queryKey: ['profile'],
 		});
 	},
-	component: Dashboard,
+	component: Layout,
 });
