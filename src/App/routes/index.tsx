@@ -5,6 +5,7 @@ import ProtectedRoute from '@/features/auth/components/ProtectedRoute';
 export const paths = {
 	dashboard: '/dashboard',
 	test: '/test',
+	home: '/',
 };
 
 export const routeDefinitions = [

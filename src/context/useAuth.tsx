@@ -13,6 +13,7 @@ interface IAuth {
 	logout: () => void;
 	isAuthenticated: boolean;
 	profile: IUser | undefined;
+	isLoading: boolean;
 }
 
 const AuthContext = createContext<IAuth | undefined>(undefined);
@@ -28,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const navigate = useNavigate();
 
-	const { data: profile } = useGetProfile(token);
+	const { data: profile, isLoading: profileLoading, isError } = useGetProfile(token);
 	const { mutateAsync: loginMutation } = useLogin();
 	const { mutateAsync: guestLoginMutation } = useGuestLogin();
 
@@ -46,6 +47,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			const userToken = response.data.access;
 
 			setToken(userToken);
+			setDefaultHeaders(userToken);
+
 			localStorage.setItem('authToken', userToken);
 		} catch (error) {
 			console.error('Login failed:', error);
@@ -60,6 +63,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 			setToken(userToken);
 			localStorage.setItem('authToken', userToken);
+			setDefaultHeaders(userToken);
+
 			navigate(paths.dashboard);
 		} catch (error) {
 			console.error('Guest login failed:', error);
@@ -70,13 +75,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const logout = () => {
 		setToken(null);
 		localStorage.removeItem('authToken');
+		navigate(paths.home);
 	};
 
-	const isAuthenticated = !!token;
+	const isAuthenticated = !!token && !!profile?.data;
+
+	const isLoading = profileLoading || (token !== null && isError);
 
 	const value = useMemo(
-		() => ({ isAuthenticated, login, guestLogin, logout, profile: profile?.data }),
-		[token, profile],
+		() => ({
+			isAuthenticated,
+			login,
+			guestLogin,
+			logout,
+			profile: profile?.data,
+			isLoading,
+		}),
+		[token, profile, isLoading, isAuthenticated],
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

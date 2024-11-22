@@ -1,14 +1,14 @@
+import clsx from 'clsx';
 import type { ReactNode } from 'react';
+import { Heading as AriaHeading } from 'react-aria-components';
 
 interface HeadingProps {
 	textSize: 'sm' | 'md' | 'lg' | '2xl';
-	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+	variant: 1 | 2 | 3 | 4 | 5 | 6;
 	children: ReactNode;
 }
 
 const Heading = ({ textSize, variant, children }: HeadingProps) => {
-	const Tag = variant;
-
 	const textSizeClass = {
 		sm: 'text-sm',
 		md: 'text-base',
@@ -16,7 +16,14 @@ const Heading = ({ textSize, variant, children }: HeadingProps) => {
 		'2xl': 'text-2xl',
 	}[textSize];
 
-	return <Tag className={textSizeClass}>{children}</Tag>;
+	return (
+		<AriaHeading
+			className={clsx(textSizeClass)}
+			level={variant}
+		>
+			{children}
+		</AriaHeading>
+	);
 };
 
 export default Heading;

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { routeDefinitions } from '@/app/routes';
+import { paths, routeDefinitions } from '@/app/routes';
 import Layout from '@/components/Layout';
 import { AuthProvider } from '@/context/useAuth';
 import Home from '@/app/pages/Home';
@@ -19,7 +19,7 @@ const Providers = () => {
 					<Routes>
 						<Route
 							element={<Home />}
-							path="/"
+							path={paths.home}
 						/>
 
 						<Route element={<Layout />}>

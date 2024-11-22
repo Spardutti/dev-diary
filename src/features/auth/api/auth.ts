@@ -17,6 +17,6 @@ export const useLogin = () =>
 export const useGetProfile = (token: string | null) =>
 	useQuery({
 		queryKey: ['profile'],
-		queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users' }),
+		queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users/' }),
 		enabled: !!token,
 	});

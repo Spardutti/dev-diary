@@ -24,7 +24,7 @@ const ProjectSelector = () => {
 		<div className="flex gap-2 items-baseline">
 			<div ref={triggerRef}>
 				<Heading
-					variant="h2"
+					variant={2}
 					textSize="2xl"
 				>
 					{projects?.data[0]?.name}

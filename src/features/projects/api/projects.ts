@@ -6,5 +6,5 @@ import { useQuery } from '@tanstack/react-query';
 export const useGetProjects = () =>
 	useQuery({
 		queryKey: ['projects'],
-		queryFn: () => axiosHelper<IResponse<IProject[]>>({ method: 'get', url: '/projects' }),
+		queryFn: () => axiosHelper<IResponse<IProject[]>>({ method: 'get', url: '/projects/' }),
 	});
