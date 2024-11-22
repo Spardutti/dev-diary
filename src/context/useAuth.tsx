@@ -12,7 +12,6 @@ interface IAuth {
 	logout: () => void;
 	isAuthenticated: boolean;
 	profile: IUser | undefined;
-	isLoading: boolean;
 }
 
 const AuthContext = createContext<IAuth | undefined>(undefined);
@@ -26,7 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		return storedToken;
 	});
 
-	const { data: profile, isLoading: profileLoading, isError } = useGetProfile(token);
+	const { data: profile } = useGetProfile(token);
 	const { mutateAsync: loginMutation } = useLogin();
 	const { mutateAsync: guestLoginMutation } = useGuestLogin();
 
@@ -77,8 +76,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const isAuthenticated = !!token && !!profile?.data;
 
-	const isLoading = profileLoading || (token !== null && isError);
-
 	const value = useMemo(
 		() => ({
 			isAuthenticated,
@@ -86,9 +83,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			guestLogin,
 			logout,
 			profile: profile?.data,
-			isLoading,
 		}),
-		[token, profile, isLoading, isAuthenticated],
+		[token, profile, isAuthenticated],
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
