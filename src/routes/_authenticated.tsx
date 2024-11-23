@@ -11,6 +11,11 @@ export const Route = createFileRoute('/_authenticated')({
 			});
 		}
 	},
+	onEnter: () => {
+		throw redirect({
+			to: '/',
+		});
+	},
 	loader: async ({ context }) => {
 		const { queryClient } = context;
 		await queryClient.ensureQueryData({

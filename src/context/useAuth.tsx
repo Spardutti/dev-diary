@@ -25,9 +25,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		return storedToken;
 	});
 
-	const { data: profile } = useGetProfile(token);
+	const { data: profile, error: profileError } = useGetProfile(token);
 	const { mutateAsync: loginMutation } = useLogin();
 	const { mutateAsync: guestLoginMutation } = useGuestLogin();
+
+	const clearToken = () => {
+		setToken(null);
+		localStorage.removeItem('authToken');
+		setDefaultHeaders(null);
+	};
 
 	useEffect(() => {
 		if (token) {
@@ -36,6 +42,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			setDefaultHeaders(null);
 		}
 	}, [token]);
+
+	if (profileError) {
+		clearToken();
+		router.navigate({ to: '/' });
+	}
 
 	const login = async (data: { email: string; password: string }) => {
 		try {
@@ -61,7 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			localStorage.setItem('authToken', userToken);
 			setDefaultHeaders(userToken);
 
-			router.navigate({ to: '/dashboard' });
+			router.navigate({ to: '/projects/$projectId/dashboard', params: { projectId: response.data.user.lastProject } });
 		} catch (error) {
 			console.error('Guest login failed:', error);
 			throw error;
@@ -69,8 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const logout = () => {
-		setToken(null);
-		localStorage.removeItem('authToken');
+		clearToken();
 		router.navigate({ to: '/' });
 	};
 

@@ -1,6 +1,6 @@
 export interface IUser {
 	email: string;
-	lastProject: string | null;
+	lastProject: string;
 	readonly id: string;
 }
 
