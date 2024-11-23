@@ -1,6 +1,9 @@
+import Alert from '@/components/Common/Alert';
 import Button from '@/components/Common/Button';
 import Form from '@/components/Common/Form/Form';
 import InputField from '@/components/Common/InputField';
+import { useSignUp } from '@/features/auth/api/auth';
+import { useState } from 'react';
 
 interface ICreateAccountFormValues {
 	email: string;
@@ -12,8 +15,19 @@ interface CreateAccountFormProps {
 }
 
 const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
+	const [showSuccess, setShowSuccess] = useState<boolean>(false);
+
+	const { mutateAsync: signup, isPending, error } = useSignUp();
 	const onSubmit = async (data: ICreateAccountFormValues) => {
-		console.log(data);
+		const response = await signup(data);
+
+		if (response.status === 201) {
+			setShowSuccess(true);
+			setTimeout(() => {
+				handleSignUp();
+				setShowSuccess(false);
+			}, 1000);
+		}
 	};
 
 	return (
@@ -44,11 +58,27 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 					Password
 				</InputField>
 
-				<Button type="submit"> Create</Button>
+				{error && (
+					<Alert
+						variant="error"
+						message={error}
+					/>
+				)}
+
+				<Button
+					isLoading={isPending}
+					isDisabled={isPending || showSuccess}
+					isSuccess={showSuccess}
+					type="submit"
+				>
+					{' '}
+					Create
+				</Button>
 
 				<p className="text-center">
 					have an account ?{' '}
 					<button
+						type="button"
 						onClick={handleSignUp}
 						className="text-secondary underline"
 					>

@@ -30,7 +30,10 @@ const ProjectSelector = () => {
 					{projects?.data[0]?.name}
 				</Heading>
 			</div>
-			<Button onPress={() => setOpen(!isOpen)}>
+			<Button
+				type="button"
+				onPress={() => setOpen(!isOpen)}
+			>
 				<FaChevronDown />
 			</Button>
 			<Popover
@@ -42,6 +45,7 @@ const ProjectSelector = () => {
 					projects?.data?.length > 0 &&
 					projects?.data.map((project) => (
 						<Button
+							type="button"
 							onPress={() => console.log('pepe')}
 							key={project.id}
 						>

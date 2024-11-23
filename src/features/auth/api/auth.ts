@@ -11,7 +11,13 @@ export const useGuestLogin = () =>
 export const useLogin = () =>
 	useMutation({
 		mutationFn: (data: { email: string; password: string }) =>
-			axiosHelper<IResponse<IToken>>({ method: 'post', url: '/token/', data }),
+			axiosHelper<IToken>({ method: 'post', url: '/token/', data }),
+	});
+
+export const useSignUp = () =>
+	useMutation({
+		mutationFn: (data: { email: string; password: string }) =>
+			axiosHelper<IResponse<IToken>>({ method: 'post', url: '/users/', data }),
 	});
 
 export const useGetProfile = (token: string | null) =>

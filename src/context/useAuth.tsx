@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { IUser } from '@/features/auth/types/IUser';
 import { router } from '@/App';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface IAuth {
 	login: (data: { email: string; password: string }) => Promise<void>;
@@ -12,6 +13,7 @@ interface IAuth {
 	logout: () => void;
 	isAuthenticated: boolean;
 	profile: IUser | undefined;
+	setToken: (token: string) => void;
 }
 
 const AuthContext = createContext<IAuth | undefined>(undefined);
@@ -25,6 +27,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		return storedToken;
 	});
 
+	const queryClient = useQueryClient();
+
 	const { data: profile, error: profileError } = useGetProfile(token);
 	const { mutateAsync: loginMutation } = useLogin();
 	const { mutateAsync: guestLoginMutation } = useGuestLogin();
@@ -33,6 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		setToken(null);
 		localStorage.removeItem('authToken');
 		setDefaultHeaders(null);
+		queryClient.clear();
 	};
 
 	useEffect(() => {
@@ -51,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const login = async (data: { email: string; password: string }) => {
 		try {
 			const response = await loginMutation(data);
-			const userToken = response.data.access;
+			const userToken = response.access;
 
 			setToken(userToken);
 			setDefaultHeaders(userToken);
@@ -93,6 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			guestLogin,
 			logout,
 			profile: profile?.data,
+			setToken,
 		}),
 		[token, profile, isAuthenticated],
 	);

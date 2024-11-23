@@ -1,9 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import CreateAccountForm from '@/features/auth/components/CreateAccountForm';
 import LoginForm from '@/features/auth/components/LoginForm';
 import Heading from '@/components/Common/Heading';
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import { axiosInstance, type IResponse } from '@/lib/axios';
+import type { IUser } from '@/features/auth/types/IUser';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -51,11 +53,43 @@ const Home = () => {
 					</motion.div>
 				</motion.div>
 			</div>
-			<div className="bg-background-alt">photo </div>
+			<div className="bg-background-alt"> </div>
 		</div>
 	);
 };
 
 export const Route = createFileRoute('/')({
+	beforeLoad: async ({ context }) => {
+		const token = localStorage.getItem('authToken');
+		if (token) {
+			const setToken = context.authentication.setToken;
+			setToken(token);
+
+			let profile = context.queryClient.getQueryData<IResponse<IUser>>(['profile']);
+			if (!profile) {
+				const response = await fetchProfile(token);
+				profile = response.data;
+			}
+
+			if (profile?.data) {
+				return redirect({
+					to: '/projects/$projectId/dashboard',
+					// @ts-expect-error not converted to camelCase
+					params: { projectId: profile?.data?.last_project },
+				});
+			}
+		}
+	},
+
 	component: Home,
 });
+
+async function fetchProfile(token: string) {
+	const response = await axiosInstance('/users/', {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	return response;
+}

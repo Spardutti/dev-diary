@@ -15,6 +15,6 @@ export const setDefaultHeaders = (token: string | null) => {
 };
 
 export interface IResponse<T> {
-	status: string;
+	status: 200 | 201 | 401 | 400;
 	data: T;
 }

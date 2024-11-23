@@ -13,10 +13,11 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ handleSignUp }: LoginFormProps) => {
+	const { login } = useAuth();
 	const { guestLogin } = useAuth();
 
 	const onSubmit = async (data: ILoginAccountFormValues) => {
-		console.log(data);
+		await login(data);
 	};
 
 	return (
@@ -60,6 +61,7 @@ const LoginForm = ({ handleSignUp }: LoginFormProps) => {
 				<p className="text-center">
 					Don&apos;t have an account ?{' '}
 					<button
+						type="button"
 						onClick={handleSignUp}
 						className=" underline text-secondary"
 					>
