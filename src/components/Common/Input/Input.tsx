@@ -1,28 +1,25 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import { Input as AriaInput } from 'react-aria-components';
 interface InputProps {
-	textSize: 'lg' | 'md' | '2xl';
 	value?: string;
+	name: string;
+	placeholder?: string;
+	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	type: 'text' | 'number' | 'password';
+	autoComplete?: 'current-password' | 'new-password' | 'username';
 }
 
-const textSizes = {
-	'2xl': 'text-2xl',
-	lg: 'text-lg',
-	md: 'text-md',
-};
-
-const Input = ({ textSize, value }: InputProps) => {
-	const [val, setVal] = useState(() => value);
-
-	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setVal(e.target.value);
-	};
-
+const Input = ({ value, placeholder, onChange, name, type, autoComplete }: InputProps) => {
 	return (
 		<AriaInput
-			value={val}
-			className={clsx('bg-background-alt', textSizes[textSize])}
+			type={type}
+			name={name}
+			placeholder={placeholder}
+			value={value}
+			autoComplete={autoComplete}
+			className={clsx(
+				'bg-background-alt px-4 py-2 rounded outline-none focus-within:bg-background-alt/10 text-text transition-all focus-within:ring-1 ring-primary hover:ring-1',
+			)}
 			onChange={onChange}
 		/>
 	);
