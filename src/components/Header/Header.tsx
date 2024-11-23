@@ -17,7 +17,12 @@ const Header = () => {
 			<div className="flex">
 				<ProjectSelector />
 			</div>
-			<Button onPress={logout}>{profile?.email}</Button>
+			<Button
+				type="button"
+				onPress={logout}
+			>
+				{profile?.email}
+			</Button>
 		</div>
 	);
 };
