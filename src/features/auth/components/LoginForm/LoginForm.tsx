@@ -1,7 +1,8 @@
+import Alert from '@/components/Common/Alert';
 import Button from '@/components/Common/Button';
 import Form from '@/components/Common/Form/Form';
 import InputField from '@/components/Common/InputField';
-import { useAuth } from '@/context/useAuth';
+import { useGuestLogin, useLogin } from '@/features/auth/api/auth';
 
 interface ILoginAccountFormValues {
 	email: string;
@@ -13,11 +14,15 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ handleSignUp }: LoginFormProps) => {
-	const { login } = useAuth();
-	const { guestLogin } = useAuth();
+	const { mutateAsync: loginMutation, isPending: isLoginPending, error } = useLogin();
+	const { mutateAsync: guestLoginMutation, isPending: isGuestLoginPending, error: guestLoginError } = useGuestLogin();
 
 	const onSubmit = async (data: ILoginAccountFormValues) => {
-		await login(data);
+		await loginMutation(data);
+	};
+
+	const onGuestLogin = async () => {
+		await guestLoginMutation();
 	};
 
 	return (
@@ -47,12 +52,26 @@ const LoginForm = ({ handleSignUp }: LoginFormProps) => {
 				>
 					Password
 				</InputField>
+				{(error || guestLoginError) && (
+					<Alert
+						variant="error"
+						message={error || guestLoginError}
+					/>
+				)}
 
-				<Button type="submit"> Log In</Button>
+				<Button
+					type="submit"
+					isDisabled={isLoginPending || isGuestLoginPending}
+					isLoading={isLoginPending}
+				>
+					Log In
+				</Button>
 
 				<Button
 					variant="secondary"
-					onPress={guestLogin}
+					onPress={onGuestLogin}
+					isDisabled={isLoginPending || isGuestLoginPending}
+					isLoading={isGuestLoginPending}
 					type="button"
 				>
 					Guest

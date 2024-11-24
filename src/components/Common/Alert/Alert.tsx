@@ -2,11 +2,11 @@ import clsx from 'clsx';
 
 interface AlertProps {
 	variant: 'success' | 'error' | 'warning' | 'info';
-	message: string | Error;
+	message: string | Error | null;
 }
 
 const Alert = ({ variant, message }: AlertProps) => {
-	const parseError = (error: Error | string) => {
+	const parseError = (error: Error | string | null) => {
 		if (error instanceof Error) {
 			return error.message;
 		}

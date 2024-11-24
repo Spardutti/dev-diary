@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '@/lib/cn';
 import React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { FaCheck } from 'react-icons/fa';
@@ -33,7 +33,7 @@ const Button = ({ children, onPress, type, variant = 'primary', isLoading, isDis
 	return (
 		<AriaButton
 			type={type}
-			className={clsx(
+			className={cn(
 				'px-4 py-2 rounded outline-none h-10 transition-all flex items-center justify-center',
 				variants[variant],
 				isDisabled && 'opacity-50 pointer-events-none',
@@ -43,15 +43,15 @@ const Button = ({ children, onPress, type, variant = 'primary', isLoading, isDis
 			isDisabled={isDisabled}
 		>
 			<span
-				className={clsx(
+				className={cn(
 					'animate-spin w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full mr-2',
 					isLoading ? 'block' : 'hidden',
 				)}
 			/>
-			<span className={clsx('', isSuccess ? 'block' : 'hidden')}>
+			<span className={cn('', isSuccess ? 'block' : 'hidden')}>
 				<FaCheck />
 			</span>
-			<span className={clsx(isLoading || isSuccess ? 'hidden' : 'block')}>{children}</span>
+			<span className={cn(isLoading || isSuccess ? 'hidden' : 'block')}>{children}</span>
 		</AriaButton>
 	);
 };

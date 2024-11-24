@@ -62,8 +62,7 @@ export const Route = createFileRoute('/')({
 	beforeLoad: async ({ context }) => {
 		const token = localStorage.getItem('authToken');
 		if (token) {
-			const setToken = context.authentication.setToken;
-			setToken(token);
+			const setProfile = context.authentication.setProfile;
 
 			let profile = context.queryClient.getQueryData<IResponse<IUser>>(['profile']);
 			if (!profile) {
@@ -72,6 +71,7 @@ export const Route = createFileRoute('/')({
 			}
 
 			if (profile?.data) {
+				setProfile(profile.data);
 				return redirect({
 					to: '/projects/$projectId/dashboard',
 					// @ts-expect-error not converted to camelCase

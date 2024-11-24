@@ -10,7 +10,6 @@ export default {
 				secondary: '#778DA9',
 				text: '#E0E1DD',
 				"text-dark": '#0D1B2A',
-				accent: '#FFB703',
 				'muted-teal': '#527A91',
 			},
 		},
