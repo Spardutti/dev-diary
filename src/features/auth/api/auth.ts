@@ -16,7 +16,7 @@ export const useGuestLogin = () => {
 			setDefaultHeaders(token);
 
 			try {
-				const lastProjectId = response?.data?.user?.lastProject;
+				const lastProjectId = response?.data?.user?.lastVisitedProject;
 				if (lastProjectId) {
 					navigate({ to: `/projects/$projectId/dashboard`, params: { projectId: lastProjectId } });
 				}
@@ -46,7 +46,7 @@ export const useLogin = () => {
 					queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users/' }),
 				});
 
-				const lastProjectId = profile?.data?.lastProject;
+				const lastProjectId = profile?.data?.lastVisitedProject;
 				if (lastProjectId) {
 					navigate({ to: `/projects/$projectId/dashboard`, params: { projectId: lastProjectId } });
 				}
