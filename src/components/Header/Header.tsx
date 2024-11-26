@@ -1,5 +1,5 @@
-import Button from '@/components/Common/Button';
 import Heading from '@/components/Common/Heading';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/useAuth';
 import ProjectSelector from '@/features/projects/components/ProjectSelector';
 
@@ -14,12 +14,11 @@ const Header = () => {
 			>
 				DevDiary
 			</Heading>
-			<div className="flex">
-				<ProjectSelector />
-			</div>
+
+			<ProjectSelector />
 			<Button
 				type="button"
-				onPress={logout}
+				onClick={logout}
 			>
 				{profile?.email}
 			</Button>

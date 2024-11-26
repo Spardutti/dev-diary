@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
 import { setDefaultHeaders, type IResponse } from '@/lib/axios';
 import type { IUser } from '@/features/auth/types/IUser';
+import { router } from '@/App';
 
 export const Route = createFileRoute('/_authenticated')({
 	beforeLoad: () => {
@@ -18,11 +19,17 @@ export const Route = createFileRoute('/_authenticated')({
 		const { queryClient, authentication } = context;
 		const token = localStorage.getItem('authToken');
 		setDefaultHeaders(token);
-		const r = await queryClient.ensureQueryData({
-			queryKey: ['profile'],
-			queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users/' }),
-		});
-		authentication.setProfile(r.data);
+		try {
+			const r = await queryClient.ensureQueryData({
+				queryKey: ['profile'],
+				queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users/' }),
+			});
+			authentication.setProfile(r.data);
+		} catch (error) {
+			router.navigate({ to: '/' });
+			localStorage.removeItem('authToken');
+			return error;
+		}
 	},
 	component: Layout,
 });

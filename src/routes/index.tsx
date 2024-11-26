@@ -75,7 +75,7 @@ export const Route = createFileRoute('/')({
 				return redirect({
 					to: '/projects/$projectId/dashboard',
 					// @ts-expect-error not converted to camelCase
-					params: { projectId: profile?.data?.last_project },
+					params: { projectId: profile?.data?.last_visited_project },
 				});
 			}
 		}

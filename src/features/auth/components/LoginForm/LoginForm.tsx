@@ -1,7 +1,7 @@
 import Alert from '@/components/Common/Alert';
-import Button from '@/components/Common/Button';
 import Form from '@/components/Common/Form/Form';
 import InputField from '@/components/Common/InputField';
+import { Button } from '@/components/ui/button';
 import { useGuestLogin, useLogin } from '@/features/auth/api/auth';
 
 interface ILoginAccountFormValues {
@@ -61,17 +61,17 @@ const LoginForm = ({ handleSignUp }: LoginFormProps) => {
 
 				<Button
 					type="submit"
-					isDisabled={isLoginPending || isGuestLoginPending}
-					isLoading={isLoginPending}
+					disabled={isLoginPending || isGuestLoginPending}
+					// isLoading={isLoginPending}
 				>
 					Log In
 				</Button>
 
 				<Button
 					variant="secondary"
-					onPress={onGuestLogin}
-					isDisabled={isLoginPending || isGuestLoginPending}
-					isLoading={isGuestLoginPending}
+					onClick={onGuestLogin}
+					disabled={isLoginPending || isGuestLoginPending}
+					// isLoading={isGuestLoginPending}
 					type="button"
 				>
 					Guest

@@ -8,3 +8,5 @@ export const useGetProjects = () =>
 		queryKey: ['projects'],
 		queryFn: () => axiosHelper<IResponse<IProject[]>>({ method: 'get', url: '/projects/' }),
 	});
+
+

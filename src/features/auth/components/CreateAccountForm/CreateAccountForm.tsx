@@ -1,7 +1,7 @@
 import Alert from '@/components/Common/Alert';
-import Button from '@/components/Common/Button';
 import Form from '@/components/Common/Form/Form';
 import InputField from '@/components/Common/InputField';
+import { Button } from '@/components/ui/button';
 import { useSignUp } from '@/features/auth/api/auth';
 import { useState } from 'react';
 
@@ -66,9 +66,7 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 				)}
 
 				<Button
-					isLoading={isPending}
-					isDisabled={isPending || showSuccess}
-					isSuccess={showSuccess}
+					disabled={isPending || showSuccess}
 					type="submit"
 				>
 					{' '}

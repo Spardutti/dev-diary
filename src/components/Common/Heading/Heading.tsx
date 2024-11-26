@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
-import { Heading as AriaHeading } from 'react-aria-components';
 
 interface HeadingProps {
 	textSize: 'sm' | 'md' | 'lg' | '2xl';
@@ -17,12 +16,12 @@ const Heading = ({ textSize, variant, children }: HeadingProps) => {
 	}[textSize];
 
 	return (
-		<AriaHeading
+		<h1
 			className={clsx(textSizeClass)}
 			level={variant}
 		>
 			{children}
-		</AriaHeading>
+		</h1>
 	);
 };
 
