@@ -1,26 +1,24 @@
-import EditableField from '@/components/Common/EditableField';
-import { useGetProjects } from '@/features/projects/api/projects';
-import ProjectSelectorDropDown from '@/features/projects/components/ProjectSelectorDropdown/ProjectSelectorDropdown';
-import { useRef } from 'react';
+import { useGetProject } from '@/features/projects/api/projects';
+import ProjectManagementDropdown from '@/features/projects/components/ProjectManagementDropdown';
+import ProjectSelectorDropDown from '@/features/projects/components/ProjectSelectorDropdown';
+import { useParams } from '@tanstack/react-router';
 
 // interface ProjectSelectorProps {
 // }
 
 const ProjectSelector = () => {
-	const triggerRef = useRef(null);
-	const { data: projects, isPending } = useGetProjects();
+	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
+	const { data: project, isPending } = useGetProject(projectId);
 
-	if (isPending || !projects?.data)
-		return (
-			<div>
-				<p>Loading...</p>
-			</div>
-		);
+	if (isPending || !project?.data) return <div className="animate-pulse h-8 w-[120px]" />;
 
 	return (
 		<div className="flex gap-2 items-center">
-			<div ref={triggerRef}>
-				<EditableField value={projects.data[0].name} />
+			<div className="flex items-center gap-2 px-4 py-2 transition-colors rounded">
+				<ProjectManagementDropdown project={project.data} />
+				<span className="text-2xl font-semibold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+					{project.data.name}
+				</span>
 			</div>
 
 			<ProjectSelectorDropDown />

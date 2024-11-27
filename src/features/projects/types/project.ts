@@ -1,4 +1,4 @@
 export interface IProject {
-	id: string;
+	readonly id: string;
 	name: string;
 }

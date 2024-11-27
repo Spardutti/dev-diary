@@ -1,34 +1,32 @@
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { useCreateProject } from '@/features/projects/api/projects';
-import { router } from '@/App';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useUpdateProject } from '@/features/projects/api/projects';
+import type { IProject } from '@/features/projects/types/project';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const formSchema = z.object({
-	projectName: z.string().min(2, {
+	name: z.string().min(2, {
 		message: 'Project Name must be at least 2 characters.',
 	}),
 });
 
-const NewProjectForm = ({ closeDialog }: { closeDialog: () => void }) => {
-	const { mutateAsync: createProject, isPending: isCreatingProject } = useCreateProject();
+const UpdateProjectForm = ({ project, closeDialog }: { project: IProject; closeDialog: () => void }) => {
+	const { mutateAsync: updateProject, isPending: isUpdatingProject } = useUpdateProject();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			projectName: '',
+			name: project.name,
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		const response = await createProject({ name: values.projectName });
+		await updateProject({ ...values, id: project.id });
 		closeDialog();
-		router.navigate({ to: '/projects/$projectId/dashboard', params: { projectId: response.data.id } });
 	};
-
 	return (
 		<Form {...form}>
 			<form
@@ -37,7 +35,7 @@ const NewProjectForm = ({ closeDialog }: { closeDialog: () => void }) => {
 			>
 				<FormField
 					control={form.control}
-					name="projectName"
+					name="name"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Project Name</FormLabel>
@@ -52,8 +50,8 @@ const NewProjectForm = ({ closeDialog }: { closeDialog: () => void }) => {
 					)}
 				/>
 				<Button
-					disabled={isCreatingProject}
-					isLoading={isCreatingProject}
+					disabled={isUpdatingProject}
+					isLoading={isUpdatingProject}
 					type="submit"
 				>
 					Submit
@@ -62,4 +60,5 @@ const NewProjectForm = ({ closeDialog }: { closeDialog: () => void }) => {
 		</Form>
 	);
 };
-export default NewProjectForm;
+
+export default UpdateProjectForm;
