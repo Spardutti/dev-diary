@@ -1,11 +1,11 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import CreateAccountForm from '@/features/auth/components/CreateAccountForm';
 import LoginForm from '@/features/auth/components/LoginForm';
-import Heading from '@/components/Common/Heading';
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { axiosInstance, type IResponse } from '@/lib/axios';
 import type { IUser } from '@/features/auth/types/IUser';
+import type { AxiosError } from 'axios';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -17,12 +17,7 @@ const Home = () => {
 	return (
 		<div className="grid grid-cols-2 h-screen">
 			<div className="bg-background p-10 text-text flex-grow flex flex-col">
-				<Heading
-					variant={1}
-					textSize="2xl"
-				>
-					Dev Diary
-				</Heading>
+				<h1>Dev Diary</h1>
 
 				<motion.div
 					animate={{ rotateY: showSignUp ? 180 : 0 }} // Rotate the card
@@ -65,8 +60,15 @@ export const Route = createFileRoute('/')({
 			const setProfile = context.authentication.setProfile;
 
 			let profile = context.queryClient.getQueryData<IResponse<IUser>>(['profile']);
+
 			if (!profile) {
 				const response = await fetchProfile(token);
+				if (response?.status && response.status >= 400) {
+					localStorage.removeItem('authToken');
+					redirect({ to: '/' });
+					return;
+				}
+
 				profile = response.data;
 			}
 
@@ -85,11 +87,15 @@ export const Route = createFileRoute('/')({
 });
 
 async function fetchProfile(token: string) {
-	const response = await axiosInstance('/users/', {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	});
+	try {
+		const response = await axiosInstance('/users/', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
-	return response;
+		return response;
+	} catch (error) {
+		return { data: null, error: error, status: (error as AxiosError)?.status };
+	}
 }

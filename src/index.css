@@ -11,8 +11,14 @@
 }
 .tiptap {
 	@apply h-full focus-within:bg-background-alt outline-none hover:bg-background-alt p-2 rounded-sm;
+}
 
-	 
+.tiptap p.is-editor-empty:first-child::before {
+	color: #adb5bd;
+	content: attr(data-placeholder);
+	float: left;
+	height: 0;
+	pointer-events: none;
 }
 
 .editor-wrapper > :first-child {
@@ -24,7 +30,7 @@
 }
 
 @layer base {
-  :root {
+	:root {
 		--radius: 0.5rem;
 	}
 }

@@ -24,6 +24,7 @@ export const Route = createFileRoute('/_authenticated')({
 				queryKey: ['profile'],
 				queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users/' }),
 			});
+
 			authentication.setProfile(r.data);
 		} catch (error) {
 			router.navigate({ to: '/' });

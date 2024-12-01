@@ -1,4 +1,3 @@
-import Heading from '@/components/Common/Heading';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/useAuth';
 import ProjectSelector from '@/features/projects/components/ProjectSelector';
@@ -8,12 +7,7 @@ const Header = () => {
 
 	return (
 		<div className=" border-b border-b-secondary flex justify-between items-center px-2 h-16">
-			<Heading
-				variant={1}
-				textSize="2xl"
-			>
-				DevDiary
-			</Heading>
+			<h1>DevDiary</h1>
 
 			<ProjectSelector />
 			<Button
