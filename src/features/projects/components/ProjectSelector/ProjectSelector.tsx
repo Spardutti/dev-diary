@@ -3,12 +3,11 @@ import ProjectManagementDropdown from '@/features/projects/components/ProjectMan
 import ProjectSelectorDropDown from '@/features/projects/components/ProjectSelectorDropdown';
 import { useParams } from '@tanstack/react-router';
 
-// interface ProjectSelectorProps {
-// }
+/ 
 
 const ProjectSelector = () => {
-	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
-	const { data: project, isPending } = useGetProject(projectId);
+	const { projectId } = useParams({ strict: false });
+	const { data: project, isPending } = useGetProject(projectId!);
 
 	if (isPending || !project?.data) return <div className="animate-pulse h-8 w-[120px]" />;
 

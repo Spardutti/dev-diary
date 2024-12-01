@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedProjectsProjectIdDashboardImport } from './routes/_authenticated/projects/$projectId/dashboard'
+import { Route as AuthenticatedProjectsProjectIdDailyNotesImport } from './routes/_authenticated/projects/$projectId/daily-notes'
 
 // Create/Update Routes
 
@@ -35,6 +36,13 @@ const AuthenticatedProjectsProjectIdDashboardRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
+const AuthenticatedProjectsProjectIdDailyNotesRoute =
+  AuthenticatedProjectsProjectIdDailyNotesImport.update({
+    id: '/projects/$projectId/daily-notes',
+    path: '/projects/$projectId/daily-notes',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -53,6 +61,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/projects/$projectId/daily-notes': {
+      id: '/_authenticated/projects/$projectId/daily-notes'
+      path: '/projects/$projectId/daily-notes'
+      fullPath: '/projects/$projectId/daily-notes'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/projects/$projectId/dashboard': {
       id: '/_authenticated/projects/$projectId/dashboard'
       path: '/projects/$projectId/dashboard'
@@ -66,10 +81,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedProjectsProjectIdDailyNotesRoute: typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   AuthenticatedProjectsProjectIdDashboardRoute: typeof AuthenticatedProjectsProjectIdDashboardRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedProjectsProjectIdDailyNotesRoute:
+    AuthenticatedProjectsProjectIdDailyNotesRoute,
   AuthenticatedProjectsProjectIdDashboardRoute:
     AuthenticatedProjectsProjectIdDashboardRoute,
 }
@@ -81,12 +99,14 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
+  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
+  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
 }
 
@@ -94,18 +114,28 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   '/_authenticated/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/projects/$projectId/dashboard'
+  fullPaths:
+    | '/'
+    | ''
+    | '/projects/$projectId/daily-notes'
+    | '/projects/$projectId/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/projects/$projectId/dashboard'
+  to:
+    | '/'
+    | ''
+    | '/projects/$projectId/daily-notes'
+    | '/projects/$projectId/dashboard'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/_authenticated/projects/$projectId/daily-notes'
     | '/_authenticated/projects/$projectId/dashboard'
   fileRoutesById: FileRoutesById
 }
@@ -140,8 +170,13 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/projects/$projectId/daily-notes",
         "/_authenticated/projects/$projectId/dashboard"
       ]
+    },
+    "/_authenticated/projects/$projectId/daily-notes": {
+      "filePath": "_authenticated/projects/$projectId/daily-notes.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/projects/$projectId/dashboard": {
       "filePath": "_authenticated/projects/$projectId/dashboard.tsx",
