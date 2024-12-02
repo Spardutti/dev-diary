@@ -14,7 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedProjectsProjectIdDashboardImport } from './routes/_authenticated/projects/$projectId/dashboard'
-import { Route as AuthenticatedProjectsProjectIdDailyNotesImport } from './routes/_authenticated/projects/$projectId/daily-notes'
+import { Route as AuthenticatedProjectsProjectIdDailyNotesIndexImport } from './routes/_authenticated/projects/$projectId/daily-notes/index'
+import { Route as AuthenticatedProjectsProjectIdDailyNotesNoteIdImport } from './routes/_authenticated/projects/$projectId/daily-notes/$noteId'
 
 // Create/Update Routes
 
@@ -36,10 +37,17 @@ const AuthenticatedProjectsProjectIdDashboardRoute =
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
-const AuthenticatedProjectsProjectIdDailyNotesRoute =
-  AuthenticatedProjectsProjectIdDailyNotesImport.update({
-    id: '/projects/$projectId/daily-notes',
-    path: '/projects/$projectId/daily-notes',
+const AuthenticatedProjectsProjectIdDailyNotesIndexRoute =
+  AuthenticatedProjectsProjectIdDailyNotesIndexImport.update({
+    id: '/projects/$projectId/daily-notes/',
+    path: '/projects/$projectId/daily-notes/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute =
+  AuthenticatedProjectsProjectIdDailyNotesNoteIdImport.update({
+    id: '/projects/$projectId/daily-notes/$noteId',
+    path: '/projects/$projectId/daily-notes/$noteId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -61,18 +69,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/projects/$projectId/daily-notes': {
-      id: '/_authenticated/projects/$projectId/daily-notes'
-      path: '/projects/$projectId/daily-notes'
-      fullPath: '/projects/$projectId/daily-notes'
-      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesImport
-      parentRoute: typeof AuthenticatedImport
-    }
     '/_authenticated/projects/$projectId/dashboard': {
       id: '/_authenticated/projects/$projectId/dashboard'
       path: '/projects/$projectId/dashboard'
       fullPath: '/projects/$projectId/dashboard'
       preLoaderRoute: typeof AuthenticatedProjectsProjectIdDashboardImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/daily-notes/$noteId': {
+      id: '/_authenticated/projects/$projectId/daily-notes/$noteId'
+      path: '/projects/$projectId/daily-notes/$noteId'
+      fullPath: '/projects/$projectId/daily-notes/$noteId'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/daily-notes/': {
+      id: '/_authenticated/projects/$projectId/daily-notes/'
+      path: '/projects/$projectId/daily-notes'
+      fullPath: '/projects/$projectId/daily-notes'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -81,15 +96,18 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedProjectsProjectIdDailyNotesRoute: typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   AuthenticatedProjectsProjectIdDashboardRoute: typeof AuthenticatedProjectsProjectIdDashboardRoute
+  AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  AuthenticatedProjectsProjectIdDailyNotesIndexRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedProjectsProjectIdDailyNotesRoute:
-    AuthenticatedProjectsProjectIdDailyNotesRoute,
   AuthenticatedProjectsProjectIdDashboardRoute:
     AuthenticatedProjectsProjectIdDashboardRoute,
+  AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute:
+    AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute,
+  AuthenticatedProjectsProjectIdDailyNotesIndexRoute:
+    AuthenticatedProjectsProjectIdDailyNotesIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -99,23 +117,26 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
-  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
+  '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
-  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
+  '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
-  '/_authenticated/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesRoute
   '/_authenticated/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
+  '/_authenticated/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  '/_authenticated/projects/$projectId/daily-notes/': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -123,20 +144,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/projects/$projectId/daily-notes'
     | '/projects/$projectId/dashboard'
+    | '/projects/$projectId/daily-notes/$noteId'
+    | '/projects/$projectId/daily-notes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
-    | '/projects/$projectId/daily-notes'
     | '/projects/$projectId/dashboard'
+    | '/projects/$projectId/daily-notes/$noteId'
+    | '/projects/$projectId/daily-notes'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/_authenticated/projects/$projectId/daily-notes'
     | '/_authenticated/projects/$projectId/dashboard'
+    | '/_authenticated/projects/$projectId/daily-notes/$noteId'
+    | '/_authenticated/projects/$projectId/daily-notes/'
   fileRoutesById: FileRoutesById
 }
 
@@ -170,16 +194,21 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
-        "/_authenticated/projects/$projectId/daily-notes",
-        "/_authenticated/projects/$projectId/dashboard"
+        "/_authenticated/projects/$projectId/dashboard",
+        "/_authenticated/projects/$projectId/daily-notes/$noteId",
+        "/_authenticated/projects/$projectId/daily-notes/"
       ]
-    },
-    "/_authenticated/projects/$projectId/daily-notes": {
-      "filePath": "_authenticated/projects/$projectId/daily-notes.tsx",
-      "parent": "/_authenticated"
     },
     "/_authenticated/projects/$projectId/dashboard": {
       "filePath": "_authenticated/projects/$projectId/dashboard.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projects/$projectId/daily-notes/$noteId": {
+      "filePath": "_authenticated/projects/$projectId/daily-notes/$noteId.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projects/$projectId/daily-notes/": {
+      "filePath": "_authenticated/projects/$projectId/daily-notes/index.tsx",
       "parent": "/_authenticated"
     }
   }

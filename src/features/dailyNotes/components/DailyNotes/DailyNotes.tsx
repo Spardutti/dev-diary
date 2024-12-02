@@ -1,42 +1,30 @@
-import RichEditor from '@/components/RichTextEditor';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useGetDailyNotes } from '@/features/dailyNotes/api/dailyNotes';
+import { cleanHtml } from '@/features/utils/cleanHtml';
+import { notesFrom } from '@/features/utils/notesFrom';
 import { useParams } from '@tanstack/react-router';
-import dayjs from 'dayjs';
-import { useDailyNoteContent } from '@/features/dailyNotes/hooks/useDailyNoteContent';
-import { useDebouncedDailyNoteUpdate } from '@/features/dailyNotes/hooks/useDebounceDailyNoteUpdate';
 
-interface DailyNotesProps {
-	date?: string;
-}
-
-const notesOf = (date: string | undefined) => {
-	const selectedDate = dayjs(date || dayjs());
-	const day = selectedDate.format('ddd');
-	const numericDate = selectedDate.date();
-	const monthAndYear = selectedDate.format('MMM YYYY');
-
-	return `Notes Of ${day} ${numericDate}, ${monthAndYear}`;
-};
-
-const DailyNotes = ({ date }: DailyNotesProps) => {
-	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
-
-	const { noteContent, setNoteContent, id, isLoadingDailyNote } = useDailyNoteContent(projectId, date);
-
-	useDebouncedDailyNoteUpdate(id, noteContent);
+const DailyNotes = () => {
+	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/daily-notes/' });
+	const { data: dailyNotes } = useGetDailyNotes({ projectId });
 
 	return (
-		<div className="flex-grow flex h-full flex-col">
-			<header className="flex justify-center py-4">
-				<h1 className="text-xl font-semibold">{notesOf(date)}</h1>
-			</header>
-			{isLoadingDailyNote ? (
-				<div className="text-center mt-8">Loading...</div>
-			) : (
-				<RichEditor
-					setContent={setNoteContent}
-					content={noteContent}
-				/>
-			)}
+		<div className="flex flex-wrap gap-2">
+			{dailyNotes?.data?.map((note) => {
+				return (
+					<Card
+						key={note.id}
+						className="w-64"
+					>
+						<CardHeader>
+							<CardTitle className="text-secondary">{notesFrom(note.date)}</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className="line-clamp-1 text-text">{cleanHtml(note.note)}</p>
+						</CardContent>
+					</Card>
+				);
+			})}
 		</div>
 	);
 };

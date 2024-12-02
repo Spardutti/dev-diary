@@ -3,8 +3,6 @@ import ProjectManagementDropdown from '@/features/projects/components/ProjectMan
 import ProjectSelectorDropDown from '@/features/projects/components/ProjectSelectorDropdown';
 import { useParams } from '@tanstack/react-router';
 
-/ 
-
 const ProjectSelector = () => {
 	const { projectId } = useParams({ strict: false });
 	const { data: project, isPending } = useGetProject(projectId!);

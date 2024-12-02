@@ -1,11 +1,11 @@
-import { useGetDailyNote } from '@/features/dailyNotes/api/dailyNotes';
+import { useGetTodayNote } from '@/features/dailyNotes/api/dailyNotes';
 import { useDailyNoteStore } from '@/store/useDailyNoteSlice';
 import { useEffect, useState } from 'react';
 
 export const useDailyNoteContent = (projectId: string, date?: string) => {
 	const { setDailyNoteId, id } = useDailyNoteStore((state) => state);
 
-	const { data: dailyNote, isPending: isLoadingDailyNote } = useGetDailyNote({
+	const { data: dailyNote, isPending: isLoadingDailyNote } = useGetTodayNote({
 		projectId,
 		date: date ?? 'today',
 	});

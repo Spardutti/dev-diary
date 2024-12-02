@@ -1,5 +1,5 @@
 export interface IDailyNote {
 	note: string;
-	date: Date;
+	date: string;
 	readonly id: string;
 }

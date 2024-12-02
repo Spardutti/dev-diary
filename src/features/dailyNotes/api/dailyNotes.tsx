@@ -10,11 +10,24 @@ export const useCreateDailyNote = () => {
 	});
 };
 
-export const useGetDailyNote = ({ projectId, date }: { projectId: string; date: string }) =>
+export const useGetNoteById = ({ noteId }: { noteId: string }) =>
+	useQuery({
+		queryKey: ['daily-note', noteId],
+		queryFn: () => axiosHelper<IResponse<IDailyNote>>({ method: 'get', url: `/daily-notes/${noteId}` }),
+	});
+
+export const useGetTodayNote = ({ projectId, date }: { projectId: string; date: string }) =>
 	useQuery({
 		queryKey: ['daily-note', projectId, date],
 		queryFn: () =>
 			axiosHelper<IResponse<IDailyNote>>({ method: 'get', url: `/daily-notes/?project_id=${projectId}&date=${date}` }),
+	});
+
+export const useGetDailyNotes = ({ projectId }: { projectId: string }) =>
+	useQuery({
+		queryKey: ['daily-notes', projectId],
+		queryFn: () =>
+			axiosHelper<IResponse<IDailyNote[]>>({ method: 'get', url: `/daily-notes/?project_id=${projectId}` }),
 	});
 
 export const useUpdateDailyNote = () => {
