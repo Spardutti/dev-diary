@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Todos from '@/components/Todos';
-import TodayNotes from '@/features/dailyNotes/components/TodayNote';
+import TodayNotes from '@/features/dailyNotes/components/NoteDetail';
 
 const Dashboard = () => {
 	return (

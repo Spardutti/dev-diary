@@ -27,7 +27,10 @@ export const useGetDailyNotes = ({ projectId }: { projectId: string }) =>
 	useQuery({
 		queryKey: ['daily-notes', projectId],
 		queryFn: () =>
-			axiosHelper<IResponse<IDailyNote[]>>({ method: 'get', url: `/daily-notes/?project_id=${projectId}` }),
+			axiosHelper<IResponse<Record<string, IDailyNote[]>>>({
+				method: 'get',
+				url: `/daily-notes/?project_id=${projectId}`,
+			}),
 	});
 
 export const useUpdateDailyNote = () => {

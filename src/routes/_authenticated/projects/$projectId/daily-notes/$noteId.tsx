@@ -1,12 +1,13 @@
 import { router } from '@/App';
+import TodayNote from '@/features/dailyNotes/components/NoteDetail';
 import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
 import type { IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
 import { createFileRoute } from '@tanstack/react-router';
 
 const Note = () => {
-	const notes: IResponse<IDailyNote> = Route.useLoaderData();
-	return <p>{notes.data.date}</p>;
+	const note: IResponse<IDailyNote> = Route.useLoaderData();
+	return <TodayNote date={note.data.date} />;
 };
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId/daily-notes/$noteId')({

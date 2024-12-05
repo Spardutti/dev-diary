@@ -40,11 +40,7 @@ export const useCreateProject = () => {
 
 export const useUpdateProject = () => {
 	const queryClient = useQueryClient();
-	const queries = queryClient.getQueryCache().findAll();
 
-	queries.forEach((query) => {
-		console.log(`Query Key: ${query.queryKey}`, query.state.data);
-	});
 	return useMutation({
 		mutationFn: (data: Partial<IProject>) =>
 			axiosHelper<IResponse<IProject>>({ method: 'patch', url: `/projects/${data.id}/`, data }),

@@ -11,7 +11,7 @@ const Sidebar = () => {
 				to="/projects/$projectId/dashboard"
 				params={{ projectId: projectId! }}
 			>
-				Dashboard
+				Today
 			</Link>
 			<Link
 				className="rounded px-2 py-1 transition-colors hover:bg-background-alt"

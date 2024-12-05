@@ -8,10 +8,10 @@ interface DailyNotesProps {
 	date?: string;
 }
 
-const TodayNote = ({ date }: DailyNotesProps) => {
-	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
+const NoteDetail = ({ date }: DailyNotesProps) => {
+	const { projectId } = useParams({ strict: false });
 
-	const { noteContent, setNoteContent, id, isLoadingDailyNote } = useDailyNoteContent(projectId, date);
+	const { noteContent, setNoteContent, id, isLoadingDailyNote } = useDailyNoteContent(projectId ?? '', date);
 
 	useDebouncedDailyNoteUpdate(id, noteContent);
 
@@ -32,4 +32,4 @@ const TodayNote = ({ date }: DailyNotesProps) => {
 	);
 };
 
-export default TodayNote;
+export default NoteDetail;

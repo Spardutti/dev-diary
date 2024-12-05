@@ -4,7 +4,7 @@ import { axiosInstance } from '@/lib/axios';
 
 const toCamelCase = (data: unknown): unknown => {
 	if (typeof data === 'object' && data !== null) {
-		return camelcaseKeys(data as Record<string, unknown>, { deep: true });
+		return camelcaseKeys(data as Record<string, unknown>, { deep: true, exclude: [/^\d{4}-\d{2}$/] });
 	}
 	return data;
 };
