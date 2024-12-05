@@ -20,7 +20,7 @@ module.exports = {
 		'react/jsx-max-depth': [
 			'warn',
 			{
-				max: 4,
+				max: 5,
 			},
 		],
 		'max-lines-per-function': [

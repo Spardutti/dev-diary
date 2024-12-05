@@ -34,7 +34,7 @@ const ProjectSelectorDropDown = () => {
 		>
 			<DropdownMenu>
 				<DropdownMenuTrigger>
-					<FaChevronDown />
+					<FaChevronDown className="size-4" />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="max-h-[400px] overflow-y-auto">
 					<DropdownMenuItem>
@@ -44,7 +44,10 @@ const ProjectSelectorDropDown = () => {
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					{projects?.data.map((project) => (
-						<DropdownMenuItem key={project.id}>
+						<DropdownMenuItem
+							key={project.id}
+							asChild
+						>
 							<Link
 								className="w-full"
 								to="/projects/$projectId/dashboard"
