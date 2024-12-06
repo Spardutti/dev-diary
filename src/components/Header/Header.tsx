@@ -1,16 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/useAuth';
-import ProjectSelector from '@/features/projects/components/ProjectSelector';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { CalendarDays, CheckSquare, LogOut, Menu } from 'lucide-react';
+import { CalendarDays, CheckSquare, LogOut, Menu, NotebookTabs } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
 const Header = () => {
-	const { profile, logout } = useAuth();
+	const { logout } = useAuth();
 
 	return (
-		<header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-muted-teal bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-			<div className="flex items-center gap-2">
+		<header className="sticky top-0 z-50 flex h-16 flex-shrink-0 items-center justify-between border-b border-separator bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+			<div className="flex items-center gap-2 h-full">
 				<Sheet>
 					<SheetTrigger asChild>
 						<Button
@@ -45,9 +44,9 @@ const Header = () => {
 				</Sheet>
 				<Link
 					href="#"
-					className="text-lg font-semibold"
+					className="text-lg font-semibold flex gap-1 items-center"
 				>
-					<ProjectSelector />
+					<NotebookTabs /> DevDiary
 				</Link>
 			</div>
 			<div className="flex items-center gap-4">

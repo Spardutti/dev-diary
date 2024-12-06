@@ -18,12 +18,12 @@ const Todos = () => {
 	};
 
 	return (
-		<aside className="hidden w-64 border-l border-l-muted-teal bg-background lg:block">
+		<aside className="hidden w-64 border-l border-l-separator bg-background lg:block">
 			<div className="p-4">
 				<h2 className="mb-4 text-lg font-semibold">Todos</h2>
 				<div className="grid gap-4">
 					<Input placeholder="Add a todo..." />
-					<ScrollArea className="h-[calc(100vh-12rem)]" />
+					<ScrollArea />
 				</div>
 			</div>
 		</aside>

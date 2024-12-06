@@ -5,13 +5,17 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				background: '#0D1B2A',
-				'background-alt': '#1B263B',
+				background: '#0a0a0a',
+				'background-alt': '#171717',
 				primary: '#415A77',
 				secondary: '#778DA9',
-				text: '#E0E1DD',
-				'text-dark': '#0D1B2A',
-				'muted-teal': '#527A91',
+				text: '#d1d5db',
+				'text-subtle': '#9ca3af',
+				hover: '#1f2937',
+				'hover-text': '#f3f4f6',
+				danger: '#f87171',
+				'hover-danger-text': '#fca5a5',
+				separator: '#374151',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
