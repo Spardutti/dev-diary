@@ -13,7 +13,7 @@ interface DailyNotesProps {
 const NoteDetail = ({ date }: DailyNotesProps) => {
 	const { projectId } = useParams({ strict: false });
 
-	const { noteContent, setNoteContent, id, isLoadingDailyNote } = useDailyNoteContent(projectId ?? '', date);
+	const { noteContent, setNoteContent, id } = useDailyNoteContent(projectId ?? '', date);
 
 	useDebouncedDailyNoteUpdate(id, noteContent);
 
