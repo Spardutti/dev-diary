@@ -4,7 +4,7 @@
 
 :root {
 	font-family: 'Signika Negative', sans-serif;
-	color: @apply text-text;
+	@apply text-text;
 }
 
 .tiptap > * {

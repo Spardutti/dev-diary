@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useGetProject, useGetProjects } from '@/features/projects/api/projects';
+import DeleteProjectForm from '@/features/projects/components/DeleteProjectForm';
+import EditProjectForm from '@/features/projects/components/EditrProjectForm';
 import NewProjectForm from '@/features/projects/components/NewProjectForm/NewProjectForm';
 import { Link, useParams } from '@tanstack/react-router';
 import { ChevronDown, Edit3, FolderPlus, Trash2 } from 'lucide-react';
@@ -23,6 +25,8 @@ import { useState } from 'react';
 
 const ProjectSelectorDropDown = () => {
 	const [open, setOpen] = useState<boolean>(false);
+	const [dialogType, setDialogType] = useState<'new' | 'edit' | 'delete'>('new');
+
 	const { projectId } = useParams({ strict: false });
 
 	const { data: project, isPending } = useGetProject(projectId!);
@@ -32,7 +36,10 @@ const ProjectSelectorDropDown = () => {
 
 	const closeDialog = () => {
 		setOpen(false);
+		setDialogType('new');
 	};
+
+	const handleDialog = (type: 'new' | 'edit' | 'delete') => setDialogType(type);
 
 	return (
 		<Dialog
@@ -41,7 +48,7 @@ const ProjectSelectorDropDown = () => {
 		>
 			<DropdownMenu>
 				<DropdownMenuTrigger>
-					<span className="text-2xl font-semibold flex items-center gap-1 bg-clip-text">
+					<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
 						{project.data.name} <ChevronDown className="text-white size-4" />
 					</span>
 				</DropdownMenuTrigger>
@@ -50,12 +57,18 @@ const ProjectSelectorDropDown = () => {
 
 					<DropdownMenuSeparator className="bg-separator" />
 
-					<DropdownMenuItem className="text-text focus:bg-hover focus:text-hover-text">
+					<DropdownMenuItem
+						className="text-text focus:bg-hover focus:text-hover-text"
+						onClick={() => handleDialog('edit')}
+					>
 						<DialogTrigger className="flex gap-2 items-center w-full">
 							<Edit3 className="mr-2 size-4" /> Edit
 						</DialogTrigger>
 					</DropdownMenuItem>
-					<DropdownMenuItem className="text-danger focus:bg-hover focus:text-hover-danger-text">
+					<DropdownMenuItem
+						className="text-danger focus:bg-hover focus:text-hover-danger-text"
+						onClick={() => handleDialog('delete')}
+					>
 						<DialogTrigger className="flex gap-2 items-center w-full">
 							<Trash2 className="size-4" /> Delete
 						</DialogTrigger>
@@ -63,7 +76,10 @@ const ProjectSelectorDropDown = () => {
 
 					<DropdownMenuSeparator className="bg-separator" />
 
-					<DropdownMenuItem className="text-text focus:bg-hover focus:text-hover-text">
+					<DropdownMenuItem
+						className="text-text focus:bg-hover focus:text-hover-text"
+						onClick={() => handleDialog('new')}
+					>
 						<DialogTrigger className="flex gap-2 items-center w-full">
 							<FolderPlus className="mr-2 h-4 w-4" />
 							<span>Create New Project</span>
@@ -93,19 +109,67 @@ const ProjectSelectorDropDown = () => {
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<DialogBody closeDialog={closeDialog} />
+			<DialogBody
+				projectId={project.data.id}
+				closeDialog={closeDialog}
+				dialogType={dialogType}
+				projectName={project.data.name}
+			/>
 		</Dialog>
 	);
 };
 
 export default ProjectSelectorDropDown;
 
-const DialogBody = ({ closeDialog }: { closeDialog: () => void }) => (
+const DialogBody = ({
+	closeDialog,
+	dialogType,
+	projectName,
+	projectId,
+}: {
+	closeDialog: () => void;
+	dialogType: 'new' | 'edit' | 'delete';
+	projectName: string;
+	projectId: string;
+}) => (
 	<DialogContent>
-		<DialogHeader>
-			<DialogTitle>Create new project</DialogTitle>
-			<DialogDescription>Create a new project to organize your activities</DialogDescription>
-			<NewProjectForm closeDialog={closeDialog} />
-		</DialogHeader>
+		{dialogType === 'edit' && (
+			<>
+				<DialogHeader>
+					<DialogTitle>Edit {projectName}</DialogTitle>
+				</DialogHeader>
+
+				<DialogDescription>Edit your project name</DialogDescription>
+				<EditProjectForm
+					projectId={projectId}
+					projectName={projectName}
+					closeDialog={closeDialog}
+				/>
+			</>
+		)}
+
+		{dialogType === 'new' && (
+			<>
+				<DialogHeader>
+					<DialogTitle>Create new project</DialogTitle>
+				</DialogHeader>
+
+				<DialogDescription>Create a new project to organize your activities</DialogDescription>
+				<NewProjectForm closeDialog={closeDialog} />
+			</>
+		)}
+
+		{dialogType === 'delete' && (
+			<>
+				<DialogHeader>Are you sure you want to Delete {projectName}</DialogHeader>
+				<DialogDescription>
+					This action cannot be undone. This will permanently delete your project and all data associated with it.
+				</DialogDescription>
+				<DeleteProjectForm
+					projectId={projectId}
+					closeDialog={closeDialog}
+				/>
+			</>
+		)}
 	</DialogContent>
 );
