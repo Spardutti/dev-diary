@@ -1,4 +1,4 @@
-import Input from '@/components/Common/Input';
+import { Input } from '@/components/ui/input';
 import type { ChangeEvent } from 'react';
 import React, { useState, useEffect } from 'react';
 

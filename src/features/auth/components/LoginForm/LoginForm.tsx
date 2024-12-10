@@ -1,5 +1,4 @@
-import Alert from '@/components/Common/Alert';
-
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -87,10 +86,9 @@ const LoginForm = ({ handleSignUp }: LoginFormProps) => {
 						)}
 					/>
 					{(error || guestLoginError) && (
-						<Alert
-							variant="error"
-							message={error || guestLoginError}
-						/>
+						<Alert variant="destructive">
+							<AlertDescription>{(error?.toString() || guestLoginError?.toString()) ?? ''}</AlertDescription>
+						</Alert>
 					)}
 
 					<div className="flex gap-4 justify-end">

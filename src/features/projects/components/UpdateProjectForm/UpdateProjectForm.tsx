@@ -13,6 +13,7 @@ const formSchema = z.object({
 	}),
 });
 
+
 const UpdateProjectForm = ({ project, closeDialog }: { project: IProject; closeDialog: () => void }) => {
 	const { mutateAsync: updateProject, isPending: isUpdatingProject } = useUpdateProject();
 

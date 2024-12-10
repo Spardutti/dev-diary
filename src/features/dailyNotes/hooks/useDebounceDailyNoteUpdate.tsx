@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 export const useDebouncedDailyNoteUpdate = (id: string | undefined, noteContent: string | undefined) => {
 	const debouncedContent = useDebounce(noteContent, 500);
-	const { mutateAsync: updateDailyNote } = useUpdateDailyNote();
+	const { mutateAsync: updateDailyNote, isPending: isSavingNote } = useUpdateDailyNote();
 
 	// Automatically update the note when the debounced content changes
 
@@ -13,4 +13,6 @@ export const useDebouncedDailyNoteUpdate = (id: string | undefined, noteContent:
 			updateDailyNote({ id, note: debouncedContent });
 		}
 	}, [debouncedContent]);
+
+	return { isSavingNote };
 };

@@ -1,14 +1,17 @@
-import Alert from '@/components/Common/Alert';
-import Form from '@/components/Common/Form/Form';
-import InputField from '@/components/Common/InputField';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { useSignUp } from '@/features/auth/api/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-interface ICreateAccountFormValues {
-	email: string;
-	password: string;
-}
+const formSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(6),
+});
 
 interface CreateAccountFormProps {
 	handleSignUp: () => void;
@@ -18,7 +21,16 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 	const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
 	const { mutateAsync: signup, isPending, error } = useSignUp();
-	const onSubmit = async (data: ICreateAccountFormValues) => {
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: '',
+			password: '',
+		},
+	});
+
+	const onSubmit = async (data: z.infer<typeof formSchema>) => {
 		const response = await signup(data);
 
 		if (response.status === 201) {
@@ -36,53 +48,70 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 				<p className="text-3xl tracking-widest">Create Account</p>
 				<p className="text-md">Please enter your details</p>
 			</div>
-			<Form<ICreateAccountFormValues>
-				className="space-y-6 w-[400px]"
-				defaultValues={{ email: '', password: '' }}
-				onSubmit={onSubmit}
-			>
-				<InputField
-					autoComplete="username"
-					name="email"
-					placeholder="enter your email"
+			<Form {...form}>
+				<form
+					onSubmit={form.handleSubmit(onSubmit)}
+					className="space-y-8 w-[300px]"
 				>
-					Email
-				</InputField>
-
-				<InputField
-					autoComplete="new-password"
-					type="password"
-					name="password"
-					placeholder="enter your password"
-				>
-					Password
-				</InputField>
-
-				{error && (
-					<Alert
-						variant="error"
-						message={error}
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="Enter your email..."
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
 					/>
-				)}
 
-				<Button
-					disabled={isPending || showSuccess}
-					type="submit"
-				>
-					{' '}
-					Create
-				</Button>
+					<FormField
+						control={form.control}
+						name="password"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Password</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="Enter your password..."
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<p className="text-center">
-					have an account ?{' '}
-					<button
-						type="button"
-						onClick={handleSignUp}
-						className="text-secondary underline"
+					{error && (
+						<Alert variant="destructive">
+							<AlertDescription>{error?.toString() ?? ''}</AlertDescription>
+						</Alert>
+					)}
+
+					<Button
+						isLoading={isPending}
+						disabled={isPending || showSuccess}
+						type="submit"
 					>
-						Log In
-					</button>
-				</p>
+						Create
+					</Button>
+
+					<p className="text-center">
+						have an account ?{' '}
+						<button
+							type="button"
+							onClick={handleSignUp}
+							className="text-secondary underline"
+						>
+							Log In
+						</button>
+					</p>
+				</form>
 			</Form>
 		</div>
 	);

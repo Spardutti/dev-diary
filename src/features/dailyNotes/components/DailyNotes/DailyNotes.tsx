@@ -10,7 +10,7 @@ const DailyNotes = () => {
 	const { data: dailyNotes } = useGetDailyNotes({ projectId });
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-2 p-4 md:p-6">
 			{dailyNotes?.data &&
 				Object.entries(dailyNotes.data).map(([key, value]) => {
 					const month = dayjs(key).format('MMM YY');
