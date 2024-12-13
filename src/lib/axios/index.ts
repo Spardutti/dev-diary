@@ -18,3 +18,9 @@ export interface IResponse<T> {
 	status: 200 | 201 | 401 | 400;
 	data: T;
 }
+
+export interface IPaginatedResponse<T> {
+	next: string | null;
+	previous: string | null;
+	results: T[];
+}
