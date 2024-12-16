@@ -18,7 +18,7 @@ export const useGetNoteById = ({ noteId }: { noteId: string }) =>
 
 export const useGetTodayNote = ({ projectId, date }: { projectId: string; date: string }) =>
 	useQuery({
-		queryKey: ['daily-note', projectId, date],
+		queryKey: ['daily-note', projectId, date.toString()],
 		queryFn: () =>
 			axiosHelper<IResponse<IDailyNote>>({ method: 'get', url: `/daily-notes/?project_id=${projectId}&date=${date}` }),
 	});

@@ -1,28 +1,20 @@
-import { useGetTodayNote } from '@/features/dailyNotes/api/dailyNotes';
 import { useDailyNoteStore } from '@/store/useDailyNoteSlice';
 import { useEffect, useState } from 'react';
 
-export const useDailyNoteContent = (projectId: string, date?: string) => {
-	const { setDailyNoteId, id } = useDailyNoteStore((state) => state);
-
-	const { data: dailyNote, isPending: isLoadingDailyNote } = useGetTodayNote({
-		projectId,
-		date: date ?? 'today',
-	});
+export const useDailyNoteContent = (content: string, noteId: string) => {
+	const { setDailyNoteId } = useDailyNoteStore((state) => state);
 
 	const [noteContent, setNoteContent] = useState<string | undefined>();
 
 	useEffect(() => {
-		if (dailyNote?.data && !noteContent) {
-			setDailyNoteId(dailyNote.data.id);
-			setNoteContent(dailyNote.data.note);
+		if (content && !noteContent) {
+			setDailyNoteId(noteId);
+			setNoteContent(content);
 		}
-	}, [dailyNote?.data]);
+	}, [content, noteId]);
 
 	return {
 		noteContent,
 		setNoteContent,
-		id,
-		isLoadingDailyNote,
 	};
 };

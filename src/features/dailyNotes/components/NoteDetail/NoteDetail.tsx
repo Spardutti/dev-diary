@@ -1,5 +1,5 @@
 import RichEditor from '@/components/RichTextEditor';
-import { useParams } from '@tanstack/react-router';
+import { getRouteApi } from '@tanstack/react-router';
 import { useDailyNoteContent } from '@/features/dailyNotes/hooks/useDailyNoteContent';
 import { useDebouncedDailyNoteUpdate } from '@/features/dailyNotes/hooks/useDebounceDailyNoteUpdate';
 import { notesFrom } from '@/features/utils/notesFrom';
@@ -9,14 +9,16 @@ import { cn } from '@/lib/utils';
 
 interface DailyNotesProps {
 	date?: string;
+	routeKey: '/_authenticated/projects/$projectId/dashboard' | '/_authenticated/projects/$projectId/daily-notes/$noteId';
 }
 
-const NoteDetail = ({ date }: DailyNotesProps) => {
-	const { projectId } = useParams({ strict: false });
+const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
+	const routeApi = getRouteApi(routeKey);
+	const note = routeApi.useLoaderData();
 
-	const { noteContent, setNoteContent, id } = useDailyNoteContent(projectId ?? '', date);
+	const { noteContent, setNoteContent } = useDailyNoteContent(note.data.note, note.data.id);
 
-	const { isSavingNote } = useDebouncedDailyNoteUpdate(id, noteContent);
+	const { isSavingNote } = useDebouncedDailyNoteUpdate(note.data.id, noteContent);
 
 	return (
 		<main className="flex-1">
@@ -30,7 +32,7 @@ const NoteDetail = ({ date }: DailyNotesProps) => {
 						<ScrollArea className="h-[calc(100vh-16rem)]">
 							<RichEditor
 								setContent={setNoteContent}
-								content={noteContent}
+								content={note.data.note}
 							/>
 						</ScrollArea>
 					</CardContent>
