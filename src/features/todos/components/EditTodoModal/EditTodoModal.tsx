@@ -1,13 +1,30 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import EditTodoForm from '@/features/todos/components/EditTodoForm';
 import type { ITodo } from '@/features/todos/types/ITodo';
-import { DialogDescription, DialogTitle, DialogTrigger } from '@radix-ui/react-dialog';
 import { Pen } from 'lucide-react';
 import { useState } from 'react';
 
 interface EditTodoModalProps {
 	todo: ITodo;
 }
+
+export const EditTodoTrigger = () => (
+	<DialogTrigger>
+		<Pen className="text-primary size-4" />
+	</DialogTrigger>
+);
+
+export const EditTodoContent = ({ todo, setOpen }: { todo: ITodo; setOpen: (open: boolean) => void }) => (
+	<DialogContent>
+		<DialogTitle>Edit Todo</DialogTitle>
+		<DialogDescription>edit the description</DialogDescription>
+		<EditTodoForm
+			todo={todo}
+			setOpen={setOpen}
+		/>
+	</DialogContent>
+);
+
 const EditTodoModal = ({ todo }: EditTodoModalProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 
@@ -16,17 +33,11 @@ const EditTodoModal = ({ todo }: EditTodoModalProps) => {
 			onOpenChange={setOpen}
 			open={open}
 		>
-			<DialogTrigger>
-				<Pen className="text-primary size-4" />
-			</DialogTrigger>
-			<DialogContent>
-				<DialogTitle>Edit Todo</DialogTitle>
-				<DialogDescription>edit the description</DialogDescription>
-				<EditTodoForm
-					todo={todo}
-					setOpen={setOpen}
-				/>
-			</DialogContent>
+			<EditTodoTrigger />
+			<EditTodoContent
+				todo={todo}
+				setOpen={setOpen}
+			/>
 		</Dialog>
 	);
 };

@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedProjectsProjectIdDashboardImport } from './routes/_authenticated/projects/$projectId/dashboard'
+import { Route as AuthenticatedProjectsProjectIdTodosIndexImport } from './routes/_authenticated/projects/$projectId/todos/index'
 import { Route as AuthenticatedProjectsProjectIdDailyNotesIndexImport } from './routes/_authenticated/projects/$projectId/daily-notes/index'
 import { Route as AuthenticatedProjectsProjectIdDailyNotesNoteIdImport } from './routes/_authenticated/projects/$projectId/daily-notes/$noteId'
 
@@ -34,6 +35,13 @@ const AuthenticatedProjectsProjectIdDashboardRoute =
   AuthenticatedProjectsProjectIdDashboardImport.update({
     id: '/projects/$projectId/dashboard',
     path: '/projects/$projectId/dashboard',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedProjectsProjectIdTodosIndexRoute =
+  AuthenticatedProjectsProjectIdTodosIndexImport.update({
+    id: '/projects/$projectId/todos/',
+    path: '/projects/$projectId/todos/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -90,6 +98,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/projects/$projectId/todos/': {
+      id: '/_authenticated/projects/$projectId/todos/'
+      path: '/projects/$projectId/todos'
+      fullPath: '/projects/$projectId/todos'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdTodosIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
   }
 }
 
@@ -99,6 +114,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedProjectsProjectIdDashboardRoute: typeof AuthenticatedProjectsProjectIdDashboardRoute
   AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   AuthenticatedProjectsProjectIdDailyNotesIndexRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  AuthenticatedProjectsProjectIdTodosIndexRoute: typeof AuthenticatedProjectsProjectIdTodosIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -108,6 +124,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute,
   AuthenticatedProjectsProjectIdDailyNotesIndexRoute:
     AuthenticatedProjectsProjectIdDailyNotesIndexRoute,
+  AuthenticatedProjectsProjectIdTodosIndexRoute:
+    AuthenticatedProjectsProjectIdTodosIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -120,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
   '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  '/projects/$projectId/todos': typeof AuthenticatedProjectsProjectIdTodosIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -128,6 +147,7 @@ export interface FileRoutesByTo {
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
   '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  '/projects/$projectId/todos': typeof AuthenticatedProjectsProjectIdTodosIndexRoute
 }
 
 export interface FileRoutesById {
@@ -137,6 +157,7 @@ export interface FileRoutesById {
   '/_authenticated/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
   '/_authenticated/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   '/_authenticated/projects/$projectId/daily-notes/': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  '/_authenticated/projects/$projectId/todos/': typeof AuthenticatedProjectsProjectIdTodosIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -147,6 +168,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId/dashboard'
     | '/projects/$projectId/daily-notes/$noteId'
     | '/projects/$projectId/daily-notes'
+    | '/projects/$projectId/todos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,6 +176,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId/dashboard'
     | '/projects/$projectId/daily-notes/$noteId'
     | '/projects/$projectId/daily-notes'
+    | '/projects/$projectId/todos'
   id:
     | '__root__'
     | '/'
@@ -161,6 +184,7 @@ export interface FileRouteTypes {
     | '/_authenticated/projects/$projectId/dashboard'
     | '/_authenticated/projects/$projectId/daily-notes/$noteId'
     | '/_authenticated/projects/$projectId/daily-notes/'
+    | '/_authenticated/projects/$projectId/todos/'
   fileRoutesById: FileRoutesById
 }
 
@@ -196,7 +220,8 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/projects/$projectId/dashboard",
         "/_authenticated/projects/$projectId/daily-notes/$noteId",
-        "/_authenticated/projects/$projectId/daily-notes/"
+        "/_authenticated/projects/$projectId/daily-notes/",
+        "/_authenticated/projects/$projectId/todos/"
       ]
     },
     "/_authenticated/projects/$projectId/dashboard": {
@@ -209,6 +234,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/projects/$projectId/daily-notes/": {
       "filePath": "_authenticated/projects/$projectId/daily-notes/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projects/$projectId/todos/": {
+      "filePath": "_authenticated/projects/$projectId/todos/index.tsx",
       "parent": "/_authenticated"
     }
   }

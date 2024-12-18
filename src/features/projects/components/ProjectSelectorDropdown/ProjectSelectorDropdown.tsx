@@ -137,9 +137,9 @@ const DialogBody = ({
 			<>
 				<DialogHeader>
 					<DialogTitle>Edit {projectName}</DialogTitle>
+					<DialogDescription>Edit your project name</DialogDescription>
 				</DialogHeader>
 
-				<DialogDescription>Edit your project name</DialogDescription>
 				<EditProjectForm
 					projectId={projectId}
 					projectName={projectName}
@@ -152,19 +152,21 @@ const DialogBody = ({
 			<>
 				<DialogHeader>
 					<DialogTitle>Create new project</DialogTitle>
+					<DialogDescription>Create a new project to organize your activities</DialogDescription>
 				</DialogHeader>
 
-				<DialogDescription>Create a new project to organize your activities</DialogDescription>
 				<NewProjectForm closeDialog={closeDialog} />
 			</>
 		)}
 
 		{dialogType === 'delete' && (
 			<>
-				<DialogHeader>Are you sure you want to Delete {projectName}</DialogHeader>
-				<DialogDescription>
-					This action cannot be undone. This will permanently delete your project and all data associated with it.
-				</DialogDescription>
+				<DialogHeader>
+					<DialogTitle>Are you sure you want to Delete {projectName}</DialogTitle>
+					<DialogDescription>
+						This action cannot be undone. This will permanently delete your project and all data associated with it.
+					</DialogDescription>
+				</DialogHeader>
 				<DeleteProjectForm
 					projectId={projectId}
 					closeDialog={closeDialog}
