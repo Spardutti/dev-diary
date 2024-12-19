@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { axiosInstance, type IResponse } from '@/lib/axios';
 import type { IUser } from '@/features/auth/types/IUser';
 import type { AxiosError } from 'axios';
+import Demo from '@/features/demo/components/Demo';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -48,7 +49,15 @@ const Home = () => {
 					</motion.div>
 				</motion.div>
 			</div>
-			<div className="bg-background-alt"> </div>
+			<div className="bg-background-alt gap-2 flex px-6 justify-center items-center flex-col">
+				<div className='w-full'>
+					<Demo />
+				</div>
+				<p className='text-sm'>
+					This demo showcases real-time note-taking in Dev Diary. <br /> Imagine capturing your coding insights as they
+					happen!
+				</p>
+			</div>
 		</div>
 	);
 };

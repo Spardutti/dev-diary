@@ -6,7 +6,6 @@ import {
 	editItemInPaginatedList,
 	removeItemFromPaginatedList,
 } from '@/lib/query/onMutationSuccess';
-import type { InfiniteData } from '@tanstack/react-query';
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 
@@ -15,8 +14,14 @@ export const useCreateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => axiosHelper<ITodo>({ method: 'post', url: '/todos/', data }),
 		onSuccess: (response) => {
-			return prependItemToPaginatedList<ITodo>({
+			prependItemToPaginatedList<ITodo>({
 				queryKey: ['todos', response.project.toString()],
+				queryClient,
+				newItem: response,
+				matchBy: null,
+			});
+			prependItemToPaginatedList<ITodo>({
+				queryKey: ['todos', response.project.toString(), 'table'],
 				queryClient,
 				newItem: response,
 				matchBy: null,
@@ -25,11 +30,7 @@ export const useCreateTodo = () => {
 	});
 };
 
-export const useGetTodos = (
-	projectId: string | undefined,
-	query?: string,
-	initialData?: InfiniteData<IPaginatedResponse<ITodo>>,
-) =>
+export const useGetTodos = (projectId: string | undefined, query?: string) =>
 	useInfiniteQuery({
 		queryKey: ['todos', projectId?.toString()],
 		queryFn: ({ pageParam }) => {
@@ -38,7 +39,6 @@ export const useGetTodos = (
 				url: `/todos/?project_id=${projectId}&${query}&cursor=${pageParam}`,
 			});
 		},
-		placeholderData: initialData,
 		enabled: !!projectId,
 		initialPageParam: '',
 		getNextPageParam: (lastPage) => {
@@ -55,14 +55,19 @@ export const useUpdateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => axiosHelper<ITodo>({ method: 'patch', url: `/todos/${data.id}/`, data }),
 		onSuccess: (response) => {
-			const updatedList = editItemInPaginatedList({
+			router.invalidate();
+			editItemInPaginatedList({
 				queryKey: ['todos', response.project.toString()],
 				queryClient,
 				newItem: response,
 				matchBy: (item: ITodo) => item.id === response.id,
 			});
-			router.invalidate();
-			return updatedList;
+			editItemInPaginatedList({
+				queryKey: ['todos', response.project.toString(), 'table'],
+				queryClient,
+				newItem: response,
+				matchBy: (item: ITodo) => item.id === response.id,
+			});
 		},
 	});
 };
@@ -74,13 +79,17 @@ export const useDeleteTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => axiosHelper<ITodo>({ method: 'delete', url: `/todos/${data.id}/` }),
 		onSuccess: (_, { id, project }) => {
-			const updatedList = removeItemFromPaginatedList({
+			router.invalidate();
+			removeItemFromPaginatedList({
 				queryKey: ['todos', project?.toString()],
 				queryClient,
 				matchBy: (item: ITodo) => item.id === id,
 			});
-			router.invalidate();
-			return updatedList;
+			removeItemFromPaginatedList({
+				queryKey: ['todos', project?.toString(), 'table'],
+				queryClient,
+				matchBy: (item: ITodo) => item.id === id,
+			});
 		},
 	});
 };

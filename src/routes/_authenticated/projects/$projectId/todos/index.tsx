@@ -27,7 +27,7 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/todos/
 		const { queryClient } = context;
 
 		return await queryClient.ensureInfiniteQueryData({
-			queryKey: ['todos', projectId?.toString()],
+			queryKey: ['todos', projectId?.toString(), 'table'],
 			queryFn: ({ pageParam }) =>
 				axiosHelper<IPaginatedResponse<ITodo>>({
 					method: 'get',

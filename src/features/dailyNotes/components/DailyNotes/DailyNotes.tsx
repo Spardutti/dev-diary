@@ -29,7 +29,7 @@ const DailyNotes = () => {
 											to="/projects/$projectId/daily-notes/$noteId"
 											params={{ noteId: note.id, projectId: projectId }}
 										>
-											<Card className="w-64 h-full">
+											<Card className="w-64 h-full hover:bg-background-alt/60">
 												<CardHeader>
 													<CardTitle className="text-secondary">{notesFrom(note.date)}</CardTitle>
 												</CardHeader>

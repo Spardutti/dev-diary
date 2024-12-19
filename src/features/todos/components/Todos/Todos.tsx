@@ -20,7 +20,7 @@ const Todos = () => {
 
 	const observerRef = useRef<HTMLDivElement>(null);
 
-	const { mutateAsync: updateTodo } = useUpdateTodo();
+	const { mutateAsync: updateTodo, isPending: isUpdating } = useUpdateTodo();
 
 	const onUpdate = async ({ id, completed }: { id: string; completed: boolean }) => {
 		await updateTodo({ id, completed: !completed });
@@ -50,6 +50,7 @@ const Todos = () => {
 								>
 									<div className="flex items-center gap-3">
 										<Checkbox
+											disabled={isUpdating}
 											checked={todo.completed}
 											onClick={() => onUpdate({ id: todo.id, completed: todo.completed })}
 										/>

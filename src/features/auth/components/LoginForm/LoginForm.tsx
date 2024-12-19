@@ -77,6 +77,7 @@ const LoginForm = ({ handleSignUp }: LoginFormProps) => {
 								<FormLabel>Password</FormLabel>
 								<FormControl>
 									<Input
+										type="password"
 										placeholder="password"
 										{...field}
 									/>
