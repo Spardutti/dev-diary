@@ -12,4 +12,45 @@ export default defineConfig({
 			'@': resolve(__dirname, './src'),
 		},
 	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					// React and React DOM
+					react: ['react', 'react-dom'],
+
+					// ProseMirror (TipTap)
+					prosemirror: [
+						'prosemirror-model',
+						'prosemirror-state',
+						'prosemirror-view',
+						'prosemirror-transform',
+						'prosemirror-history',
+						'prosemirror-commands',
+					],
+
+					// Form Handling
+					forms: ['react-hook-form'],
+
+					// Framer Motion for Animations
+					animations: ['framer-motion'],
+
+					// State Management
+					query: ['@tanstack/react-query'],
+
+					// Validation
+					validation: ['zod'],
+
+					// UI Components
+					ui: ['@radix-ui/react-dialog', '@radix-ui/react-menu', 'tippy.js'],
+
+					// HTTP Client
+					axios: ['axios'],
+
+					// Utilities (e.g., Popper.js)
+					utils: ['@floating-ui/dom', '@popperjs/core'],
+				},
+			},
+		},
+	},
 });
