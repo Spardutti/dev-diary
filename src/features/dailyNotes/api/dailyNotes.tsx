@@ -6,7 +6,11 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 export const useCreateDailyNote = () => {
 	return useMutation({
 		mutationFn: (data: Partial<IDailyNote>) =>
-			axiosHelper<IResponse<IDailyNote>>({ method: 'post', url: '/daily-notes/', data }),
+			axiosHelper<IResponse<IDailyNote>>({
+				method: 'post',
+				url: '/daily-notes/',
+				data: { ...data, project: data.projectId },
+			}),
 	});
 };
 

@@ -1,14 +1,10 @@
-import { useDailyNoteStore } from '@/store/useDailyNoteSlice';
 import { useEffect, useState } from 'react';
 
-export const useDailyNoteContent = (content: string, noteId: string) => {
-	const { setDailyNoteId } = useDailyNoteStore((state) => state);
-
+export const useDailyNoteContent = (content: string | undefined, noteId: string | undefined) => {
 	const [noteContent, setNoteContent] = useState<string | undefined>();
 
 	useEffect(() => {
 		if (content && !noteContent) {
-			setDailyNoteId(noteId);
 			setNoteContent(content);
 		}
 	}, [content, noteId]);

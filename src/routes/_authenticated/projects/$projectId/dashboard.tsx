@@ -4,6 +4,8 @@ import NoteDetail from '@/features/dailyNotes/components/NoteDetail';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
 import type { IResponse } from '@/lib/axios';
 import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
+import dayjs from 'dayjs';
+import axios from 'axios';
 
 const Dashboard = () => {
 	return (
@@ -21,13 +23,22 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/dashbo
 		const { projectId } = params;
 		const { queryClient } = context;
 
-		return await queryClient.ensureQueryData({
-			queryKey: ['daily-note', projectId, 'today'],
-			queryFn: () =>
-				axiosHelper<IResponse<IDailyNote>>({
-					method: 'get',
-					url: `/daily-notes/?project_id=${projectId}&date=today`,
-				}),
-		});
+		try {
+			return await queryClient.ensureQueryData({
+				queryKey: ['daily-note', projectId, dayjs().format('YYYY-MM-DD').toString()],
+				queryFn: () =>
+					axiosHelper<IResponse<IDailyNote>>({
+						method: 'get',
+						url: `/daily-notes/?project_id=${projectId}&date=${dayjs().format('YYYY-MM-DD')}`,
+					}),
+			});
+		} catch (error) {
+			// Handle 404 errors gracefully
+			if (axios.isAxiosError(error) && error.response?.status === 404) {
+				return null;
+			}
+
+			throw error;
+		}
 	},
 });

@@ -16,9 +16,9 @@ const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 	const routeApi = getRouteApi(routeKey);
 	const note = routeApi.useLoaderData();
 
-	const { noteContent, setNoteContent } = useDailyNoteContent(note.data.note, note.data.id);
+	const { noteContent, setNoteContent } = useDailyNoteContent(note?.data.note, note?.data.id);
 
-	const { isSavingNote } = useDebouncedDailyNoteUpdate(note.data.id, noteContent);
+	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.data.id, noteContent);
 
 	return (
 		<main className="flex-1">
@@ -32,7 +32,7 @@ const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 						<ScrollArea className="h-[calc(100vh-16rem)]">
 							<RichEditor
 								setContent={setNoteContent}
-								content={note.data.note}
+								content={note?.data.note}
 							/>
 						</ScrollArea>
 					</CardContent>

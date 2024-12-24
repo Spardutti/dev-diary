@@ -29,12 +29,6 @@ export const axiosHelper = async <Res, Params = unknown, Data = unknown>({
 			return toCamelCase(res.data) as Res;
 		})
 		.catch((err) => {
-			if (err.response?.data?.errors) {
-				throw new Error(JSON.stringify(err.response.data.errors));
-			} else if (err.response?.data) {
-				throw new Error(JSON.stringify(err.response.data));
-			} else {
-				throw err;
-			}
+			throw err;
 		});
 };
