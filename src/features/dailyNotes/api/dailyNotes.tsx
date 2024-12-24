@@ -1,7 +1,7 @@
 import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
-import type { IResponse } from '@/lib/axios';
+import type { IPaginatedResponse, IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 
 export const useCreateDailyNote = () => {
 	return useMutation({
@@ -28,13 +28,20 @@ export const useGetTodayNote = ({ projectId, date }: { projectId: string; date: 
 	});
 
 export const useGetDailyNotes = ({ projectId }: { projectId: string }) =>
-	useQuery({
+	useInfiniteQuery({
 		queryKey: ['daily-notes', projectId],
-		queryFn: () =>
-			axiosHelper<IResponse<Record<string, IDailyNote[]>>>({
+		queryFn: ({ pageParam }) =>
+			axiosHelper<IPaginatedResponse<Record<string, IDailyNote[]>>>({
 				method: 'get',
-				url: `/daily-notes/?project_id=${projectId}`,
+				url: `/daily-notes/?project_id=${projectId}&cursor=${pageParam}`,
 			}),
+		initialPageParam: '',
+		getNextPageParam: (lastPage) => {
+			if (lastPage.next) {
+				const url = new URL(lastPage.next);
+				return url.searchParams.get('cursor');
+			}
+		},
 	});
 
 export const useUpdateDailyNote = () => {
