@@ -6,6 +6,7 @@ import { notesFrom } from '@/features/utils/notesFrom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
 
 interface DailyNotesProps {
 	date?: string;
@@ -14,11 +15,11 @@ interface DailyNotesProps {
 
 const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 	const routeApi = getRouteApi(routeKey);
-	const note = routeApi.useLoaderData();
+	const note: IDailyNote = routeApi.useLoaderData();
 
-	const { noteContent, setNoteContent } = useDailyNoteContent(note?.data.note, note?.data.id);
+	const { noteContent, setNoteContent } = useDailyNoteContent(note?.note, note?.id);
 
-	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.data.id, noteContent);
+	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.id, noteContent);
 
 	return (
 		<main className="flex-1">
@@ -32,7 +33,7 @@ const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 						<ScrollArea className="h-[calc(100vh-16rem)]">
 							<RichEditor
 								setContent={setNoteContent}
-								content={note?.data.note}
+								content={note?.note}
 							/>
 						</ScrollArea>
 					</CardContent>
