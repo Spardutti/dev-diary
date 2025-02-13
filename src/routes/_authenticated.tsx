@@ -1,9 +1,9 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import Layout from '@/components/Layout';
-import { axiosHelper } from '@/lib/axios/axiosHelper';
-import { setDefaultHeaders, type IResponse } from '@/lib/axios';
-import type { IUser } from '@/features/auth/types/IUser';
+import { setDefaultHeaders } from '@/lib/axios';
 import { router } from '@/App';
+import { authQueryKeys } from '@/features/auth/api/authQueries';
+import { me } from '@/features/auth/api/authApi';
 
 export const Route = createFileRoute('/_authenticated')({
 	beforeLoad: () => {
@@ -21,8 +21,8 @@ export const Route = createFileRoute('/_authenticated')({
 		setDefaultHeaders(token);
 		try {
 			const r = await queryClient.ensureQueryData({
-				queryKey: ['profile'],
-				queryFn: () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/users/' }),
+				queryKey: authQueryKeys.all,
+				queryFn: me,
 			});
 
 			authentication.setProfile(r.data);

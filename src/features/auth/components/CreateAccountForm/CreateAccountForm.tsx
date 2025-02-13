@@ -2,7 +2,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useSignUp } from '@/features/auth/api/auth';
+import { useSignUp } from '@/features/auth/api/authQueries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import { z } from 'zod';
 const formSchema = z.object({
 	email: z.string().email(),
 	password: z.string().min(6),
+	name: z.string().min(3),
 });
 
 interface CreateAccountFormProps {
@@ -27,6 +28,7 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 		defaultValues: {
 			email: '',
 			password: '',
+			name: '',
 		},
 	});
 
@@ -62,6 +64,23 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 								<FormControl>
 									<Input
 										placeholder="Enter your email..."
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Name</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="Enter your name..."
 										{...field}
 									/>
 								</FormControl>

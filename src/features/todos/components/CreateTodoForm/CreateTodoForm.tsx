@@ -1,7 +1,6 @@
 import { Input } from '@/components/ui/input';
-import { useCreateTodo } from '@/features/todos/api/todos';
+import { useCreateTodo } from '@/features/todos/api/todosQueries';
 import { useParams } from '@tanstack/react-router';
-import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
 const CreateTodoForm = () => {
@@ -13,8 +12,8 @@ const CreateTodoForm = () => {
 		if (e.key === 'Enter') {
 			await createTodo({
 				title: todoTitle,
-				project: projectId,
-				date: dayjs().format('YYYY-MM-DD'),
+				projectId: projectId,
+				description: '',
 			});
 
 			setTodoTitle('');

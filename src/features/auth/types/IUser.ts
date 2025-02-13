@@ -1,10 +1,17 @@
 export interface IUser {
+	id: string;
 	email: string;
-	lastVisitedProject: string;
-	readonly id: string;
+	name: string;
+	lastVisitedProjectId: string;
 }
 
-export interface IToken {
-	refresh: string;
-	access: string;
+export interface ILoginPayload {
+	email: string;
+	password: string;
+}
+
+export interface ISignupPayload {
+	email: string;
+	password: string
+	name: string
 }

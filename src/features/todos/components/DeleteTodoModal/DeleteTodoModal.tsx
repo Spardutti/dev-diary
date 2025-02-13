@@ -7,7 +7,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { useDeleteTodo } from '@/features/todos/api/todos';
+import { useDeleteTodo } from '@/features/todos/api/todosQueries';
 import type { ITodo } from '@/features/todos/types/ITodo';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -45,7 +45,7 @@ export const DeleteTodoContent = ({ todo, setOpen }: DeleteTodoContentProps) => 
 	const { mutateAsync: deleteTodo, isPending } = useDeleteTodo();
 
 	const onDelete = async () => {
-		await deleteTodo({ id: todo.id, project: todo.project });
+		await deleteTodo(todo.id);
 		setOpen(false);
 	};
 	return (

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useUpdateTodo } from '@/features/todos/api/todos';
+import { useUpdateTodo } from '@/features/todos/api/todosQueries';
 import type { ITodo } from '@/features/todos/types/ITodo';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -55,8 +55,8 @@ const EditTodoForm = ({ todo, setOpen }: EditTodoFormProps) => {
 					<Button
 						onClick={() => setOpen(false)}
 						disabled={isPending}
-                        variant="ghost"
-                        type='button'
+						variant="ghost"
+						type="button"
 					>
 						Cancel
 					</Button>

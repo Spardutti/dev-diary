@@ -1,7 +1,7 @@
 export interface ITodo {
 	title: string;
-	date: string;
+	description: string;
 	readonly id: string;
-	completed: boolean;
-	readonly project: string;
+	status: boolean;
+	readonly projectId: string;
 }

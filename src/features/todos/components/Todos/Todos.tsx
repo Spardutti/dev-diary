@@ -1,32 +1,21 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useGetTodos, useUpdateTodo } from '@/features/todos/api/todos';
+import { useGetTodos, useUpdateTodo } from '@/features/todos/api/todosQueries';
 import CreateTodoForm from '@/features/todos/components/CreateTodoForm';
 import DeleteTodoModal from '@/features/todos/components/DeleteTodoModal';
 import EditTodoModal from '@/features/todos/components/EditTodoModal';
-import { formatPaginationList } from '@/features/utils/formatPaginationList';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { useParams } from '@tanstack/react-router';
 import { useRef } from 'react';
 
 const Todos = () => {
-	const { projectId } = useParams({ strict: false });
-	const {
-		data: todos,
-		fetchNextPage,
-		hasNextPage,
-		isPending,
-	} = useGetTodos(projectId, 'completed=false&ordering=-updated_at');
+	const { data: todos, isPending } = useGetTodos('status=false');
 
 	const observerRef = useRef<HTMLDivElement>(null);
 
 	const { mutateAsync: updateTodo, isPending: isUpdating } = useUpdateTodo();
 
-	const onUpdate = async ({ id, completed }: { id: string; completed: boolean }) => {
-		await updateTodo({ id, completed: !completed });
+	const onUpdate = async ({ id, status }: { id: string; status: boolean }) => {
+		await updateTodo({ id, status: !status });
 	};
-
-	useInfiniteScroll({ observerRef, fetchNextPage, hasNextPage });
 
 	if (isPending) return <p>Loading...</p>;
 
@@ -43,7 +32,7 @@ const Todos = () => {
 						ref={observerRef}
 					>
 						<ul className="space-y-2">
-							{formatPaginationList(todos).map((todo) => (
+							{todos.data.map((todo) => (
 								<li
 									key={todo.id}
 									className="group flex items-center justify-between p-3 rounded-lg bg-background-alt hover:bg-background-alt/60"
@@ -51,8 +40,8 @@ const Todos = () => {
 									<div className="flex items-center gap-3">
 										<Checkbox
 											disabled={isUpdating}
-											checked={todo.completed}
-											onClick={() => onUpdate({ id: todo.id, completed: todo.completed })}
+											checked={todo.status}
+											onClick={() => onUpdate({ id: todo.id, status: todo.status })}
 										/>
 										<span className="text-sm">{todo.title}</span>
 									</div>

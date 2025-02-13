@@ -19,14 +19,14 @@ export const todoColumns: ColumnDef<ITodo>[] = [
 		header: 'Description',
 	},
 	{
-		accessorKey: 'date',
+		accessorKey: 'createdAt',
 		header: 'Created',
 	},
 	{
-		accessorKey: 'completed',
+		accessorKey: 'status',
 		header: () => <div className="flex justify-center">Completed</div>,
 		cell: ({ row }) => {
-			const completed = row.getValue('completed') as boolean;
+			const completed = row.original.status;
 			return (
 				<div className="flex justify-center">
 					<Badge variant={completed ? 'secondary' : 'destructive'}>{completed ? 'Done' : 'Pending'}</Badge>

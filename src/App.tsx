@@ -2,6 +2,7 @@ import { AuthProvider, useAuth } from '@/context/useAuth';
 import { routeTree } from '@/routeTree.gen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: { retry: false },
