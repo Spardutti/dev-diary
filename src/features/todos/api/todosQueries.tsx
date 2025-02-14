@@ -1,8 +1,9 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from '@/features/todos/api/todosApi';
 import type { ITodo } from '@/features/todos/types/ITodo';
+import { prependToCache, removeFromCacheList, updateCacheList } from '@/lib/query/queryCacheUtils';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter } from '@tanstack/react-router';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouteContext, useRouter } from '@tanstack/react-router';
 
 export const todosQueryKeys = {
 	all: ['todos'] as const,
@@ -12,9 +13,23 @@ export const todosQueryKeys = {
 };
 
 export const useCreateTodo = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => createTodo(data),
-		onSuccess: () => {},
+		onSuccess: (response) => {
+			const queryKeys = [
+				todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+				todosQueryKeys.filter(`status=false&projectId=${response.data.projectId}`),
+			];
+
+			queryKeys.forEach((queryKey) => {
+				prependToCache({
+					queryClient,
+					newItem: response.data,
+					queryKey,
+				});
+			});
+		},
 	});
 };
 
@@ -26,22 +41,49 @@ export const useGetTodos = (filters: string) =>
 	});
 
 export const useUpdateTodo = () => {
-	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => updateTodo(data),
-		onSuccess: () => {
-			router.invalidate();
+		onSuccess: (response) => {
+			const queryKeys = [
+				todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+				todosQueryKeys.filter(`status=false&projectId=${response.data.projectId}`),
+			];
+
+			queryKeys.forEach((queryKey) => {
+				updateCacheList({
+					queryClient,
+					item: response.data,
+					queryKey,
+					matchBy: (a: ITodo, b: ITodo) => a.id === b.id,
+				});
+			});
 		},
 	});
 };
 
 export const useDeleteTodo = () => {
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (id: string) => deleteTodo(id),
-		onSuccess: () => {
+		mutationFn: ({ id }: { id: string; projectId: string }) => deleteTodo(id),
+		onSuccess: (_, { id, projectId }) => {
+			const queryKeys = [
+				todosQueryKeys.filter(`projectId=${projectId}`),
+				todosQueryKeys.filter(`status=false&projectId=${projectId}`),
+			];
+
+			queryKeys.forEach((queryKey) => {
+				removeFromCacheList({
+					queryClient,
+					id,
+					queryKey,
+					matchBy: (a: ITodo, b) => a.id === b,
+				});
+			});
+
 			router.invalidate();
 		},
 	});

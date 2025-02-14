@@ -10,9 +10,10 @@ export const getTodos = (filters?: string) => {
 	});
 };
 
-export const createTodo = (data: Partial<ITodo>) => axiosHelper<ITodo>({ method: 'post', url: '/todo/create', data });
+export const createTodo = (data: Partial<ITodo>) =>
+	axiosHelper<IResponse<ITodo>>({ method: 'post', url: '/todo/create', data });
 
 export const updateTodo = (data: Partial<ITodo>) =>
-	axiosHelper<ITodo>({ method: 'put', url: `/todo/update/${data.id}/`, data });
+	axiosHelper<IResponse<ITodo>>({ method: 'put', url: `/todo/update/${data.id}/`, data });
 
 export const deleteTodo = (id: string) => axiosHelper<ITodo>({ method: 'delete', url: `/todo/delete/${id}/` });

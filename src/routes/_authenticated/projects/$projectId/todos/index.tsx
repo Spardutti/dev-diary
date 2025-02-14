@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/todos/
 		const { queryClient } = context;
 
 		return await queryClient.ensureQueryData({
-			queryKey: todosQueryKeys.list(),
+			queryKey: todosQueryKeys.filter(`projectId=${params.projectId}`),
 			queryFn: () => getTodos(`projectId=${params.projectId}`),
 		});
 	},

@@ -1,16 +1,16 @@
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
 	({ className, ...props }, ref) => (
-		<div className="relative w-full overflow-auto">
+		<ScrollArea className="h-full w-full flex flex-col gap-2 overflow-auto">
 			<table
 				ref={ref}
 				className={cn('w-full caption-bottom text-sm', className)}
 				{...props}
 			/>
-		</div>
+		</ScrollArea>
 	),
 );
 Table.displayName = 'Table';
@@ -19,29 +19,30 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttribut
 	({ className, ...props }, ref) => (
 		<thead
 			ref={ref}
-			className={cn('[&_tr]:border-b', className)}
+			className={cn('[&_tr]:border-b sticky top-0 bg-background', className)}
 			{...props}
 		/>
 	),
 );
 TableHeader.displayName = 'TableHeader';
 
-const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-	({ className, ...props }, ref) => (
-		<tbody
-			ref={ref}
-			className={cn('[&_tr:last-child]:border-0', className)}
-			{...props}
-		/>
-	),
-);
+const TableBody = React.forwardRef<
+	HTMLTableSectionElement,
+	React.HTMLAttributes<HTMLTableSectionElement> & { maxHeight?: string }
+>(({ className, ...props }, ref) => (
+	<tbody
+		ref={ref}
+		className={cn(' ', className)}
+		{...props}
+	/>
+));
 TableBody.displayName = 'TableBody';
 
 const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
 	({ className, ...props }, ref) => (
 		<tfoot
 			ref={ref}
-			className={cn('border-t bg-neutral-100/50 font-medium [&>tr]:last:border-b-0 dark:bg-neutral-800/50', className)}
+			className={cn('border-t bg-neutral-100 font-medium dark:bg-neutral-800', className)}
 			{...props}
 		/>
 	),
@@ -56,6 +57,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 				'border-b transition-colors hover:bg-neutral-100/50 data-[state=selected]:bg-neutral-100 dark:hover:bg-neutral-800/50 dark:data-[state=selected]:bg-neutral-800',
 				className,
 			)}
+			style={{ display: 'table', width: '100%', tableLayout: 'fixed' }}
 			{...props}
 		/>
 	),
@@ -67,7 +69,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
 		<th
 			ref={ref}
 			className={cn(
-				'h-10 px-2 text-left align-middle font-medium text-neutral-500 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] dark:text-neutral-400',
+				'h-10 px-2 text-left align-middle font-medium text-text [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] dark:text-neutral-400',
 				className,
 			)}
 			{...props}

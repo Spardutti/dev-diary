@@ -45,7 +45,7 @@ export const DeleteTodoContent = ({ todo, setOpen }: DeleteTodoContentProps) => 
 	const { mutateAsync: deleteTodo, isPending } = useDeleteTodo();
 
 	const onDelete = async () => {
-		await deleteTodo(todo.id);
+		await deleteTodo({ id: todo.id, projectId: todo.projectId });
 		setOpen(false);
 	};
 	return (

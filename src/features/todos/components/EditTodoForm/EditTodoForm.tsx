@@ -20,7 +20,7 @@ const EditTodoForm = ({ todo, setOpen }: EditTodoFormProps) => {
 	const { mutateAsync: updateTodo, isPending } = useUpdateTodo();
 
 	const onUpdate = async (data: z.infer<typeof formSchema>) => {
-		await updateTodo({ id: todo.id, project: todo.project, title: data.title });
+		await updateTodo({ id: todo.id, projectId: todo.projectId, title: data.title });
 		setOpen(false);
 	};
 
