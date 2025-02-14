@@ -1,4 +1,4 @@
-import DailyNotes from '@/features/dailyNotes/components/DailyNotes';
+import DailyNotes from '@/features/notes/components/Notes';
 import { createFileRoute } from '@tanstack/react-router';
 
 const DailyNote = () => {

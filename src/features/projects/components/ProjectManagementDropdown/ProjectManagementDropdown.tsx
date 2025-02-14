@@ -13,7 +13,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useDeleteProject } from '@/features/projects/api/projects';
+import { useDeleteProject } from '@/features/projects/api/projectQueries';
 import UpdateProjectForm from '@/features/projects/components/UpdateProjectForm';
 import type { IProject } from '@/features/projects/types/project';
 import { useNavigate } from '@tanstack/react-router';

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { toast } from 'react-toastify';
 
 const formSchema = z.object({
 	email: z.string().email(),
@@ -40,6 +41,7 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 			setTimeout(() => {
 				handleSignUp();
 				setShowSuccess(false);
+				toast.success('Account created successfully');
 			}, 1000);
 		}
 	};

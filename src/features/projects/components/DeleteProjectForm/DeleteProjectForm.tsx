@@ -1,6 +1,6 @@
 import { router } from '@/App';
 import { Button } from '@/components/ui/button';
-import { useDeleteProject } from '@/features/projects/api/projects';
+import { useDeleteProject } from '@/features/projects/api/projectQueries';
 
 interface EditProjectFormProps {
 	projectId: string;

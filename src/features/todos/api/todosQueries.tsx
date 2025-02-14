@@ -22,6 +22,7 @@ export const useGetTodos = (filters: string) =>
 	useQuery({
 		queryKey: todosQueryKeys.filter(filters),
 		queryFn: () => getTodos(filters),
+		select: (data) => data.data as ITodo[],
 	});
 
 export const useUpdateTodo = () => {

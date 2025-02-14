@@ -1,11 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Todos from '@/features/todos/components/Todos';
-import NoteDetail from '@/features/dailyNotes/components/NoteDetail';
-import { axiosHelper } from '@/lib/axios/axiosHelper';
-import type { IResponse } from '@/lib/axios';
-import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
 import dayjs from 'dayjs';
 import axios from 'axios';
+import NoteDetail from '@/features/notes/components/NoteDetail';
+import { noteQueryKeys } from '@/features/notes/api/noteQueries';
+import { getNote } from '@/features/notes/api/noteApi';
 
 const Dashboard = () => {
 	return (
@@ -25,12 +24,8 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/dashbo
 
 		try {
 			return await queryClient.ensureQueryData({
-				queryKey: ['daily-note', projectId, dayjs().format('YYYY-MM-DD').toString()],
-				queryFn: () =>
-					axiosHelper<IResponse<IDailyNote>>({
-						method: 'get',
-						url: `/daily-notes/?project_id=${projectId}&date=${dayjs().format('YYYY-MM-DD')}`,
-					}),
+				queryKey: noteQueryKeys.detail(dayjs().toISOString()),
+				queryFn: () => getNote({ date: dayjs().toISOString(), projectId }),
 			});
 		} catch (error) {
 			// Handle 404 errors gracefully

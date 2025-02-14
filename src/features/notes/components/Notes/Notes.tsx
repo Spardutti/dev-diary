@@ -1,37 +1,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useGetDailyNotes } from '@/features/dailyNotes/api/dailyNotes';
-import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
+import { useGetDailyNotes } from '@/features/notes/api/noteQueries';
+import type { INote } from '@/features/notes/types/INote';
 import { cleanHtml } from '@/features/utils/cleanHtml';
-import { formatPaginationList } from '@/features/utils/formatPaginationList';
 import { notesFrom } from '@/features/utils/notesFrom';
-import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { Link, useParams } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
 
 const DailyNotes = () => {
 	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/daily-notes/' });
-	const { data: dailyNotes, isLoading, hasNextPage, fetchNextPage } = useGetDailyNotes({ projectId });
+	const { data: dailyNotes, isLoading } = useGetDailyNotes({ projectId });
 	const observerRef = useRef<HTMLDivElement | null>(null);
-
-	useInfiniteScroll({ hasNextPage, fetchNextPage, observerRef });
 
 	if (isLoading || !dailyNotes) return null;
 
 	const mergedNotesByMonth = () => {
-		// Combine notes from all pages into a single object grouped by month
-		const groupedData: Record<string, IDailyNote[]> = formatPaginationList(dailyNotes).reduce((acc, page) => {
-			Object.entries(page).forEach(([month, notes]) => {
-				if (!acc[month]) {
-					acc[month] = [];
-				}
-				acc[month] = [...acc[month], ...notes]; // Merge notes for the same month
-			});
+		const grouped = dailyNotes.reduce((acc: Record<string, INote[]>, note: INote) => {
+			const month = dayjs(note.createdAt).startOf('month').format('YYYY-MM-DD');
+			if (!acc[month]) {
+				acc[month] = [];
+			}
+			acc[month].push(note);
 			return acc;
 		}, {});
 
-		return groupedData;
+		return grouped;
 	};
 
 	return (
@@ -49,7 +43,7 @@ const DailyNotes = () => {
 					>
 						<p> {month}</p>
 						<div className="flex flex-wrap gap-2">
-							{value.map((note: IDailyNote) => {
+							{value.map((note: INote) => {
 								return (
 									<Link
 										className="h-28"
@@ -59,10 +53,10 @@ const DailyNotes = () => {
 									>
 										<Card className="w-64 h-full hover:bg-background-alt/60">
 											<CardHeader>
-												<CardTitle className="text-secondary">{notesFrom(note.date)}</CardTitle>
+												<CardTitle className="text-secondary">{notesFrom(note.createdAt.toString())}</CardTitle>
 											</CardHeader>
 											<CardContent>
-												<p className="line-clamp-1 text-text">{cleanHtml(note.note)}</p>
+												<p className="line-clamp-1 text-text">{cleanHtml(note.content)}</p>
 											</CardContent>
 										</Card>
 									</Link>

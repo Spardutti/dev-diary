@@ -1,40 +1,34 @@
+import { createProject, getProject, getProjects } from '@/features/projects/api/projectApi';
 import type { IProject } from '@/features/projects/types/project';
 import type { IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+export const projectQueryKeys = {
+	all: ['projects'] as const,
+	list: () => [...projectQueryKeys.all, 'list'] as const,
+	detail: (id: string) => [...projectQueryKeys.all, id] as const,
+	filter: (filters: string) => [...projectQueryKeys.all, filters] as const,
+};
+
 export const useGetProjects = () =>
 	useQuery({
-		queryKey: ['projects'],
-		queryFn: () => axiosHelper<IResponse<IProject[]>>({ method: 'get', url: '/projects/' }),
+		queryKey: projectQueryKeys.list(),
+		queryFn: getProjects,
+		select: (data) => data.data as IProject[],
 	});
 
 export const useGetProject = (id: string) =>
 	useQuery({
-		queryKey: ['project', id],
-		queryFn: () => axiosHelper<IResponse<IProject>>({ method: 'get', url: `/projects/${id}/` }),
+		queryKey: projectQueryKeys.detail(id),
+		queryFn: () => getProject(id),
 		enabled: !!id,
+		select: (data) => data.data as IProject,
 	});
 
 export const useCreateProject = () => {
-	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (data: Partial<IProject>) =>
-			axiosHelper<IResponse<IProject>>({ method: 'post', url: '/projects/', data }),
-		onSuccess: (response) => {
-			queryClient.setQueryData<IResponse<IProject[]>>(['projects'], (old) => {
-				if (!old) {
-					return {
-						status: response.status,
-						data: [response.data],
-					};
-				}
-				return {
-					...old,
-					data: [...old.data, response.data],
-				};
-			});
-		},
+		mutationFn: (data: Partial<IProject>) => createProject(data),
 	});
 };
 

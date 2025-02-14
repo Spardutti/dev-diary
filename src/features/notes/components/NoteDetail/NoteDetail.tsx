@@ -1,12 +1,13 @@
 import RichEditor from '@/components/RichTextEditor';
 import { getRouteApi } from '@tanstack/react-router';
-import { useDailyNoteContent } from '@/features/dailyNotes/hooks/useDailyNoteContent';
-import { useDebouncedDailyNoteUpdate } from '@/features/dailyNotes/hooks/useDebounceDailyNoteUpdate';
 import { notesFrom } from '@/features/utils/notesFrom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import type { IDailyNote } from '@/features/dailyNotes/types/IDailyNote';
+import type { INote } from '@/features/notes/types/INote';
+import { useDebouncedDailyNoteUpdate } from '@/features/notes/hooks/useDebounceDailyNoteUpdate';
+import { useDailyNoteContent } from '@/features/notes/hooks/useDailyNoteContent';
+import type { IResponse } from '@/lib/axios';
 
 interface DailyNotesProps {
 	date?: string;
@@ -15,11 +16,11 @@ interface DailyNotesProps {
 
 const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 	const routeApi = getRouteApi(routeKey);
-	const note: IDailyNote = routeApi.useLoaderData();
+	const note: IResponse<INote> = routeApi.useLoaderData();
 
-	const { noteContent, setNoteContent } = useDailyNoteContent(note?.note, note?.id);
+	const { noteContent, setNoteContent } = useDailyNoteContent(note?.data?.content, note?.data?.id);
 
-	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.id, noteContent);
+	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.data?.id, noteContent);
 
 	return (
 		<main className="flex-1">
@@ -33,7 +34,7 @@ const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 						<ScrollArea className="h-[calc(100vh-16rem)]">
 							<RichEditor
 								setContent={setNoteContent}
-								content={note?.note}
+								content={note?.data?.content}
 							/>
 						</ScrollArea>
 					</CardContent>
@@ -48,3 +49,4 @@ export default NoteDetail;
 const SaveIndicator = ({ isSavingNote }: { isSavingNote: boolean }) => {
 	return <div className={cn('ml-auto 0 bg-green-500 w-2 h-2 rounded-full', isSavingNote && 'animate-pulse')} />;
 };
+

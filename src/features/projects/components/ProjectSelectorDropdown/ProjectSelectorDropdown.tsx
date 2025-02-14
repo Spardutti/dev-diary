@@ -15,7 +15,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useGetProject, useGetProjects } from '@/features/projects/api/projects';
+import { useGetProject, useGetProjects } from '@/features/projects/api/projectQueries';
 import DeleteProjectForm from '@/features/projects/components/DeleteProjectForm';
 import EditProjectForm from '@/features/projects/components/EditrProjectForm';
 import NewProjectForm from '@/features/projects/components/NewProjectForm/NewProjectForm';
@@ -32,7 +32,7 @@ const ProjectSelectorDropDown = () => {
 	const { data: project, isPending } = useGetProject(projectId!);
 	const { data: projects } = useGetProjects();
 
-	if (isPending || !project?.data) return <div className="animate-pulse h-8 w-[120px]" />;
+	if (isPending || !project) return <div className="animate-pulse h-8 w-[120px]" />;
 
 	const closeDialog = () => {
 		setOpen(false);
@@ -49,7 +49,7 @@ const ProjectSelectorDropDown = () => {
 			<DropdownMenu>
 				<DropdownMenuTrigger>
 					<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
-						{project.data.name} <ChevronDown className="text-white size-4" />
+						{project.name} <ChevronDown className="text-white size-4" />
 					</span>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="min-w-[250px] max-h-[400px] shadow-lg ml-1">
@@ -90,7 +90,7 @@ const ProjectSelectorDropDown = () => {
 
 					<ScrollArea className="h-48">
 						<DropdownMenuLabel className="text-sm font-medium text-gray-400">Switch Projects</DropdownMenuLabel>
-						{projects?.data.map((project) => (
+						{projects?.map((project) => (
 							<DropdownMenuItem
 								className="focus:bg-hover focus:text-hover-text"
 								key={project.id}
@@ -110,10 +110,10 @@ const ProjectSelectorDropDown = () => {
 			</DropdownMenu>
 
 			<DialogBody
-				projectId={project.data.id}
+				projectId={project.id}
 				closeDialog={closeDialog}
 				dialogType={dialogType}
-				projectName={project.data.name}
+				projectName={project.name}
 			/>
 		</Dialog>
 	);

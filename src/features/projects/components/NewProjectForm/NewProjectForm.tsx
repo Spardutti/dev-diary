@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { useCreateProject } from '@/features/projects/api/projects';
+import { useCreateProject } from '@/features/projects/api/projectQueries';
 import { router } from '@/App';
 
 const formSchema = z.object({

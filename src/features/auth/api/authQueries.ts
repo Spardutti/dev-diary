@@ -65,4 +65,5 @@ export const useGetProfile = (token: string | null) =>
 		queryKey: authQueryKeys.all,
 		queryFn: me,
 		enabled: !!token,
+		select: (response) => response.data,
 	});

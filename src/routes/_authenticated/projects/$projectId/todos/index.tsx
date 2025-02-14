@@ -20,12 +20,12 @@ const RouteComponent = () => {
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId/todos/')({
 	component: RouteComponent,
-	loader: async ({ context }) => {
+	loader: async ({ context, params }) => {
 		const { queryClient } = context;
 
 		return await queryClient.ensureQueryData({
 			queryKey: todosQueryKeys.list(),
-			queryFn: () => getTodos(),
+			queryFn: () => getTodos(`projectId=${params.projectId}`),
 		});
 	},
 });

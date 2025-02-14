@@ -2,6 +2,7 @@ import { AuthProvider, useAuth } from '@/context/useAuth';
 import { routeTree } from '@/routeTree.gen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -20,10 +21,13 @@ declare module '@tanstack/react-router' {
 const App = () => {
 	const auth = useAuth();
 	return (
-		<RouterProvider
-			context={{ authentication: auth }}
-			router={router}
-		/>
+		<div>
+			<RouterProvider
+				context={{ authentication: auth }}
+				router={router}
+			/>
+			<ToastContainer position="top-center" />
+		</div>
 	);
 };
 

@@ -4,10 +4,13 @@ import { useGetTodos, useUpdateTodo } from '@/features/todos/api/todosQueries';
 import CreateTodoForm from '@/features/todos/components/CreateTodoForm';
 import DeleteTodoModal from '@/features/todos/components/DeleteTodoModal';
 import EditTodoModal from '@/features/todos/components/EditTodoModal';
+import { useParams } from '@tanstack/react-router';
 import { useRef } from 'react';
 
 const Todos = () => {
-	const { data: todos, isPending } = useGetTodos('status=false');
+	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
+
+	const { data: todos, isPending } = useGetTodos(`status=false&projectId=${projectId}`);
 
 	const observerRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +35,7 @@ const Todos = () => {
 						ref={observerRef}
 					>
 						<ul className="space-y-2">
-							{todos.data.map((todo) => (
+							{todos.map((todo) => (
 								<li
 									key={todo.id}
 									className="group flex items-center justify-between p-3 rounded-lg bg-background-alt hover:bg-background-alt/60"

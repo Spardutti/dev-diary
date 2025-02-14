@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useUpdateProject } from '@/features/projects/api/projects';
+import { useUpdateProject } from '@/features/projects/api/projectQueries';
 import type { IProject } from '@/features/projects/types/project';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,6 @@ const formSchema = z.object({
 		message: 'Project Name must be at least 2 characters.',
 	}),
 });
-
 
 const UpdateProjectForm = ({ project, closeDialog }: { project: IProject; closeDialog: () => void }) => {
 	const { mutateAsync: updateProject, isPending: isUpdatingProject } = useUpdateProject();
