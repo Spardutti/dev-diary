@@ -9,3 +9,10 @@ export const signup = (data: ISignupPayload) =>
 	axiosHelper<IResponse<IUser>>({ method: 'post', url: '/user/create', data });
 
 export const me = () => axiosHelper<IResponse<IUser>>({ method: 'get', url: '/user/me' });
+
+export const guest = () =>
+	axiosHelper<IResponse<{ token: string; user: IUser }>>({ method: 'post', url: '/user/guest' });
+
+export const logout = () => axiosHelper<IResponse<{ message: string }>>({ method: 'post', url: '/user/logout' });
+
+export const refresh = () => axiosHelper<IResponse<{ token: string }>>({ method: 'get', url: '/user/refresh' });

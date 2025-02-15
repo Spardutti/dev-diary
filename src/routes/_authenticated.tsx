@@ -14,11 +14,11 @@ export const Route = createFileRoute('/_authenticated')({
 				to: '/',
 			});
 		}
+
+		setDefaultHeaders(token);
 	},
 	loader: async ({ context }) => {
 		const { queryClient, authentication } = context;
-		const token = localStorage.getItem('authToken');
-		setDefaultHeaders(token);
 		try {
 			const r = await queryClient.ensureQueryData({
 				queryKey: authQueryKeys.all,

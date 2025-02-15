@@ -1,9 +1,8 @@
-import { axiosHelper } from '@/lib/axios/axiosHelper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { setDefaultHeaders, type IResponse } from '@/lib/axios';
-import type { ILoginPayload, ISignupPayload, IUser } from '@/features/auth/types/IUser';
+import { setDefaultHeaders } from '@/lib/axios';
+import type { ILoginPayload, ISignupPayload } from '@/features/auth/types/IUser';
 import { useNavigate } from '@tanstack/react-router';
-import { login, me, signup } from '@/features/auth/api/authApi';
+import { guest, login, logout, me, signup } from '@/features/auth/api/authApi';
 
 export const authQueryKeys = {
 	all: ['profile'] as const,
@@ -14,21 +13,17 @@ export const useGuestLogin = () => {
 	const navigate = useNavigate();
 
 	return useMutation({
-		mutationFn: () => axiosHelper<IResponse<{ user: IUser; token: string }>>({ method: 'post', url: '/guests/' }),
+		mutationFn: guest,
 		onSuccess: async (response) => {
 			const token = response.data.token;
 
 			localStorage.setItem('authToken', token);
 			setDefaultHeaders(token);
 
-			try {
-				const lastProjectId = response?.data?.user?.lastVisitedProjectId;
-				if (lastProjectId) {
-					navigate({ to: `/projects/$projectId/dashboard`, params: { projectId: lastProjectId } });
-				}
-			} catch (error) {
-				console.error('Error fetching profile:', error);
-			}
+			navigate({
+				to: `/projects/$projectId/dashboard`,
+				params: { projectId: response.data.user.lastVisitedProjectId },
+			});
 		},
 	});
 };
@@ -51,6 +46,19 @@ export const useLogin = () => {
 				to: `/projects/$projectId/dashboard`,
 				params: { projectId: response.data.user.lastVisitedProjectId },
 			});
+		},
+	});
+};
+
+export const useLogout = () => {
+	const navigate = useNavigate();
+
+	return useMutation({
+		mutationFn: logout,
+		onSuccess: () => {
+			localStorage.removeItem('authToken');
+			setDefaultHeaders(null);
+			navigate({ to: '/' });
 		},
 	});
 };

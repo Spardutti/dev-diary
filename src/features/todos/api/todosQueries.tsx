@@ -3,7 +3,7 @@ import type { ITodo } from '@/features/todos/types/ITodo';
 import { prependToCache, removeFromCacheList, updateCacheList } from '@/lib/query/queryCacheUtils';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useRouteContext, useRouter } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 
 export const todosQueryKeys = {
 	all: ['todos'] as const,
@@ -64,8 +64,8 @@ export const useUpdateTodo = () => {
 };
 
 export const useDeleteTodo = () => {
-	const router = useRouter();
 	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	return useMutation({
 		mutationFn: ({ id }: { id: string; projectId: string }) => deleteTodo(id),
@@ -84,7 +84,9 @@ export const useDeleteTodo = () => {
 				});
 			});
 
-			router.invalidate();
+			router.clearCache({
+				filter: (root) => root.id === '/_authenticated/projects/a642a836-37b8-464c-9db0-48df4048730b/todos/',
+			});
 		},
 	});
 };
