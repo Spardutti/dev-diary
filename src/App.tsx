@@ -1,13 +1,23 @@
 import { AuthProvider, useAuth } from '@/context/useAuth';
 import { routeTree } from '@/routeTree.gen';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: { retry: false },
 	},
+	queryCache: new QueryCache({
+		onError: (error) => {
+			toast.error(error.message);
+		},
+	}),
+	mutationCache: new MutationCache({
+		onError: (error) => {
+			toast.error(error.message);
+		},
+	}),
 });
 
 export const router = createRouter({ routeTree, context: { authentication: undefined!, queryClient: queryClient } });

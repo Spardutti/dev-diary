@@ -12,10 +12,8 @@ interface LoginFormProps {
 }
 
 const formSchema = z.object({
-	email: z.string().min(2, {
-		message: 'Project Name must be at least 2 characters.',
-	}),
-	password: z.string().min(4, {
+	email: z.string().email(),
+	password: z.string().min(6, {
 		message: 'password must be at least 4 characters.',
 	}),
 });
