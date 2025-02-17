@@ -21,6 +21,7 @@ export const useGetNote = ({ noteId }: { noteId: string }) =>
 		queryKey: noteQueryKeys.detail(noteId),
 		queryFn: () => getNote({ noteId }),
 		select: (data) => data.data as INote,
+		enabled: !!noteId,
 	});
 
 export const useGetDailyNotes = ({ projectId }: { projectId: string }) =>
