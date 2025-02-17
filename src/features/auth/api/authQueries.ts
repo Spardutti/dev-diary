@@ -40,7 +40,7 @@ export const useLogin = () => {
 			localStorage.setItem('authToken', token);
 			setDefaultHeaders(token);
 
-			queryClient.setQueryData(authQueryKeys.all, response.data.user);
+			queryClient.setQueryData(authQueryKeys.all, { data: response.data.user });
 
 			navigate({
 				to: `/projects/$projectId/dashboard`,
@@ -73,5 +73,4 @@ export const useGetProfile = (token: string | null) =>
 		queryKey: authQueryKeys.all,
 		queryFn: me,
 		enabled: !!token,
-		select: (response) => response.data,
 	});
