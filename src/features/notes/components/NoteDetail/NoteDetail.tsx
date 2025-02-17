@@ -11,9 +11,10 @@ import type { INote } from '@/features/notes/types/INote';
 
 interface DailyNotesProps {
 	routeKey: '/_authenticated/projects/$projectId/dashboard' | '/_authenticated/projects/$projectId/daily-notes/$noteId';
+	date?: string;
 }
 
-const NoteDetail = ({ routeKey }: DailyNotesProps) => {
+const NoteDetail = ({ routeKey, date }: DailyNotesProps) => {
 	const routeApi = getRouteApi(routeKey);
 	const note: IResponse<INote> = routeApi.useLoaderData();
 
@@ -26,7 +27,7 @@ const NoteDetail = ({ routeKey }: DailyNotesProps) => {
 			<div className="mx-auto p-4 md:p-6">
 				<Card>
 					<CardHeader className="flex flex-row items-center space-y-0">
-						<CardTitle className="text-lg">{notesFrom('')}</CardTitle>
+						<CardTitle className="text-lg">{notesFrom(date)}</CardTitle>
 						<SaveIndicator isSavingNote={isSavingNote} />
 					</CardHeader>
 					<CardContent>
