@@ -9,3 +9,6 @@ export const getProjects = () => axiosHelper<IResponse<IProject[]>>({ method: 'g
 
 export const createProject = (data: Partial<IProject>) =>
 	axiosHelper<IResponse<IProject>>({ method: 'post', url: '/project/create', data });
+
+export const updateProject = (data: Partial<IProject>) =>
+	axiosHelper<IResponse<IProject>>({ method: 'put', url: `/project/update/${data.id}`, data });

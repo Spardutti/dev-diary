@@ -1,4 +1,4 @@
-import { createProject, getProject, getProjects } from '@/features/projects/api/projectApi';
+import { createProject, getProject, getProjects, updateProject } from '@/features/projects/api/projectApi';
 import type { IProject } from '@/features/projects/types/project';
 import type { IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
@@ -36,10 +36,9 @@ export const useUpdateProject = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (data: Partial<IProject>) =>
-			axiosHelper<IResponse<IProject>>({ method: 'patch', url: `/projects/${data.id}/`, data }),
+		mutationFn: (data: Partial<IProject>) => updateProject(data),
 		onSuccess: (response) => {
-			queryClient.setQueryData<IResponse<IProject[]>>(['projects'], (old) => {
+			queryClient.setQueryData<IResponse<IProject[]>>(projectQueryKeys.list(), (old) => {
 				if (!old) {
 					return;
 				}
@@ -49,7 +48,7 @@ export const useUpdateProject = () => {
 				};
 			});
 
-			queryClient.setQueryData<IResponse<IProject>>(['project', response.data.id.toString()], (old) => {
+			queryClient.setQueryData<IResponse<IProject>>(projectQueryKeys.detail(response.data.id), (old) => {
 				if (!old) {
 					return;
 				}
