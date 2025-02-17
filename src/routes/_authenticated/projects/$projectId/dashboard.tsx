@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Todos from '@/features/todos/components/Todos';
-import dayjs from 'dayjs';
-import axios from 'axios';
 import NoteDetail from '@/features/notes/components/NoteDetail';
 import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import { getNote } from '@/features/notes/api/noteApi';
+import type { IUser } from '@/features/auth/types/IUser';
+import { logout } from '@/features/auth/api/authApi';
 
 const Dashboard = () => {
 	return (
@@ -18,22 +18,24 @@ const Dashboard = () => {
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId/dashboard')({
 	component: Dashboard,
-	loader: async ({ context, params }) => {
-		const { projectId } = params;
+
+	loader: async ({ context, parentMatchPromise }) => {
 		const { queryClient } = context;
+
+		const parentData = await parentMatchPromise;
+		const parentLoaderData = parentData.loaderData as { profile: IUser };
+
+		const user = parentLoaderData.profile;
+		const noteId = user?.todayNoteId ?? '';
 
 		try {
 			return await queryClient.ensureQueryData({
-				queryKey: noteQueryKeys.detail(dayjs().toISOString()),
-				queryFn: () => getNote({ date: dayjs().toISOString(), projectId }),
+				queryKey: noteQueryKeys.detail(noteId),
+				queryFn: () => getNote({ noteId }),
 			});
 		} catch (error) {
-			// Handle 404 errors gracefully
-			if (axios.isAxiosError(error) && error.response?.status === 404) {
-				return null;
-			}
-
-			throw error;
+			console.log('error:', error);
+			await logout();
 		}
 	},
 });

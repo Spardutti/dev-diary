@@ -26,6 +26,7 @@ export const Route = createFileRoute('/_authenticated')({
 			});
 
 			authentication.setProfile(r.data);
+			return { profile: r.data };
 		} catch (error) {
 			router.navigate({ to: '/' });
 			localStorage.removeItem('authToken');
