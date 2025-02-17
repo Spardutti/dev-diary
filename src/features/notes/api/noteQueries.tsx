@@ -16,10 +16,10 @@ export const useCreateNote = () => {
 	});
 };
 
-export const useGetNote = ({ createdAt, projectId }: { createdAt: string; projectId: string }) =>
+export const useGetNote = ({ noteId }: { noteId: string }) =>
 	useQuery({
-		queryKey: noteQueryKeys.detail(createdAt),
-		queryFn: () => getNote({ date: createdAt, projectId }),
+		queryKey: noteQueryKeys.detail(noteId),
+		queryFn: () => getNote({ noteId }),
 		select: (data) => data.data as INote,
 	});
 

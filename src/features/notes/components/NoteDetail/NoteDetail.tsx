@@ -49,4 +49,3 @@ export default NoteDetail;
 const SaveIndicator = ({ isSavingNote }: { isSavingNote: boolean }) => {
 	return <div className={cn('ml-auto 0 bg-green-500 w-2 h-2 rounded-full', isSavingNote && 'animate-pulse')} />;
 };
-

@@ -3,6 +3,7 @@ export interface IUser {
 	email: string;
 	name: string;
 	lastVisitedProjectId: string;
+	todayNoteId: string;
 }
 
 export interface ILoginPayload {
@@ -12,6 +13,6 @@ export interface ILoginPayload {
 
 export interface ISignupPayload {
 	email: string;
-	password: string
-	name: string
+	password: string;
+	name: string;
 }

@@ -1,6 +1,6 @@
+import { getNote } from '@/features/notes/api/noteApi';
+import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import NoteDetail from '@/features/notes/components/NoteDetail';
-import type { INote } from '@/features/notes/types/INote';
-import { axiosHelper } from '@/lib/axios/axiosHelper';
 import { createFileRoute } from '@tanstack/react-router';
 
 const Note = () => {
@@ -8,7 +8,7 @@ const Note = () => {
 
 	return (
 		<NoteDetail
-			date={note.createdAt.toString()}
+			date={note.data.createdAt.toString()}
 			routeKey="/_authenticated/projects/$projectId/daily-notes/$noteId"
 		/>
 	);
@@ -18,8 +18,8 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/daily-
 	component: Note,
 	loader: async ({ params: { noteId }, context: { queryClient } }) => {
 		return await queryClient.ensureQueryData({
-			queryKey: ['daily-note', noteId],
-			queryFn: () => axiosHelper<INote>({ method: 'get', url: `/daily-notes/${noteId}/` }),
+			queryKey: noteQueryKeys.detail(noteId),
+			queryFn: () => getNote({ noteId }),
 		});
 	},
 });
