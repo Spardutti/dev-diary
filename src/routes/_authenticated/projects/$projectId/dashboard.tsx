@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Todos from '@/features/todos/components/Todos';
 import NoteDetail from '@/features/notes/components/NoteDetail';
+import { logout } from '@/features/auth/api/authApi';
+import { projectQueryKeys } from '@/features/projects/api/projectQueries';
+import { getProject } from '@/features/projects/api/projectApi';
 import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import { getNote } from '@/features/notes/api/noteApi';
-import type { IUser } from '@/features/auth/types/IUser';
-import { logout } from '@/features/auth/api/authApi';
 
 const Dashboard = () => {
 	return (
@@ -19,20 +20,26 @@ const Dashboard = () => {
 export const Route = createFileRoute('/_authenticated/projects/$projectId/dashboard')({
 	component: Dashboard,
 
-	loader: async ({ context, parentMatchPromise }) => {
+	loader: async ({ context, params }) => {
 		const { queryClient } = context;
 
-		const parentData = await parentMatchPromise;
-		const parentLoaderData = parentData.loaderData as { profile: IUser };
-
-		const user = parentLoaderData.profile;
-		const noteId = user?.todayNoteId ?? '';
+		const { projectId } = params;
 
 		try {
-			return await queryClient.ensureQueryData({
-				queryKey: noteQueryKeys.detail(noteId),
-				queryFn: () => getNote({ noteId }),
+			const project = await queryClient.ensureQueryData({
+				queryKey: projectQueryKeys.detail(projectId),
+				queryFn: () => getProject(projectId),
 			});
+
+			let note = null;
+			if (project.data.todayNoteId) {
+				note = await queryClient.ensureQueryData({
+					queryKey: noteQueryKeys.detail(project.data.todayNoteId),
+					queryFn: () => getNote({ noteId: project.data.todayNoteId }),
+				});
+			}
+
+			return note;
 		} catch (error) {
 			console.log('error:', error);
 			await logout();

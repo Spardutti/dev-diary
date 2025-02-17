@@ -3,7 +3,7 @@ import type { IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
 
 export const getProject = (id: string) =>
-	axiosHelper<IResponse<IProject>>({ method: 'get', url: `/project/show/${id}` });
+	axiosHelper<IResponse<{ project: IProject; todayNoteId: string }>>({ method: 'get', url: `/project/show/${id}` });
 
 export const getProjects = () => axiosHelper<IResponse<IProject[]>>({ method: 'get', url: '/project/list' });
 

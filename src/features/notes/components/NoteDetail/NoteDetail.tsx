@@ -4,23 +4,23 @@ import { notesFrom } from '@/features/utils/notesFrom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import type { INote } from '@/features/notes/types/INote';
 import { useDebouncedDailyNoteUpdate } from '@/features/notes/hooks/useDebounceDailyNoteUpdate';
 import { useDailyNoteContent } from '@/features/notes/hooks/useDailyNoteContent';
 import type { IResponse } from '@/lib/axios';
+import type { INote } from '@/features/notes/types/INote';
 
 interface DailyNotesProps {
-	date?: string;
 	routeKey: '/_authenticated/projects/$projectId/dashboard' | '/_authenticated/projects/$projectId/daily-notes/$noteId';
+	date?: string;
 }
 
-const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
+const NoteDetail = ({ routeKey, date }: DailyNotesProps) => {
 	const routeApi = getRouteApi(routeKey);
 	const note: IResponse<INote> = routeApi.useLoaderData();
 
-	const { noteContent, setNoteContent } = useDailyNoteContent(note?.data?.content, note?.data?.id);
+	const { noteContent, setNoteContent } = useDailyNoteContent(note?.data.content, note?.data.id);
 
-	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.data?.id, noteContent);
+	const { isSavingNote } = useDebouncedDailyNoteUpdate(note?.data.id, noteContent);
 
 	return (
 		<main className="flex-1">
@@ -34,7 +34,7 @@ const NoteDetail = ({ date, routeKey }: DailyNotesProps) => {
 						<ScrollArea className="h-[calc(100vh-16rem)]">
 							<RichEditor
 								setContent={setNoteContent}
-								content={note?.data?.content}
+								content={note?.data.content}
 							/>
 						</ScrollArea>
 					</CardContent>

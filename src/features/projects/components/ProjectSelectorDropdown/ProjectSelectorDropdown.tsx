@@ -29,10 +29,10 @@ const ProjectSelectorDropDown = () => {
 
 	const { projectId } = useParams({ strict: false });
 
-	const { data: project, isPending } = useGetProject(projectId!);
+	const { data: projectResponse, isPending } = useGetProject(projectId!);
 	const { data: projects } = useGetProjects();
 
-	if (isPending || !project) return <div className="animate-pulse h-8 w-[120px]" />;
+	if (isPending || !projectResponse) return <div className="animate-pulse h-8 w-[120px]" />;
 
 	const closeDialog = () => {
 		setOpen(false);
@@ -49,7 +49,7 @@ const ProjectSelectorDropDown = () => {
 			<DropdownMenu>
 				<DropdownMenuTrigger>
 					<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
-						{project.name} <ChevronDown className="text-white size-4" />
+						{projectResponse.project.name} <ChevronDown className="text-white size-4" />
 					</span>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="min-w-[250px] max-h-[400px] shadow-lg ml-1">
@@ -110,10 +110,10 @@ const ProjectSelectorDropDown = () => {
 			</DropdownMenu>
 
 			<DialogBody
-				projectId={project.id}
+				projectId={projectResponse.project.id}
 				closeDialog={closeDialog}
 				dialogType={dialogType}
-				projectName={project.name}
+				projectName={projectResponse.project.name}
 			/>
 		</Dialog>
 	);

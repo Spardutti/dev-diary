@@ -99,6 +99,7 @@ const CreateAccountForm = ({ handleSignUp }: CreateAccountFormProps) => {
 								<FormLabel>Password</FormLabel>
 								<FormControl>
 									<Input
+										type="password"
 										placeholder="Enter your password..."
 										{...field}
 									/>

@@ -23,7 +23,7 @@ export const useGetProject = (id: string) =>
 		queryKey: projectQueryKeys.detail(id),
 		queryFn: () => getProject(id),
 		enabled: !!id,
-		select: (data) => data.data as IProject,
+		select: (data) => data.data as { project: IProject; todayNoteId: string },
 	});
 
 export const useCreateProject = () => {

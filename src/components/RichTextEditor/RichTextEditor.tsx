@@ -1,4 +1,4 @@
-import { FloatingMenu, BubbleMenu, useCurrentEditor, useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu, useCurrentEditor, useEditor, EditorContent } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect, type Dispatch, type SetStateAction } from 'react';
@@ -35,11 +35,6 @@ const RichEditor = ({ content, setContent }: RichEditorProps) => {
 		<div className="editor-wrapper h-full">
 			{editor && (
 				<>
-					{/* Floating Menu */}
-					<FloatingMenu editor={editor}>
-						<MenuActions />
-					</FloatingMenu>
-
 					{/* Bubble Menu */}
 					<BubbleMenu editor={editor}>
 						<MenuActions />
