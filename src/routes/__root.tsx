@@ -12,7 +12,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 	component: () => (
 		<>
 			<Outlet />
-			<TanStackRouterDevtools />
+			{import.meta.env.VITE_API_NODE_ENV === 'develop' && <TanStackRouterDevtools />}
 		</>
 	),
 });
