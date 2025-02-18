@@ -12,3 +12,6 @@ export const createProject = (data: Partial<IProject>) =>
 
 export const updateProject = (data: Partial<IProject>) =>
 	axiosHelper<IResponse<IProject>>({ method: 'put', url: `/project/update/${data.id}`, data });
+
+export const deleteProject = (id: string) =>
+	axiosHelper<IResponse<{ project: IProject }>>({ method: 'delete', url: `/project/delete/${id}` });
