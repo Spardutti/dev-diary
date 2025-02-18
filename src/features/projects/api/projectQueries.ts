@@ -1,8 +1,13 @@
-import { createProject, getProject, getProjects, updateProject } from '@/features/projects/api/projectApi';
+import {
+	createProject,
+	deleteProject,
+	getProject,
+	getProjects,
+	updateProject,
+} from '@/features/projects/api/projectApi';
 import type { IProject } from '@/features/projects/types/project';
 import type { IResponse } from '@/lib/axios';
-import { axiosHelper } from '@/lib/axios/axiosHelper';
-import { appendToCache } from '@/lib/query/queryCacheUtils';
+import { appendToCache, removeFromCacheList } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const projectQueryKeys = {
@@ -69,17 +74,12 @@ export const useUpdateProject = () => {
 export const useDeleteProject = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (id: string) =>
-			axiosHelper<IResponse<{ redirectTo: string }>>({ method: 'delete', url: `/projects/${id}/` }),
+		mutationFn: (id: string) => deleteProject(id),
 		onSuccess: (_, id) => {
-			queryClient.setQueryData<IResponse<IProject[]>>(['projects'], (old) => {
-				if (!old) {
-					return old;
-				}
-				return {
-					...old,
-					data: old.data.filter((project) => project.id !== id),
-				};
+			removeFromCacheList({
+				queryClient,
+				queryKey: projectQueryKeys.list(),
+				matchBy: (project: IProject) => project.id === id,
 			});
 		},
 	});
