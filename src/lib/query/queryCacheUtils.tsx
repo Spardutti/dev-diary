@@ -19,8 +19,26 @@ export const prependToCache = <T,>({
 		};
 	});
 };
+export const appendToCache = <T,>({
+	queryClient,
+	newItem,
+	queryKey,
+}: {
+	queryKey: QueryKey;
+	queryClient: QueryClient;
+	newItem: T;
+}) => {
+	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
+		if (!oldData) return;
 
-export const updateCacheList = <T,>({
+		return {
+			...oldData,
+			data: [...oldData.data, newItem],
+		};
+	});
+};
+
+export const updateCacheListItem = <T,>({
 	queryClient,
 	item,
 	queryKey,
