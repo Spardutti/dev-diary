@@ -2,6 +2,7 @@ import { createProject, getProject, getProjects, updateProject } from '@/feature
 import type { IProject } from '@/features/projects/types/project';
 import type { IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
+import { appendToCache } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const projectQueryKeys = {
@@ -27,8 +28,12 @@ export const useGetProject = (id: string) =>
 	});
 
 export const useCreateProject = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (data: Partial<IProject>) => createProject(data),
+		onSuccess: (response) => {
+			appendToCache({ queryClient, queryKey: projectQueryKeys.list(), newItem: response.data });
+		},
 	});
 };
 

@@ -1,6 +1,6 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from '@/features/todos/api/todosApi';
 import type { ITodo } from '@/features/todos/types/ITodo';
-import { prependToCache, removeFromCacheList, updateCacheList } from '@/lib/query/queryCacheUtils';
+import { prependToCache, removeFromCacheList, updateCacheListItem } from '@/lib/query/queryCacheUtils';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
@@ -52,7 +52,7 @@ export const useUpdateTodo = () => {
 			];
 
 			queryKeys.forEach((queryKey) => {
-				updateCacheList({
+				updateCacheListItem({
 					queryClient,
 					item: response.data,
 					queryKey,

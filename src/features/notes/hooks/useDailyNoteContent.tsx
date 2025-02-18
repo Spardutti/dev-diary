@@ -4,7 +4,7 @@ export const useDailyNoteContent = (content: string | undefined, noteId: string 
 	const [noteContent, setNoteContent] = useState<string | undefined>();
 
 	useEffect(() => {
-		if (content && !noteContent) {
+		if (content) {
 			setNoteContent(content);
 		}
 	}, [content, noteId]);
