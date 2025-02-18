@@ -1,11 +1,8 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import CreateAccountForm from '@/features/auth/components/CreateAccountForm';
 import LoginForm from '@/features/auth/components/LoginForm';
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { axiosInstance, type IResponse } from '@/lib/axios';
-import type { IUser } from '@/features/auth/types/IUser';
-import type { AxiosError } from 'axios';
 import Demo from '@/features/demo/components/Demo';
 
 const Home = () => {
@@ -63,7 +60,7 @@ const Home = () => {
 };
 
 export const Route = createFileRoute('/')({
-	beforeLoad: async ({ context }) => {
+	beforeLoad: async () => {
 		// const token = localStorage.getItem('authToken');
 		// if (token) {
 		// 	const setProfile = context.authentication.setProfile;
