@@ -63,3 +63,22 @@ export const removeFromCacheList = <T,>({
 		};
 	});
 };
+
+export const updateCacheItemDetail = <T,>({
+	queryClient,
+	queryKey,
+	item,
+}: {
+	queryClient: QueryClient;
+	queryKey: QueryKey;
+	item: T;
+}) => {
+	queryClient.setQueryData<IResponse<T>>(queryKey, (oldData) => {
+		if (!oldData) return;
+
+		return {
+			...oldData,
+			data: item,
+		};
+	});
+};

@@ -1,6 +1,7 @@
 import { createNote, getNote, getNotes, updateNote } from '@/features/notes/api/noteApi';
 import type { INote } from '@/features/notes/types/INote';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { updateCacheItemDetail } from '@/lib/query/queryCacheUtils';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const noteQueryKeys = {
 	all: ['notes'] as const,
@@ -32,7 +33,11 @@ export const useGetDailyNotes = ({ projectId }: { projectId: string }) =>
 	});
 
 export const useUpdateDailyNote = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: (data: Partial<INote>) => updateNote(data),
+		onSuccess: (response) => {
+			updateCacheItemDetail({ queryClient, queryKey: noteQueryKeys.detail(response.data.id), item: response.data });
+		},
 	});
 };
