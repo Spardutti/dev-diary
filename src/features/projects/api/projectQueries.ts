@@ -1,3 +1,4 @@
+import type { IProject } from './../types/project';
 import {
 	createProject,
 	deleteProject,
@@ -5,9 +6,8 @@ import {
 	getProjects,
 	updateProject,
 } from '@/features/projects/api/projectApi';
-import type { IProject } from '@/features/projects/types/project';
 import type { IResponse } from '@/lib/axios';
-import { appendToCache, removeFromCacheList } from '@/lib/query/queryCacheUtils';
+import { appendToCache, updateCacheListItem } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const projectQueryKeys = {
@@ -48,24 +48,25 @@ export const useUpdateProject = () => {
 	return useMutation({
 		mutationFn: (data: Partial<IProject>) => updateProject(data),
 		onSuccess: (response) => {
-			queryClient.setQueryData<IResponse<IProject[]>>(projectQueryKeys.list(), (old) => {
-				if (!old) {
-					return;
-				}
-				return {
-					...old,
-					data: old.data.map((project) => (project.id === response.data.id ? response.data : project)),
-				};
-			});
+			queryClient.setQueryData<IResponse<{ project: IProject }>>(
+				projectQueryKeys.detail(response.data.id),
+				(oldData) => {
+					if (!oldData) return;
+					return {
+						...oldData,
+						data: {
+							...oldData.data,
+							project: response.data,
+						},
+					};
+				},
+			);
 
-			queryClient.setQueryData<IResponse<IProject>>(projectQueryKeys.detail(response.data.id), (old) => {
-				if (!old) {
-					return;
-				}
-				return {
-					...old,
-					data: response.data,
-				};
+			updateCacheListItem({
+				queryClient,
+				queryKey: projectQueryKeys.list(),
+				item: response.data,
+				matchBy: (a: IProject, b: IProject) => a.id === b.id,
 			});
 		},
 	});
