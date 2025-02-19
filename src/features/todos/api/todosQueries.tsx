@@ -78,15 +78,12 @@ export const useDeleteTodo = () => {
 			queryKeys.forEach((queryKey) => {
 				removeFromCacheList({
 					queryClient,
-					id,
 					queryKey,
-					matchBy: (a: ITodo, b) => a.id === b,
+					matchBy: (a: ITodo) => a.id === id,
 				});
 			});
 
-			router.clearCache({
-				filter: (root) => root.id === '/_authenticated/projects/a642a836-37b8-464c-9db0-48df4048730b/todos/',
-			});
+			router.invalidate();
 		},
 	});
 };

@@ -1,11 +1,8 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import CreateAccountForm from '@/features/auth/components/CreateAccountForm';
 import LoginForm from '@/features/auth/components/LoginForm';
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { axiosInstance, type IResponse } from '@/lib/axios';
-import type { IUser } from '@/features/auth/types/IUser';
-import type { AxiosError } from 'axios';
 import Demo from '@/features/demo/components/Demo';
 
 const Home = () => {
@@ -50,10 +47,10 @@ const Home = () => {
 				</motion.div>
 			</div>
 			<div className="bg-background-alt gap-2 flex px-6 justify-center items-center flex-col">
-				<div className='w-full'>
+				<div className="w-full">
 					<Demo />
 				</div>
-				<p className='text-sm'>
+				<p className="text-sm">
 					This demo showcases real-time note-taking in Dev Diary. <br /> Imagine capturing your coding insights as they
 					happen!
 				</p>
@@ -63,48 +60,30 @@ const Home = () => {
 };
 
 export const Route = createFileRoute('/')({
-	beforeLoad: async ({ context }) => {
-		const token = localStorage.getItem('authToken');
-		if (token) {
-			const setProfile = context.authentication.setProfile;
-
-			let profile = context.queryClient.getQueryData<IResponse<IUser>>(['profile']);
-
-			if (!profile) {
-				const response = await fetchProfile(token);
-				if (response?.status && response.status >= 400) {
-					localStorage.removeItem('authToken');
-					redirect({ to: '/' });
-					return;
-				}
-
-				profile = response.data;
-			}
-
-			if (profile?.data) {
-				setProfile(profile.data);
-				return redirect({
-					to: '/projects/$projectId/dashboard',
-					// @ts-expect-error not converted to camelCase
-					params: { projectId: profile?.data?.last_visited_project },
-				});
-			}
-		}
+	beforeLoad: async () => {
+		// const token = localStorage.getItem('authToken');
+		// if (token) {
+		// 	const setProfile = context.authentication.setProfile;
+		// 	let profile = context.queryClient.getQueryData<IResponse<IUser>>(['profile']);
+		// 	if (!profile) {
+		// 		const response = await fetchProfile(token);
+		// 		if (response?.status && response.status >= 400) {
+		// 			localStorage.removeItem('authToken');
+		// 			redirect({ to: '/' });
+		// 			return;
+		// 		}
+		// 		profile = response.data;
+		// 	}
+		// 	if (profile?.data) {
+		// 		setProfile(profile.data);
+		// 		return redirect({
+		// 			to: '/projects/$projectId/dashboard',
+		// 			// @ts-expect-error not converted to camelCase
+		// 			params: { projectId: profile?.data?.last_visited_project },
+		// 		});
+		// 	}
+		// }
 	},
 
 	component: Home,
 });
-
-async function fetchProfile(token: string) {
-	try {
-		const response = await axiosInstance('/users/', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		return response;
-	} catch (error) {
-		return { data: null, error: error, status: (error as AxiosError)?.status };
-	}
-}

@@ -63,17 +63,15 @@ export const removeFromCacheList = <T,>({
 	queryClient,
 	queryKey,
 	matchBy,
-	id,
 }: {
 	queryClient: QueryClient;
 	queryKey: QueryKey;
-	matchBy: (a: T, b: string) => boolean;
-	id: string;
+	matchBy: (item: T) => boolean; // No need for `id` in the function signature
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
 		if (!oldData) return;
 
-		const newList = oldData.data.filter((i) => !matchBy(i, id));
+		const newList = oldData.data.filter((i) => !matchBy(i));
 
 		return {
 			...oldData,

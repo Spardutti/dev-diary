@@ -77,14 +77,10 @@ export const useDeleteProject = () => {
 	return useMutation({
 		mutationFn: (id: string) => deleteProject(id),
 		onSuccess: (_, id) => {
-			queryClient.setQueryData<IResponse<IProject[]>>(['projects'], (old) => {
-				if (!old) {
-					return old;
-				}
-				return {
-					...old,
-					data: old.data.filter((project) => project.id !== id),
-				};
+			removeFromCacheList({
+				queryClient,
+				queryKey: projectQueryKeys.list(),
+				matchBy: (project: IProject) => project.id === id,
 			});
 		},
 	});
