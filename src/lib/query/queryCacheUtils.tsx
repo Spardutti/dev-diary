@@ -47,14 +47,14 @@ export const updateCacheListItem = <T,>({
 	queryClient: QueryClient;
 	queryKey: QueryKey;
 	item: T;
-	matchBy: (a: T, b: T) => boolean;
+	matchBy: (item: T) => boolean;
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
 		if (!oldData) return;
 
 		return {
 			...oldData,
-			data: oldData.data.map((i) => (matchBy(i, item) ? item : i)),
+			data: oldData.data.map((i) => (matchBy(i) ? item : i)),
 		};
 	});
 };
@@ -66,7 +66,7 @@ export const removeFromCacheList = <T,>({
 }: {
 	queryClient: QueryClient;
 	queryKey: QueryKey;
-	matchBy: (item: T) => boolean; // No need for `id` in the function signature
+	matchBy: (item: T) => boolean;
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
 		if (!oldData) return;

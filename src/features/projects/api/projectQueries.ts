@@ -7,7 +7,7 @@ import {
 	updateProject,
 } from '@/features/projects/api/projectApi';
 import type { IResponse } from '@/lib/axios';
-import { appendToCache, updateCacheListItem } from '@/lib/query/queryCacheUtils';
+import { appendToCache, removeFromCacheList, updateCacheListItem } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const projectQueryKeys = {
@@ -66,7 +66,7 @@ export const useUpdateProject = () => {
 				queryClient,
 				queryKey: projectQueryKeys.list(),
 				item: response.data,
-				matchBy: (a: IProject, b: IProject) => a.id === b.id,
+				matchBy: (a: IProject) => a.id === response.data.id,
 			});
 		},
 	});
