@@ -56,7 +56,7 @@ export const useUpdateTodo = () => {
 					queryClient,
 					item: response.data,
 					queryKey,
-					matchBy: (a: ITodo, b: ITodo) => a.id === b.id,
+					matchBy: (a: ITodo) => a.id === response.data.id,
 				});
 			});
 		},
