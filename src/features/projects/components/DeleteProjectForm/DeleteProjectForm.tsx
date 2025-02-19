@@ -12,7 +12,7 @@ const DeleteProjectForm = ({ projectId, closeDialog }: EditProjectFormProps) => 
 
 	const onSubmit = async () => {
 		const response = await deleteProject(projectId);
-		router.navigate({ to: '/projects/$projectId/dashboard', params: { projectId: response.data.redirectTo } });
+		router.navigate({ to: '/projects/$projectId/dashboard', params: { projectId: response.data.id } });
 		closeDialog();
 	};
 

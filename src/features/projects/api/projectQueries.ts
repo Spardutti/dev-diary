@@ -1,8 +1,13 @@
-import { createProject, getProject, getProjects, updateProject } from '@/features/projects/api/projectApi';
-import type { IProject } from '@/features/projects/types/project';
+import type { IProject } from './../types/project';
+import {
+	createProject,
+	deleteProject,
+	getProject,
+	getProjects,
+	updateProject,
+} from '@/features/projects/api/projectApi';
 import type { IResponse } from '@/lib/axios';
-import { axiosHelper } from '@/lib/axios/axiosHelper';
-import { appendToCache } from '@/lib/query/queryCacheUtils';
+import { appendToCache, updateCacheListItem } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const projectQueryKeys = {
@@ -43,24 +48,25 @@ export const useUpdateProject = () => {
 	return useMutation({
 		mutationFn: (data: Partial<IProject>) => updateProject(data),
 		onSuccess: (response) => {
-			queryClient.setQueryData<IResponse<IProject[]>>(projectQueryKeys.list(), (old) => {
-				if (!old) {
-					return;
-				}
-				return {
-					...old,
-					data: old.data.map((project) => (project.id === response.data.id ? response.data : project)),
-				};
-			});
+			queryClient.setQueryData<IResponse<{ project: IProject }>>(
+				projectQueryKeys.detail(response.data.id),
+				(oldData) => {
+					if (!oldData) return;
+					return {
+						...oldData,
+						data: {
+							...oldData.data,
+							project: response.data,
+						},
+					};
+				},
+			);
 
-			queryClient.setQueryData<IResponse<IProject>>(projectQueryKeys.detail(response.data.id), (old) => {
-				if (!old) {
-					return;
-				}
-				return {
-					...old,
-					data: response.data,
-				};
+			updateCacheListItem({
+				queryClient,
+				queryKey: projectQueryKeys.list(),
+				item: response.data,
+				matchBy: (a: IProject, b: IProject) => a.id === b.id,
 			});
 		},
 	});
@@ -69,8 +75,7 @@ export const useUpdateProject = () => {
 export const useDeleteProject = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: (id: string) =>
-			axiosHelper<IResponse<{ redirectTo: string }>>({ method: 'delete', url: `/projects/${id}/` }),
+		mutationFn: (id: string) => deleteProject(id),
 		onSuccess: (_, id) => {
 			queryClient.setQueryData<IResponse<IProject[]>>(['projects'], (old) => {
 				if (!old) {

@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import Todos from '@/features/todos/components/Todos';
 import NoteDetail from '@/features/notes/components/NoteDetail';
-import { logout } from '@/features/auth/api/authApi';
 import { projectQueryKeys } from '@/features/projects/api/projectQueries';
 import { getProject } from '@/features/projects/api/projectApi';
 import { noteQueryKeys } from '@/features/notes/api/noteQueries';
@@ -42,7 +41,10 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/dashbo
 			return note;
 		} catch (error) {
 			console.log('error:', error);
-			await logout();
+			// await logout();
+			// localStorage.removeItem('authToken');
+			// setDefaultHeaders(null);
+			// throw redirect({ to: '/' });
 		}
 	},
 });
