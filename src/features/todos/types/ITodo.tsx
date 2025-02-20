@@ -4,4 +4,5 @@ export interface ITodo {
 	readonly id: string;
 	status: boolean;
 	readonly projectId: string;
+	priority: number;
 }
