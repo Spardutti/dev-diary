@@ -52,6 +52,7 @@ axiosInstance.interceptors.response.use(
 			try {
 				const response = await refresh();
 				const newToken = response.data.token;
+				localStorage.setItem('authToken', newToken);
 
 				axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
 

@@ -1,9 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import CreateAccountForm from '@/features/auth/components/CreateAccountForm';
 import LoginForm from '@/features/auth/components/LoginForm';
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import Demo from '@/features/demo/components/Demo';
+import { me } from '@/features/auth/api/authApi';
+import { authQueryKeys } from '@/features/auth/api/authQueries';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -60,29 +62,19 @@ const Home = () => {
 };
 
 export const Route = createFileRoute('/')({
-	beforeLoad: async () => {
-		// const token = localStorage.getItem('authToken');
-		// if (token) {
-		// 	const setProfile = context.authentication.setProfile;
-		// 	let profile = context.queryClient.getQueryData<IResponse<IUser>>(['profile']);
-		// 	if (!profile) {
-		// 		const response = await fetchProfile(token);
-		// 		if (response?.status && response.status >= 400) {
-		// 			localStorage.removeItem('authToken');
-		// 			redirect({ to: '/' });
-		// 			return;
-		// 		}
-		// 		profile = response.data;
-		// 	}
-		// 	if (profile?.data) {
-		// 		setProfile(profile.data);
-		// 		return redirect({
-		// 			to: '/projects/$projectId/dashboard',
-		// 			// @ts-expect-error not converted to camelCase
-		// 			params: { projectId: profile?.data?.last_visited_project },
-		// 		});
-		// 	}
-		// }
+	beforeLoad: async ({ context }) => {
+		const { queryClient } = context;
+		const token = localStorage.getItem('authToken');
+		if (token) {
+			const response = await queryClient.ensureQueryData({
+				queryKey: authQueryKeys.all,
+				queryFn: me,
+			});
+			return redirect({
+				to: '/projects/$projectId/dashboard',
+				params: { projectId: response.data.lastVisitedProjectId },
+			});
+		}
 	},
 
 	component: Home,
