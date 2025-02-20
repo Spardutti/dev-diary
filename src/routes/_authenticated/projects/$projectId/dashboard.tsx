@@ -5,8 +5,10 @@ import { projectQueryKeys } from '@/features/projects/api/projectQueries';
 import { getProject } from '@/features/projects/api/projectApi';
 import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import { getNote } from '@/features/notes/api/noteApi';
+import { useFeatureAnnouncement } from '@/hooks/useFeatureAnnouncement';
 
 const Dashboard = () => {
+	useFeatureAnnouncement();
 	return (
 		<div className="flex flex-grow">
 			<NoteDetail routeKey="/_authenticated/projects/$projectId/dashboard" />
