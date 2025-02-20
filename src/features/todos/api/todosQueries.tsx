@@ -1,6 +1,7 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from '@/features/todos/api/todosApi';
+import { todosFilterQuery } from '@/features/todos/components/Todos/Todos';
 import type { ITodo } from '@/features/todos/types/ITodo';
-import { prependToCache, removeFromCacheList, updateCacheListItem } from '@/lib/query/queryCacheUtils';
+import { prependToCache, removeFromCacheList, sortedInsertToCache } from '@/lib/query/queryCacheUtils';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
@@ -17,17 +18,16 @@ export const useCreateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => createTodo(data),
 		onSuccess: (response) => {
-			const queryKeys = [
-				todosQueryKeys.filter(`projectId=${response.data.projectId}`),
-				todosQueryKeys.filter(`status=false&projectId=${response.data.projectId}`),
-			];
-
-			queryKeys.forEach((queryKey) => {
-				prependToCache({
-					queryClient,
-					newItem: response.data,
-					queryKey,
-				});
+			prependToCache({
+				queryClient,
+				newItem: response.data,
+				queryKey: todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+			});
+			sortedInsertToCache({
+				queryClient,
+				newItem: response.data,
+				queryKey: todosQueryKeys.filter(todosFilterQuery(response.data.projectId)),
+				sortBy: 'priority,createdAt',
 			});
 		},
 	});
@@ -46,18 +46,16 @@ export const useUpdateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => updateTodo(data),
 		onSuccess: (response) => {
-			const queryKeys = [
-				todosQueryKeys.filter(`projectId=${response.data.projectId}`),
-				todosQueryKeys.filter(`status=false&projectId=${response.data.projectId}`),
-			];
-
-			queryKeys.forEach((queryKey) => {
-				updateCacheListItem({
-					queryClient,
-					item: response.data,
-					queryKey,
-					matchBy: (a: ITodo) => a.id === response.data.id,
-				});
+			prependToCache({
+				queryClient,
+				newItem: response.data,
+				queryKey: todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+			});
+			sortedInsertToCache({
+				queryClient,
+				newItem: response.data,
+				queryKey: todosQueryKeys.filter(todosFilterQuery(response.data.projectId)),
+				sortBy: 'priority,createdAt',
 			});
 		},
 	});

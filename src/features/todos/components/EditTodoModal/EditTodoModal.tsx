@@ -1,18 +1,14 @@
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import EditTodoForm from '@/features/todos/components/EditTodoForm';
 import type { ITodo } from '@/features/todos/types/ITodo';
+import { cn } from '@/lib/utils';
 import { Pen } from 'lucide-react';
 import { useState } from 'react';
 
 interface EditTodoModalProps {
 	todo: ITodo;
+	triggerClassName?: string;
 }
-
-export const EditTodoTrigger = () => (
-	<DialogTrigger>
-		<Pen className="text-primary size-4" />
-	</DialogTrigger>
-);
 
 export const EditTodoContent = ({ todo, setOpen }: { todo: ITodo; setOpen: (open: boolean) => void }) => (
 	<DialogContent>
@@ -25,7 +21,7 @@ export const EditTodoContent = ({ todo, setOpen }: { todo: ITodo; setOpen: (open
 	</DialogContent>
 );
 
-const EditTodoModal = ({ todo }: EditTodoModalProps) => {
+const EditTodoModal = ({ todo, triggerClassName }: EditTodoModalProps) => {
 	const [open, setOpen] = useState<boolean>(false);
 
 	return (
@@ -33,7 +29,9 @@ const EditTodoModal = ({ todo }: EditTodoModalProps) => {
 			onOpenChange={setOpen}
 			open={open}
 		>
-			<EditTodoTrigger />
+			<DialogTrigger>
+				<Pen className={cn('text-primary size-4', triggerClassName)} />
+			</DialogTrigger>
 			<EditTodoContent
 				todo={todo}
 				setOpen={setOpen}

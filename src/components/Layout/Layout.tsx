@@ -4,7 +4,7 @@ import { Outlet } from '@tanstack/react-router';
 
 const Layout = () => {
 	return (
-		<main className="bg-primary p-1.5 h-screen flex">
+		<main className="h-screen flex">
 			<div className="bg-background flex-grow text-text flex flex-col rounded">
 				<Header />
 				<div className="flex flex-grow h-1">

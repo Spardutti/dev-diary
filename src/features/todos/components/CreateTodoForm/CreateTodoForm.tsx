@@ -18,9 +18,12 @@ const CreateTodoForm = () => {
 				title: todoTitle,
 				projectId: projectId,
 				description: '',
+				priority: 0,
+				status: false,
 			});
 
 			setTodoTitle('');
+			setIsOpen(false);
 		}
 	};
 
