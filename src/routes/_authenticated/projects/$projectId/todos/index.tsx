@@ -4,6 +4,9 @@ import TodosTable from '@/features/todos/components/TodosTable';
 import { todoColumns } from '@/features/todos/components/TodosTable/TodosColumn';
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
 
+export const todosTableFilterQuery = (projectId: string) =>
+	`projectId=${projectId}&orderBy=status,completedAt,createdAt&orderDirection=desc,desc`;
+
 const RouteComponent = () => {
 	const routeApi = getRouteApi('/_authenticated/projects/$projectId/todos/');
 	const todos = routeApi.useLoaderData();
@@ -24,8 +27,8 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/todos/
 		const { queryClient } = context;
 
 		return await queryClient.ensureQueryData({
-			queryKey: todosQueryKeys.filter(`projectId=${params.projectId}`),
-			queryFn: () => getTodos(`projectId=${params.projectId}`),
+			queryKey: todosQueryKeys.filter(todosTableFilterQuery(params.projectId)),
+			queryFn: () => getTodos(todosTableFilterQuery(params.projectId)),
 		});
 	},
 });
