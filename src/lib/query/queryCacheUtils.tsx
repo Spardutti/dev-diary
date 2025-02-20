@@ -38,6 +38,34 @@ export const sortedInsertToCache = <T,>({
 	});
 };
 
+export const updateAndSortCacheListItem = <T,>({
+	queryClient,
+	item,
+	queryKey,
+	matchBy,
+	sortBy,
+}: {
+	queryClient: QueryClient;
+	queryKey: QueryKey;
+	item: T;
+	matchBy: (existingItem: T) => boolean;
+	sortBy: string; // Example: "status,createdAt,priority"
+}) => {
+	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
+		if (!oldData) return;
+
+		const updatedData = oldData.data.map((i) => (matchBy(i) ? item : i));
+
+		const sortFields = sortBy.split(',').map((field) => field.trim());
+		updatedData.sort(dynamicSort<T>(sortFields));
+
+		return {
+			...oldData,
+			data: updatedData,
+		};
+	});
+};
+
 export const prependToCache = <T,>({
 	queryClient,
 	newItem,

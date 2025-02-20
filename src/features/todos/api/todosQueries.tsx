@@ -1,7 +1,13 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from '@/features/todos/api/todosApi';
 import { todosFilterQuery } from '@/features/todos/components/Todos/Todos';
 import type { ITodo } from '@/features/todos/types/ITodo';
-import { prependToCache, removeFromCacheList, sortedInsertToCache } from '@/lib/query/queryCacheUtils';
+import {
+	prependToCache,
+	removeFromCacheList,
+	sortedInsertToCache,
+	updateAndSortCacheListItem,
+	updateCacheListItem,
+} from '@/lib/query/queryCacheUtils';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
@@ -46,16 +52,18 @@ export const useUpdateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => updateTodo(data),
 		onSuccess: (response) => {
-			prependToCache({
+			updateCacheListItem({
 				queryClient,
-				newItem: response.data,
+				item: response.data,
 				queryKey: todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+				matchBy: (a: ITodo) => a.id === response.data.id,
 			});
-			sortedInsertToCache({
+			updateAndSortCacheListItem({
 				queryClient,
-				newItem: response.data,
+				item: response.data,
 				queryKey: todosQueryKeys.filter(todosFilterQuery(response.data.projectId)),
 				sortBy: 'priority,createdAt',
+				matchBy: (a: ITodo) => a.id === response.data.id,
 			});
 		},
 	});
@@ -70,7 +78,7 @@ export const useDeleteTodo = () => {
 		onSuccess: (_, { id, projectId }) => {
 			const queryKeys = [
 				todosQueryKeys.filter(`projectId=${projectId}`),
-				todosQueryKeys.filter(`status=false&projectId=${projectId}`),
+				todosQueryKeys.filter(todosFilterQuery(projectId)),
 			];
 
 			queryKeys.forEach((queryKey) => {
