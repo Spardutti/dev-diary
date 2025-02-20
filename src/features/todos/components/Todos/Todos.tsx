@@ -63,7 +63,10 @@ const Todos = () => {
 										<span className="text-sm">{todo.title}</span>
 									</div>
 									<div className="flex items-center gap-2 w-10 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-										<EditTodoModal todo={todo} />
+										<EditTodoModal
+											todo={todo}
+											triggerClassName={todo.priority > 0 ? 'text-text' : ''}
+										/>
 										<DeleteTodoModal todo={todo} />
 									</div>
 								</li>
