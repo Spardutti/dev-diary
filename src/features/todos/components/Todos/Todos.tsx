@@ -4,16 +4,10 @@ import { useGetTodos, useUpdateTodo } from '@/features/todos/api/todosQueries';
 import CreateTodoForm from '@/features/todos/components/CreateTodoForm';
 import DeleteTodoModal from '@/features/todos/components/DeleteTodoModal';
 import EditTodoModal from '@/features/todos/components/EditTodoModal';
+import { todoPriorityColors } from '@/features/todos/types/ITodo';
 import { cn } from '@/lib/utils';
 import { useParams } from '@tanstack/react-router';
 import { useRef } from 'react';
-
-const priorityColors = {
-	0: 'bg-background-alt hover:bg-background/60',
-	1: 'bg-priority-low hover:bg-priority-low-hover',
-	2: 'bg-priority-mid hover:bg-priority-mid-hover',
-	3: 'bg-priority-high hover:bg-priority-high-hover',
-};
 
 export const todosFilterQuery = (projectId: string) => `status=false&projectId=${projectId}&orderBy=priority,createdAt`;
 
@@ -50,7 +44,7 @@ const Todos = () => {
 									key={todo.id}
 									className={cn(
 										'group flex items-center justify-between p-3 rounded-lg',
-										priorityColors[todo.priority as keyof typeof priorityColors],
+										todoPriorityColors[todo.priority as keyof typeof todoPriorityColors],
 									)}
 								>
 									<div className="flex items-center gap-3">

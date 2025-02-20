@@ -1,13 +1,8 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from '@/features/todos/api/todosApi';
 import { todosFilterQuery } from '@/features/todos/components/Todos/Todos';
 import type { ITodo } from '@/features/todos/types/ITodo';
-import {
-	prependToCache,
-	removeFromCacheList,
-	sortedInsertToCache,
-	updateAndSortCacheListItem,
-	updateCacheListItem,
-} from '@/lib/query/queryCacheUtils';
+import { removeFromCacheList, sortedInsertToCache, updateAndSortCacheListItem } from '@/lib/query/queryCacheUtils';
+import { todosTableFilterQuery } from '@/routes/_authenticated/projects/$projectId/todos';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
@@ -24,10 +19,11 @@ export const useCreateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => createTodo(data),
 		onSuccess: (response) => {
-			prependToCache({
+			sortedInsertToCache({
 				queryClient,
 				newItem: response.data,
-				queryKey: todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+				queryKey: todosQueryKeys.filter(todosTableFilterQuery(response.data.projectId)),
+				sortBy: 'status,completedAt,createdAt',
 			});
 			sortedInsertToCache({
 				queryClient,
@@ -48,15 +44,17 @@ export const useGetTodos = (filters: string) =>
 
 export const useUpdateTodo = () => {
 	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => updateTodo(data),
 		onSuccess: (response) => {
-			updateCacheListItem({
+			updateAndSortCacheListItem({
 				queryClient,
 				item: response.data,
-				queryKey: todosQueryKeys.filter(`projectId=${response.data.projectId}`),
+				queryKey: todosQueryKeys.filter(todosTableFilterQuery(response.data.projectId)),
 				matchBy: (a: ITodo) => a.id === response.data.id,
+				sortBy: 'status,completedAt,createdAt',
 			});
 			updateAndSortCacheListItem({
 				queryClient,
@@ -65,6 +63,8 @@ export const useUpdateTodo = () => {
 				sortBy: 'priority,createdAt',
 				matchBy: (a: ITodo) => a.id === response.data.id,
 			});
+
+			router.invalidate();
 		},
 	});
 };
@@ -77,7 +77,7 @@ export const useDeleteTodo = () => {
 		mutationFn: ({ id }: { id: string; projectId: string }) => deleteTodo(id),
 		onSuccess: (_, { id, projectId }) => {
 			const queryKeys = [
-				todosQueryKeys.filter(`projectId=${projectId}`),
+				todosQueryKeys.filter(todosTableFilterQuery(projectId)),
 				todosQueryKeys.filter(todosFilterQuery(projectId)),
 			];
 
