@@ -16,6 +16,12 @@ export default {
 				danger: '#f87171',
 				'hover-danger-text': '#fca5a5',
 				separator: '#374151',
+				'priority-low': '#1B4332',
+				'priority-low-hover': '#245941',
+				'priority-mid': '#735F2A',
+				'priority-mid-hover': '#8A7135 ',
+				'priority-high': '#5A1E1E',
+				'priority-high-hover': '#752828 ',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
