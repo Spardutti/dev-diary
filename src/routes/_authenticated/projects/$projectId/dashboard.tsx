@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import Todos from '@/features/todos/components/Todos';
 import NoteDetail from '@/features/notes/components/NoteDetail';
 import { projectQueryKeys } from '@/features/projects/api/projectQueries';
@@ -6,6 +6,7 @@ import { getProject } from '@/features/projects/api/projectApi';
 import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import { getNote } from '@/features/notes/api/noteApi';
 import { useFeatureAnnouncement } from '@/hooks/useFeatureAnnouncement';
+import { setDefaultHeaders } from '@/lib/axios';
 
 const Dashboard = () => {
 	useFeatureAnnouncement();
@@ -43,10 +44,9 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/dashbo
 			return note;
 		} catch (error) {
 			console.log('error:', error);
-			// await logout();
-			// localStorage.removeItem('authToken');
-			// setDefaultHeaders(null);
-			// throw redirect({ to: '/' });
+			localStorage.removeItem('authToken');
+			setDefaultHeaders(null);
+			return redirect({ to: '/' });
 		}
 	},
 });
