@@ -7,9 +7,11 @@ import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import { getNote } from '@/features/notes/api/noteApi';
 import { useFeatureAnnouncement } from '@/hooks/useFeatureAnnouncement';
 import { setDefaultHeaders } from '@/lib/axios';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Dashboard = () => {
 	useFeatureAnnouncement();
+
 	return (
 		<div className="flex flex-grow">
 			<NoteDetail routeKey="/_authenticated/projects/$projectId/dashboard" />
@@ -21,6 +23,7 @@ const Dashboard = () => {
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId/dashboard')({
 	component: Dashboard,
+	pendingComponent: () => <Skeleton className="w-full h-full p-4" />,
 
 	loader: async ({ context, params }) => {
 		const { queryClient } = context;

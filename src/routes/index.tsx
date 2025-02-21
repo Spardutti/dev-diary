@@ -8,6 +8,7 @@ import { me } from '@/features/auth/api/authApi';
 import { authQueryKeys } from '@/features/auth/api/authQueries';
 import { setDefaultHeaders } from '@/lib/axios';
 import { router } from '@/App';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -75,6 +76,8 @@ export const Route = createFileRoute('/')({
 
 		setDefaultHeaders(token);
 	},
+	pendingComponent: () => <Skeleton className="w-full h-full p-4" />,
+
 	loader: async ({ context }) => {
 		const { queryClient } = context;
 		try {
