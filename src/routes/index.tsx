@@ -6,6 +6,8 @@ import { motion } from 'motion/react';
 import Demo from '@/features/demo/components/Demo';
 import { me } from '@/features/auth/api/authApi';
 import { authQueryKeys } from '@/features/auth/api/authQueries';
+import { setDefaultHeaders } from '@/lib/axios';
+import { router } from '@/App';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -62,18 +64,33 @@ const Home = () => {
 };
 
 export const Route = createFileRoute('/')({
-	beforeLoad: async ({ context }) => {
-		const { queryClient } = context;
+	beforeLoad: () => {
 		const token = localStorage.getItem('authToken');
-		if (token) {
+
+		if (!token) {
+			throw redirect({
+				to: '/',
+			});
+		}
+
+		setDefaultHeaders(token);
+	},
+	loader: async ({ context }) => {
+		const { queryClient } = context;
+		try {
 			const response = await queryClient.ensureQueryData({
 				queryKey: authQueryKeys.all,
 				queryFn: me,
 			});
+
 			return redirect({
 				to: '/projects/$projectId/dashboard',
 				params: { projectId: response.data.lastVisitedProjectId },
 			});
+		} catch (error) {
+			console.log('error:', error);
+			localStorage.removeItem('authToken');
+			return router.navigate({ to: '/' });
 		}
 	},
 
