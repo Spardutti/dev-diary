@@ -1,5 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useGetTodos, useUpdateTodo } from '@/features/todos/api/todosQueries';
 import CreateTodoForm from '@/features/todos/components/CreateTodoForm';
 import DeleteTodoModal from '@/features/todos/components/DeleteTodoModal';
@@ -24,7 +25,18 @@ const Todos = () => {
 		await updateTodo({ id, status: !status });
 	};
 
-	if (isPending) return <p>Loading...</p>;
+	if (isPending) {
+		return (
+			<div className="flex flex-col gap-2 w-[400px] p-4">
+				{Array.from({ length: 3 }).map((_, i) => (
+					<Skeleton
+						key={i}
+						className="h-14 w-full"
+					/>
+				))}
+			</div>
+		);
+	}
 
 	if (!todos) return <p>No Data</p>;
 

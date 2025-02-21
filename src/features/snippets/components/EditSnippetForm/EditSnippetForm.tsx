@@ -109,11 +109,12 @@ const EditSnippetForm = ({ snippet }: { snippet: ISnippet }) => {
 								/>
 							</FormControl>
 							<p>Code Preview</p>
-							<CodeBlock
-								code={field.value || ''}
-								language={form.watch('language') || 'javascript'}
-								maxHeight="300"
-							/>
+							<div className="max-h-[600px] overflow-y-scroll">
+								<CodeBlock
+									code={field.value || ''}
+									language={form.watch('language') || 'javascript'}
+								/>
+							</div>
 							<FormMessage />
 						</FormItem>
 					)}
