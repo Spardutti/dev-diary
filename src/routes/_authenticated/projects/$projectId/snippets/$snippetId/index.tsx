@@ -9,7 +9,7 @@ import { MoreVertical } from 'lucide-react';
 const RouteComponent = () => {
 	const snippet = Route.useLoaderData();
 	return (
-		<div className="p-4 flex flex-col gap-2 flex-grow">
+		<div className="p-4 flex flex-col gap-2 overflow-hidden">
 			<div className="flex gap-2 w-full justify-between">
 				<div>
 					<h1>{snippet.data.title}</h1>
@@ -28,10 +28,9 @@ const RouteComponent = () => {
 			</div>
 			<p>{snippet.data.description}</p>
 
-			<div className="flex flex-grow">
+			<div className="flex flex-grow h-1">
 				<CodeBlock
 					showCopyIcon
-					maxHeight="600"
 					code={snippet.data.code}
 					language={snippet.data.language}
 				/>

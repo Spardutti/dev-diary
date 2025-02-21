@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { useAutosize } from '@/features/notes/hooks/useAutoSize';
+import { useAutosize } from '@/hooks/useAutoSize';
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
 	({ className, onChange, ...props }, ref) => {

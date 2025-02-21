@@ -54,14 +54,11 @@ const SnippetCard = ({ snippet }: SnippetCardProps) => {
 						{snippet.language}
 					</Badge>
 				</CardHeader>
-				<CardContent className="p-2 h-[168px]">
-					<div className="overflow-hidden">
-						<CodeBlock
-							maxHeight="150"
-							code={snippet.code}
-							language={snippet.language}
-						/>
-					</div>
+				<CardContent className="p-2 h-[168px] flex flex-grow">
+					<CodeBlock
+						code={snippet.code}
+						language={snippet.language}
+					/>
 				</CardContent>
 			</Card>
 		</Link>
