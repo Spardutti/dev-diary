@@ -1,4 +1,4 @@
-import { CalendarDays, CheckSquare, NotebookPen } from 'lucide-react';
+import { CalendarDays, CheckSquare, Code, NotebookPen } from 'lucide-react';
 
 export const menuItems = [
 	{
@@ -15,5 +15,10 @@ export const menuItems = [
 		label: 'Todos',
 		icon: NotebookPen,
 		path: '/projects/$projectId/todos',
+	},
+	{
+		label: 'Snippets',
+		icon: Code,
+		path: '/projects/$projectId/snippets',
 	},
 ] as const;
