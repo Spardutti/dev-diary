@@ -35,3 +35,26 @@
 		--radius: 0.5rem;
 	}
 }
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 6px; /* Match the width of Radix scrollbar */
+  height: 10px; /* For horizontal scrollbars */
+}
+
+/* Scrollbar track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Make it invisible like Radix */
+  border-radius: 10px;
+}
+
+/* Scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #e5e7eb; /* Neutral-200 in Tailwind (Light mode) */
+  border-radius: 10px;
+}
+
+/* Scrollbar thumb when hovered */
+::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db; /* Slightly darker for hover effect */
+}
