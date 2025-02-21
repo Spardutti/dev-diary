@@ -44,7 +44,7 @@ interface DeleteSnippetModalContentProps {
 
 export const DeleteSnippetModalContent = ({ snippet, closeDialog }: DeleteSnippetModalContentProps) => {
 	const { mutateAsync: deleteSnippet, isPending } = useDeleteSnippet();
-	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/snippets/$snippetId' });
+	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/snippets/$snippetId/' });
 
 	const navigate = useNavigate();
 
