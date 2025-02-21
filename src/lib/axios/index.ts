@@ -1,4 +1,4 @@
-import { logout, refresh } from '@/features/auth/api/authApi';
+import { refresh } from '@/features/auth/api/authApi';
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
@@ -64,7 +64,8 @@ axiosInstance.interceptors.response.use(
 				return axiosInstance(originalRequest);
 			} catch (error) {
 				processQueue(error, null); // Reject all queued requests
-				await logout();
+				localStorage.removeItem('authToken');
+				document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
 			} finally {
 				isRefreshing = false;
 			}
