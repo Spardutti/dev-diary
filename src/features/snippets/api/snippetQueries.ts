@@ -1,6 +1,17 @@
-import { createSnippet, deleteSnippet, getSnippet, getSnippets } from '@/features/snippets/api/snippetApi';
+import {
+	createSnippet,
+	deleteSnippet,
+	getSnippet,
+	getSnippets,
+	updateSnippet,
+} from '@/features/snippets/api/snippetApi';
 import type { ISnippet } from '@/features/snippets/types/ISnippet';
-import { prependToCache, removeFromCacheList } from '@/lib/query/queryCacheUtils';
+import {
+	prependToCache,
+	removeFromCacheList,
+	updateCacheItemDetail,
+	updateCacheListItem,
+} from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const snippetQueryKeys = {
@@ -47,6 +58,27 @@ export const useDeleteSnippet = () => {
 				queryClient,
 				queryKey: snippetQueryKeys.list(),
 				matchBy: (item) => item.id === id,
+			});
+		},
+	});
+};
+
+export const useUpdateSnippet = () => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: (snippet: Partial<ISnippet>) => updateSnippet(snippet.id!, snippet),
+		onSuccess: (response, { id }) => {
+			updateCacheListItem<ISnippet>({
+				queryClient,
+				queryKey: snippetQueryKeys.list(),
+				item: response.data,
+				matchBy: (item: ISnippet) => item.id === id,
+			});
+
+			updateCacheItemDetail({
+				queryClient,
+				queryKey: snippetQueryKeys.detail(id!),
+				item: response.data,
 			});
 		},
 	});

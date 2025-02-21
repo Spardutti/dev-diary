@@ -10,255 +10,293 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root';
-import { Route as AuthenticatedImport } from './routes/_authenticated';
-import { Route as IndexImport } from './routes/index';
-import { Route as AuthenticatedProjectsProjectIdDashboardImport } from './routes/_authenticated/projects/$projectId/dashboard';
-import { Route as AuthenticatedProjectsProjectIdTodosIndexImport } from './routes/_authenticated/projects/$projectId/todos/index';
-import { Route as AuthenticatedProjectsProjectIdSnippetsIndexImport } from './routes/_authenticated/projects/$projectId/snippets/index';
-import { Route as AuthenticatedProjectsProjectIdDailyNotesIndexImport } from './routes/_authenticated/projects/$projectId/daily-notes/index';
-import { Route as AuthenticatedProjectsProjectIdSnippetsNewSnippetImport } from './routes/_authenticated/projects/$projectId/snippets/new-snippet';
-import { Route as AuthenticatedProjectsProjectIdSnippetsSnippetIdImport } from './routes/_authenticated/projects/$projectId/snippets/$snippetId';
-import { Route as AuthenticatedProjectsProjectIdDailyNotesNoteIdImport } from './routes/_authenticated/projects/$projectId/daily-notes/$noteId';
+import { Route as rootRoute } from './routes/__root'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
+import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticatedProjectsProjectIdDashboardImport } from './routes/_authenticated/projects/$projectId/dashboard'
+import { Route as AuthenticatedProjectsProjectIdTodosIndexImport } from './routes/_authenticated/projects/$projectId/todos/index'
+import { Route as AuthenticatedProjectsProjectIdSnippetsIndexImport } from './routes/_authenticated/projects/$projectId/snippets/index'
+import { Route as AuthenticatedProjectsProjectIdDailyNotesIndexImport } from './routes/_authenticated/projects/$projectId/daily-notes/index'
+import { Route as AuthenticatedProjectsProjectIdSnippetsNewSnippetImport } from './routes/_authenticated/projects/$projectId/snippets/new-snippet'
+import { Route as AuthenticatedProjectsProjectIdDailyNotesNoteIdImport } from './routes/_authenticated/projects/$projectId/daily-notes/$noteId'
+import { Route as AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexImport } from './routes/_authenticated/projects/$projectId/snippets/$snippetId/index'
+import { Route as AuthenticatedProjectsProjectIdSnippetsSnippetIdEditImport } from './routes/_authenticated/projects/$projectId/snippets/$snippetId/edit'
 
 // Create/Update Routes
 
 const AuthenticatedRoute = AuthenticatedImport.update({
-	id: '/_authenticated',
-	getParentRoute: () => rootRoute,
-} as any);
+  id: '/_authenticated',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
-	id: '/',
-	path: '/',
-	getParentRoute: () => rootRoute,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
 
-const AuthenticatedProjectsProjectIdDashboardRoute = AuthenticatedProjectsProjectIdDashboardImport.update({
-	id: '/projects/$projectId/dashboard',
-	path: '/projects/$projectId/dashboard',
-	getParentRoute: () => AuthenticatedRoute,
-} as any);
+const AuthenticatedProjectsProjectIdDashboardRoute =
+  AuthenticatedProjectsProjectIdDashboardImport.update({
+    id: '/projects/$projectId/dashboard',
+    path: '/projects/$projectId/dashboard',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
-const AuthenticatedProjectsProjectIdTodosIndexRoute = AuthenticatedProjectsProjectIdTodosIndexImport.update({
-	id: '/projects/$projectId/todos/',
-	path: '/projects/$projectId/todos/',
-	getParentRoute: () => AuthenticatedRoute,
-} as any);
+const AuthenticatedProjectsProjectIdTodosIndexRoute =
+  AuthenticatedProjectsProjectIdTodosIndexImport.update({
+    id: '/projects/$projectId/todos/',
+    path: '/projects/$projectId/todos/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
-const AuthenticatedProjectsProjectIdSnippetsIndexRoute = AuthenticatedProjectsProjectIdSnippetsIndexImport.update({
-	id: '/projects/$projectId/snippets/',
-	path: '/projects/$projectId/snippets/',
-	getParentRoute: () => AuthenticatedRoute,
-} as any);
+const AuthenticatedProjectsProjectIdSnippetsIndexRoute =
+  AuthenticatedProjectsProjectIdSnippetsIndexImport.update({
+    id: '/projects/$projectId/snippets/',
+    path: '/projects/$projectId/snippets/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
-const AuthenticatedProjectsProjectIdDailyNotesIndexRoute = AuthenticatedProjectsProjectIdDailyNotesIndexImport.update({
-	id: '/projects/$projectId/daily-notes/',
-	path: '/projects/$projectId/daily-notes/',
-	getParentRoute: () => AuthenticatedRoute,
-} as any);
+const AuthenticatedProjectsProjectIdDailyNotesIndexRoute =
+  AuthenticatedProjectsProjectIdDailyNotesIndexImport.update({
+    id: '/projects/$projectId/daily-notes/',
+    path: '/projects/$projectId/daily-notes/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 const AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute =
-	AuthenticatedProjectsProjectIdSnippetsNewSnippetImport.update({
-		id: '/projects/$projectId/snippets/new-snippet',
-		path: '/projects/$projectId/snippets/new-snippet',
-		getParentRoute: () => AuthenticatedRoute,
-	} as any);
+  AuthenticatedProjectsProjectIdSnippetsNewSnippetImport.update({
+    id: '/projects/$projectId/snippets/new-snippet',
+    path: '/projects/$projectId/snippets/new-snippet',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
-const AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute =
-	AuthenticatedProjectsProjectIdSnippetsSnippetIdImport.update({
-		id: '/projects/$projectId/snippets/$snippetId',
-		path: '/projects/$projectId/snippets/$snippetId',
-		getParentRoute: () => AuthenticatedRoute,
-	} as any);
+const AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute =
+  AuthenticatedProjectsProjectIdDailyNotesNoteIdImport.update({
+    id: '/projects/$projectId/daily-notes/$noteId',
+    path: '/projects/$projectId/daily-notes/$noteId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
-const AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute = AuthenticatedProjectsProjectIdDailyNotesNoteIdImport.update(
-	{
-		id: '/projects/$projectId/daily-notes/$noteId',
-		path: '/projects/$projectId/daily-notes/$noteId',
-		getParentRoute: () => AuthenticatedRoute,
-	} as any,
-);
+const AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute =
+  AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexImport.update({
+    id: '/projects/$projectId/snippets/$snippetId/',
+    path: '/projects/$projectId/snippets/$snippetId/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute =
+  AuthenticatedProjectsProjectIdSnippetsSnippetIdEditImport.update({
+    id: '/projects/$projectId/snippets/$snippetId/edit',
+    path: '/projects/$projectId/snippets/$snippetId/edit',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
-	interface FileRoutesByPath {
-		'/': {
-			id: '/';
-			path: '/';
-			fullPath: '/';
-			preLoaderRoute: typeof IndexImport;
-			parentRoute: typeof rootRoute;
-		};
-		'/_authenticated': {
-			id: '/_authenticated';
-			path: '';
-			fullPath: '';
-			preLoaderRoute: typeof AuthenticatedImport;
-			parentRoute: typeof rootRoute;
-		};
-		'/_authenticated/projects/$projectId/dashboard': {
-			id: '/_authenticated/projects/$projectId/dashboard';
-			path: '/projects/$projectId/dashboard';
-			fullPath: '/projects/$projectId/dashboard';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdDashboardImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-		'/_authenticated/projects/$projectId/daily-notes/$noteId': {
-			id: '/_authenticated/projects/$projectId/daily-notes/$noteId';
-			path: '/projects/$projectId/daily-notes/$noteId';
-			fullPath: '/projects/$projectId/daily-notes/$noteId';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-		'/_authenticated/projects/$projectId/snippets/$snippetId': {
-			id: '/_authenticated/projects/$projectId/snippets/$snippetId';
-			path: '/projects/$projectId/snippets/$snippetId';
-			fullPath: '/projects/$projectId/snippets/$snippetId';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-		'/_authenticated/projects/$projectId/snippets/new-snippet': {
-			id: '/_authenticated/projects/$projectId/snippets/new-snippet';
-			path: '/projects/$projectId/snippets/new-snippet';
-			fullPath: '/projects/$projectId/snippets/new-snippet';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-		'/_authenticated/projects/$projectId/daily-notes/': {
-			id: '/_authenticated/projects/$projectId/daily-notes/';
-			path: '/projects/$projectId/daily-notes';
-			fullPath: '/projects/$projectId/daily-notes';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-		'/_authenticated/projects/$projectId/snippets/': {
-			id: '/_authenticated/projects/$projectId/snippets/';
-			path: '/projects/$projectId/snippets';
-			fullPath: '/projects/$projectId/snippets';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsIndexImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-		'/_authenticated/projects/$projectId/todos/': {
-			id: '/_authenticated/projects/$projectId/todos/';
-			path: '/projects/$projectId/todos';
-			fullPath: '/projects/$projectId/todos';
-			preLoaderRoute: typeof AuthenticatedProjectsProjectIdTodosIndexImport;
-			parentRoute: typeof AuthenticatedImport;
-		};
-	}
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/projects/$projectId/dashboard': {
+      id: '/_authenticated/projects/$projectId/dashboard'
+      path: '/projects/$projectId/dashboard'
+      fullPath: '/projects/$projectId/dashboard'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDashboardImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/daily-notes/$noteId': {
+      id: '/_authenticated/projects/$projectId/daily-notes/$noteId'
+      path: '/projects/$projectId/daily-notes/$noteId'
+      fullPath: '/projects/$projectId/daily-notes/$noteId'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/snippets/new-snippet': {
+      id: '/_authenticated/projects/$projectId/snippets/new-snippet'
+      path: '/projects/$projectId/snippets/new-snippet'
+      fullPath: '/projects/$projectId/snippets/new-snippet'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/daily-notes/': {
+      id: '/_authenticated/projects/$projectId/daily-notes/'
+      path: '/projects/$projectId/daily-notes'
+      fullPath: '/projects/$projectId/daily-notes'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/snippets/': {
+      id: '/_authenticated/projects/$projectId/snippets/'
+      path: '/projects/$projectId/snippets'
+      fullPath: '/projects/$projectId/snippets'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/todos/': {
+      id: '/_authenticated/projects/$projectId/todos/'
+      path: '/projects/$projectId/todos'
+      fullPath: '/projects/$projectId/todos'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdTodosIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/snippets/$snippetId/edit': {
+      id: '/_authenticated/projects/$projectId/snippets/$snippetId/edit'
+      path: '/projects/$projectId/snippets/$snippetId/edit'
+      fullPath: '/projects/$projectId/snippets/$snippetId/edit'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdEditImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/projects/$projectId/snippets/$snippetId/': {
+      id: '/_authenticated/projects/$projectId/snippets/$snippetId/'
+      path: '/projects/$projectId/snippets/$snippetId'
+      fullPath: '/projects/$projectId/snippets/$snippetId'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexImport
+      parentRoute: typeof AuthenticatedImport
+    }
+  }
 }
 
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
-	AuthenticatedProjectsProjectIdDashboardRoute: typeof AuthenticatedProjectsProjectIdDashboardRoute;
-	AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute;
-	AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute: typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute;
-	AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute: typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute;
-	AuthenticatedProjectsProjectIdDailyNotesIndexRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute;
-	AuthenticatedProjectsProjectIdSnippetsIndexRoute: typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute;
-	AuthenticatedProjectsProjectIdTodosIndexRoute: typeof AuthenticatedProjectsProjectIdTodosIndexRoute;
+  AuthenticatedProjectsProjectIdDashboardRoute: typeof AuthenticatedProjectsProjectIdDashboardRoute
+  AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute: typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute: typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
+  AuthenticatedProjectsProjectIdDailyNotesIndexRoute: typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  AuthenticatedProjectsProjectIdSnippetsIndexRoute: typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
+  AuthenticatedProjectsProjectIdTodosIndexRoute: typeof AuthenticatedProjectsProjectIdTodosIndexRoute
+  AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute: typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute
+  AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute: typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-	AuthenticatedProjectsProjectIdDashboardRoute: AuthenticatedProjectsProjectIdDashboardRoute,
-	AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute: AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute,
-	AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute: AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute,
-	AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute: AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute,
-	AuthenticatedProjectsProjectIdDailyNotesIndexRoute: AuthenticatedProjectsProjectIdDailyNotesIndexRoute,
-	AuthenticatedProjectsProjectIdSnippetsIndexRoute: AuthenticatedProjectsProjectIdSnippetsIndexRoute,
-	AuthenticatedProjectsProjectIdTodosIndexRoute: AuthenticatedProjectsProjectIdTodosIndexRoute,
-};
+  AuthenticatedProjectsProjectIdDashboardRoute:
+    AuthenticatedProjectsProjectIdDashboardRoute,
+  AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute:
+    AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute,
+  AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute:
+    AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute,
+  AuthenticatedProjectsProjectIdDailyNotesIndexRoute:
+    AuthenticatedProjectsProjectIdDailyNotesIndexRoute,
+  AuthenticatedProjectsProjectIdSnippetsIndexRoute:
+    AuthenticatedProjectsProjectIdSnippetsIndexRoute,
+  AuthenticatedProjectsProjectIdTodosIndexRoute:
+    AuthenticatedProjectsProjectIdTodosIndexRoute,
+  AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute:
+    AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute,
+  AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute:
+    AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute,
+}
 
-const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(AuthenticatedRouteChildren);
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
-	'/': typeof IndexRoute;
-	'': typeof AuthenticatedRouteWithChildren;
-	'/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute;
-	'/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute;
-	'/projects/$projectId/snippets/$snippetId': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute;
-	'/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute;
-	'/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute;
-	'/projects/$projectId/snippets': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute;
-	'/projects/$projectId/todos': typeof AuthenticatedProjectsProjectIdTodosIndexRoute;
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedRouteWithChildren
+  '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
+  '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  '/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
+  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  '/projects/$projectId/snippets': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
+  '/projects/$projectId/todos': typeof AuthenticatedProjectsProjectIdTodosIndexRoute
+  '/projects/$projectId/snippets/$snippetId/edit': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute
+  '/projects/$projectId/snippets/$snippetId': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute
 }
 
 export interface FileRoutesByTo {
-	'/': typeof IndexRoute;
-	'': typeof AuthenticatedRouteWithChildren;
-	'/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute;
-	'/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute;
-	'/projects/$projectId/snippets/$snippetId': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute;
-	'/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute;
-	'/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute;
-	'/projects/$projectId/snippets': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute;
-	'/projects/$projectId/todos': typeof AuthenticatedProjectsProjectIdTodosIndexRoute;
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedRouteWithChildren
+  '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
+  '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  '/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
+  '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  '/projects/$projectId/snippets': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
+  '/projects/$projectId/todos': typeof AuthenticatedProjectsProjectIdTodosIndexRoute
+  '/projects/$projectId/snippets/$snippetId/edit': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute
+  '/projects/$projectId/snippets/$snippetId': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute
 }
 
 export interface FileRoutesById {
-	__root__: typeof rootRoute;
-	'/': typeof IndexRoute;
-	'/_authenticated': typeof AuthenticatedRouteWithChildren;
-	'/_authenticated/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute;
-	'/_authenticated/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute;
-	'/_authenticated/projects/$projectId/snippets/$snippetId': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdRoute;
-	'/_authenticated/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute;
-	'/_authenticated/projects/$projectId/daily-notes/': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute;
-	'/_authenticated/projects/$projectId/snippets/': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute;
-	'/_authenticated/projects/$projectId/todos/': typeof AuthenticatedProjectsProjectIdTodosIndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
+  '/_authenticated/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
+  '/_authenticated/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
+  '/_authenticated/projects/$projectId/daily-notes/': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
+  '/_authenticated/projects/$projectId/snippets/': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
+  '/_authenticated/projects/$projectId/todos/': typeof AuthenticatedProjectsProjectIdTodosIndexRoute
+  '/_authenticated/projects/$projectId/snippets/$snippetId/edit': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdEditRoute
+  '/_authenticated/projects/$projectId/snippets/$snippetId/': typeof AuthenticatedProjectsProjectIdSnippetsSnippetIdIndexRoute
 }
 
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths:
-		| '/'
-		| ''
-		| '/projects/$projectId/dashboard'
-		| '/projects/$projectId/daily-notes/$noteId'
-		| '/projects/$projectId/snippets/$snippetId'
-		| '/projects/$projectId/snippets/new-snippet'
-		| '/projects/$projectId/daily-notes'
-		| '/projects/$projectId/snippets'
-		| '/projects/$projectId/todos';
-	fileRoutesByTo: FileRoutesByTo;
-	to:
-		| '/'
-		| ''
-		| '/projects/$projectId/dashboard'
-		| '/projects/$projectId/daily-notes/$noteId'
-		| '/projects/$projectId/snippets/$snippetId'
-		| '/projects/$projectId/snippets/new-snippet'
-		| '/projects/$projectId/daily-notes'
-		| '/projects/$projectId/snippets'
-		| '/projects/$projectId/todos';
-	id:
-		| '__root__'
-		| '/'
-		| '/_authenticated'
-		| '/_authenticated/projects/$projectId/dashboard'
-		| '/_authenticated/projects/$projectId/daily-notes/$noteId'
-		| '/_authenticated/projects/$projectId/snippets/$snippetId'
-		| '/_authenticated/projects/$projectId/snippets/new-snippet'
-		| '/_authenticated/projects/$projectId/daily-notes/'
-		| '/_authenticated/projects/$projectId/snippets/'
-		| '/_authenticated/projects/$projectId/todos/';
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | ''
+    | '/projects/$projectId/dashboard'
+    | '/projects/$projectId/daily-notes/$noteId'
+    | '/projects/$projectId/snippets/new-snippet'
+    | '/projects/$projectId/daily-notes'
+    | '/projects/$projectId/snippets'
+    | '/projects/$projectId/todos'
+    | '/projects/$projectId/snippets/$snippetId/edit'
+    | '/projects/$projectId/snippets/$snippetId'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | ''
+    | '/projects/$projectId/dashboard'
+    | '/projects/$projectId/daily-notes/$noteId'
+    | '/projects/$projectId/snippets/new-snippet'
+    | '/projects/$projectId/daily-notes'
+    | '/projects/$projectId/snippets'
+    | '/projects/$projectId/todos'
+    | '/projects/$projectId/snippets/$snippetId/edit'
+    | '/projects/$projectId/snippets/$snippetId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_authenticated/projects/$projectId/dashboard'
+    | '/_authenticated/projects/$projectId/daily-notes/$noteId'
+    | '/_authenticated/projects/$projectId/snippets/new-snippet'
+    | '/_authenticated/projects/$projectId/daily-notes/'
+    | '/_authenticated/projects/$projectId/snippets/'
+    | '/_authenticated/projects/$projectId/todos/'
+    | '/_authenticated/projects/$projectId/snippets/$snippetId/edit'
+    | '/_authenticated/projects/$projectId/snippets/$snippetId/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-	IndexRoute: typeof IndexRoute;
-	AuthenticatedRoute: typeof AuthenticatedRouteWithChildren;
+  IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexRoute: IndexRoute,
-	AuthenticatedRoute: AuthenticatedRouteWithChildren,
-};
+  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+}
 
-export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -278,11 +316,12 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "children": [
         "/_authenticated/projects/$projectId/dashboard",
         "/_authenticated/projects/$projectId/daily-notes/$noteId",
-        "/_authenticated/projects/$projectId/snippets/$snippetId",
         "/_authenticated/projects/$projectId/snippets/new-snippet",
         "/_authenticated/projects/$projectId/daily-notes/",
         "/_authenticated/projects/$projectId/snippets/",
-        "/_authenticated/projects/$projectId/todos/"
+        "/_authenticated/projects/$projectId/todos/",
+        "/_authenticated/projects/$projectId/snippets/$snippetId/edit",
+        "/_authenticated/projects/$projectId/snippets/$snippetId/"
       ]
     },
     "/_authenticated/projects/$projectId/dashboard": {
@@ -291,10 +330,6 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     },
     "/_authenticated/projects/$projectId/daily-notes/$noteId": {
       "filePath": "_authenticated/projects/$projectId/daily-notes/$noteId.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/projects/$projectId/snippets/$snippetId": {
-      "filePath": "_authenticated/projects/$projectId/snippets/$snippetId.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/projects/$projectId/snippets/new-snippet": {
@@ -311,6 +346,14 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     },
     "/_authenticated/projects/$projectId/todos/": {
       "filePath": "_authenticated/projects/$projectId/todos/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projects/$projectId/snippets/$snippetId/edit": {
+      "filePath": "_authenticated/projects/$projectId/snippets/$snippetId/edit.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projects/$projectId/snippets/$snippetId/": {
+      "filePath": "_authenticated/projects/$projectId/snippets/$snippetId/index.tsx",
       "parent": "/_authenticated"
     }
   }

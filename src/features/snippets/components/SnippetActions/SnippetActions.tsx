@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DeleteSnippetModalContent } from '@/features/snippets/components/DeleteSnippetModal/DeleteSnippetModal';
 import type { ISnippet } from '@/features/snippets/types/ISnippet';
+import { useNavigate, useParams } from '@tanstack/react-router';
 import { Edit, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -18,6 +19,10 @@ interface SnippetActionsProps {
 const SnippetActions = ({ trigger, snippet }: SnippetActionsProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [dialogOpen, setDialogOpen] = useState<'delete' | 'edit' | null>(null);
+
+	const { projectId, snippetId } = useParams({ from: '/_authenticated/projects/$projectId/snippets/$snippetId/' });
+
+	const navigate = useNavigate();
 
 	const openDialog = (dialog: 'delete' | 'edit') => {
 		setDialogOpen(dialog);
@@ -37,7 +42,11 @@ const SnippetActions = ({ trigger, snippet }: SnippetActionsProps) => {
 			<DropdownMenu>
 				<DropdownMenuTrigger> {trigger} </DropdownMenuTrigger>
 				<DropdownMenuContent>
-					<DropdownMenuItem onClick={() => openDialog('edit')}>
+					<DropdownMenuItem
+						onClick={() =>
+							navigate({ to: '/projects/$projectId/snippets/$snippetId/edit', params: { projectId, snippetId } })
+						}
+					>
 						<Edit /> Edit
 					</DropdownMenuItem>
 

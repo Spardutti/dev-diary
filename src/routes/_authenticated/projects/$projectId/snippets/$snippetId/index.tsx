@@ -40,7 +40,7 @@ const RouteComponent = () => {
 	);
 };
 
-export const Route = createFileRoute('/_authenticated/projects/$projectId/snippets/$snippetId')({
+export const Route = createFileRoute('/_authenticated/projects/$projectId/snippets/$snippetId/')({
 	component: RouteComponent,
 	loader: async ({ context, params }) => {
 		const { queryClient } = context;
