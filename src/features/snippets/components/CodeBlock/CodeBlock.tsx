@@ -30,7 +30,7 @@ const CodeBlock = ({
 			code={code}
 			language={language}
 		>
-			<div className="relative">
+			<div className="relative w-full">
 				<ScrollArea className="w-full">
 					<div style={{ maxHeight: `${maxHeight}px` }}>
 						<Wrapper.Code className="bg-black rounded-md p-2">
