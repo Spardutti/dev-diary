@@ -1,4 +1,3 @@
-import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { Badge } from '@/components/ui/badge';
 
 import { getSnippet } from '@/features/snippets/api/snippetApi';
