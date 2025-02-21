@@ -1,4 +1,4 @@
-import { useCreateSnippet } from '@/features/snippets/api/snippetQueries';
+import { useUpdateSnippet } from '@/features/snippets/api/snippetQueries';
 import type { ISnippet } from '@/features/snippets/types/ISnippet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -19,24 +19,24 @@ const formSchema: z.ZodType<Partial<ISnippet>> = z.object({
 	language: z.string().min(1, 'please select a language'),
 });
 
-const NewSnippetForm = () => {
-	const { mutateAsync: createSnippet, isPending: isCreatingSnippet } = useCreateSnippet();
+const EditSnippetForm = ({ snippet }: { snippet: ISnippet }) => {
+	const { mutateAsync: updateSnippet, isPending: isUpdatingSnippet } = useUpdateSnippet();
 	const navigate = useNavigate();
-	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/snippets/new-snippet' });
+	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/snippets/$snippetId/edit' });
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			title: '',
-			description: '',
-			code: '',
-			language: '',
+			title: snippet.title,
+			description: snippet.description,
+			code: snippet.code,
+			language: snippet.language,
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		await createSnippet(values);
-		navigate({ to: '/projects/$projectId/snippets', params: { projectId } });
+		await updateSnippet({ ...values, id: snippet.id });
+		navigate({ to: '/projects/$projectId/snippets/$snippetId', params: { projectId, snippetId: snippet.id } });
 	};
 
 	return (
@@ -120,18 +120,18 @@ const NewSnippetForm = () => {
 				/>
 
 				<Button
-					disabled={isCreatingSnippet}
-					isLoading={isCreatingSnippet}
+					disabled={isUpdatingSnippet}
+					isLoading={isUpdatingSnippet}
 					type="submit"
 				>
-					Submit
+					Update
 				</Button>
 			</form>
 		</Form>
 	);
 };
 
-export default NewSnippetForm;
+export default EditSnippetForm;
 
 const LanguageSelect = ({ value, onChange }: { value: string | undefined; onChange: (value: string) => void }) => {
 	const languages = {
