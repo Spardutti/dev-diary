@@ -1,13 +1,28 @@
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { Badge } from '@/components/ui/badge';
+
 import { getSnippet } from '@/features/snippets/api/snippetApi';
 import { snippetQueryKeys } from '@/features/snippets/api/snippetQueries';
 import CodeBlock from '@/features/snippets/components/CodeBlock';
 import SnippetActions from '@/features/snippets/components/SnippetActions';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useRouterState } from '@tanstack/react-router';
 import { MoreVertical } from 'lucide-react';
 
 const RouteComponent = () => {
 	const snippet = Route.useLoaderData();
+
+	const matches = useRouterState({ select: (s) => s.matches });
+
+	const breadcrumbs = matches
+		.filter((match) => match.context.getTitle())
+		.map(({ pathname, context }) => {
+			return {
+				title: context.getTitle(),
+				path: pathname,
+			};
+		});
+	console.log('breadcrumbs:', breadcrumbs);
+
 	return (
 		<div className="p-4 flex flex-col gap-2 overflow-hidden">
 			<div className="flex gap-2 w-full justify-between">
@@ -39,8 +54,12 @@ const RouteComponent = () => {
 	);
 };
 
+// TODO THIS WAY WE SET THE ROOT TITLE
 export const Route = createFileRoute('/_authenticated/projects/$projectId/snippets/$snippetId/')({
 	component: RouteComponent,
+	context: ({ params }) => ({
+		getTitle: () => `Snippet ${params.snippetId}`,
+	}),
 	loader: async ({ context, params }) => {
 		const { queryClient } = context;
 		const { snippetId } = params;

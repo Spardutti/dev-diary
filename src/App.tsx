@@ -20,7 +20,10 @@ const queryClient = new QueryClient({
 	}),
 });
 
-export const router = createRouter({ routeTree, context: { authentication: undefined!, queryClient: queryClient } });
+export const router = createRouter({
+	routeTree,
+	context: { authentication: undefined!, queryClient: queryClient, getTitle: () => 'root' },
+});
 
 declare module '@tanstack/react-router' {
 	interface Register {
