@@ -7,7 +7,6 @@ import Demo from '@/features/demo/components/Demo';
 import { me } from '@/features/auth/api/authApi';
 import { authQueryKeys } from '@/features/auth/api/authQueries';
 import { setDefaultHeaders } from '@/lib/axios';
-import { router } from '@/App';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Home = () => {
@@ -67,33 +66,32 @@ const Home = () => {
 export const Route = createFileRoute('/')({
 	beforeLoad: () => {
 		const token = localStorage.getItem('authToken');
-
-		if (!token) {
-			throw redirect({
-				to: '/',
-			});
+		if (token) {
+			setDefaultHeaders(token);
 		}
-
-		setDefaultHeaders(token);
 	},
-	pendingComponent: () => <Skeleton className="w-full h-full p-4" />,
+	pendingComponent: () => <Skeleton className="w-full h-screen p-4" />,
 
 	loader: async ({ context }) => {
 		const { queryClient } = context;
-		try {
-			const response = await queryClient.ensureQueryData({
-				queryKey: authQueryKeys.all,
-				queryFn: me,
-			});
+		const token = localStorage.getItem('authToken');
 
-			return redirect({
-				to: '/projects/$projectId/dashboard',
-				params: { projectId: response.data.lastVisitedProjectId },
-			});
+		try {
+			if (token) {
+				const response = await queryClient.ensureQueryData({
+					queryKey: authQueryKeys.all,
+					queryFn: me,
+				});
+				if (response.status === 200) {
+					return redirect({
+						to: '/projects/$projectId/dashboard',
+						params: { projectId: response.data.lastVisitedProjectId },
+					});
+				}
+			}
 		} catch (error) {
 			console.log('error:', error);
 			localStorage.removeItem('authToken');
-			return router.navigate({ to: '/' });
 		}
 	},
 
