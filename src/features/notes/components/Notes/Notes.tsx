@@ -1,22 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useGetDailyNotes } from '@/features/notes/api/noteQueries';
 import type { INote } from '@/features/notes/types/INote';
 import { cleanHtml } from '@/features/utils/cleanHtml';
 import { notesFrom } from '@/features/utils/notesFrom';
-import { Link, useParams } from '@tanstack/react-router';
+import { Link, useLoaderData, useParams } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import { useRef } from 'react';
 
 const DailyNotes = () => {
 	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/daily-notes/' });
-	const { data: dailyNotes, isLoading } = useGetDailyNotes({ projectId });
+	const notes = useLoaderData({ from: '/_authenticated/projects/$projectId/daily-notes/' });
 	const observerRef = useRef<HTMLDivElement | null>(null);
 
-	if (isLoading || !dailyNotes) return null;
-
 	const mergedNotesByMonth = () => {
-		const grouped = dailyNotes.reduce((acc: Record<string, INote[]>, note: INote) => {
+		const grouped = notes.data.reduce((acc: Record<string, INote[]>, note: INote) => {
 			const month = dayjs(note.createdAt).startOf('month').format('YYYY-MM-DD');
 			if (!acc[month]) {
 				acc[month] = [];
