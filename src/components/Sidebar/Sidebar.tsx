@@ -11,6 +11,7 @@ const Sidebar = () => {
 				<ProjectSelectorDropDown />
 				{menuItems.map(({ path, label, icon: Icon }) => (
 					<Link
+						preload="intent"
 						key={path}
 						activeProps={{ className: 'bg-hover text-text' }}
 						to={path}
