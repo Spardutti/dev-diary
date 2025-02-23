@@ -19,6 +19,7 @@ import { useGetProject, useGetProjects } from '@/features/projects/api/projectQu
 import DeleteProjectForm from '@/features/projects/components/DeleteProjectForm';
 import EditProjectForm from '@/features/projects/components/EditrProjectForm';
 import NewProjectForm from '@/features/projects/components/NewProjectForm/NewProjectForm';
+import { cn } from '@/lib/utils';
 import { Link, useParams } from '@tanstack/react-router';
 import { ChevronDown, Edit3, FolderPlus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -42,80 +43,85 @@ const ProjectSelectorDropDown = () => {
 	const handleDialog = (type: 'new' | 'edit' | 'delete') => setDialogType(type);
 
 	return (
-		<Dialog
-			open={open}
-			onOpenChange={setOpen}
-		>
-			<DropdownMenu>
-				<DropdownMenuTrigger>
-					<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
-						{projectResponse.project.name} <ChevronDown className="text-white size-4" />
-					</span>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent className="min-w-[250px] max-h-[400px] shadow-lg ml-1">
-					<DropdownMenuLabel>Project Actions</DropdownMenuLabel>
+		<div className="flex gap-2 items-center">
+			<Dialog
+				open={open}
+				onOpenChange={setOpen}
+			>
+				<DropdownMenu>
+					<DropdownMenuTrigger>
+						<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
+							{projectResponse.project.name} <ChevronDown className="text-white size-4" />
+						</span>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent className="min-w-[250px] max-h-[400px] shadow-lg ml-1">
+						<DropdownMenuLabel>Project Actions</DropdownMenuLabel>
 
-					<DropdownMenuSeparator className="bg-separator" />
+						<DropdownMenuSeparator className="bg-separator" />
 
-					<DropdownMenuItem
-						className="text-text focus:bg-hover focus:text-hover-text"
-						onClick={() => handleDialog('edit')}
-					>
-						<DialogTrigger className="flex gap-2 items-center w-full">
-							<Edit3 className="mr-2 size-4" /> Edit
-						</DialogTrigger>
-					</DropdownMenuItem>
-					<DropdownMenuItem
-						className="text-danger focus:bg-hover focus:text-hover-danger-text"
-						onClick={() => handleDialog('delete')}
-					>
-						<DialogTrigger className="flex gap-2 items-center w-full">
-							<Trash2 className="size-4" /> Delete
-						</DialogTrigger>
-					</DropdownMenuItem>
+						<DropdownMenuItem
+							className="text-text focus:bg-hover focus:text-hover-text"
+							onClick={() => handleDialog('edit')}
+						>
+							<DialogTrigger className="flex gap-2 items-center w-full">
+								<Edit3 className="mr-2 size-4" /> Edit
+							</DialogTrigger>
+						</DropdownMenuItem>
+						<DropdownMenuItem
+							className="text-danger focus:bg-hover focus:text-hover-danger-text"
+							onClick={() => handleDialog('delete')}
+						>
+							<DialogTrigger className="flex gap-2 items-center w-full">
+								<Trash2 className="size-4" /> Delete
+							</DialogTrigger>
+						</DropdownMenuItem>
 
-					<DropdownMenuSeparator className="bg-separator" />
+						<DropdownMenuSeparator className="bg-separator" />
 
-					<DropdownMenuItem
-						className="text-text focus:bg-hover focus:text-hover-text"
-						onClick={() => handleDialog('new')}
-					>
-						<DialogTrigger className="flex gap-2 items-center w-full">
-							<FolderPlus className="mr-2 h-4 w-4" />
-							<span>Create New Project</span>
-						</DialogTrigger>
-					</DropdownMenuItem>
+						<DropdownMenuItem
+							className="text-text focus:bg-hover focus:text-hover-text"
+							onClick={() => handleDialog('new')}
+						>
+							<DialogTrigger className="flex gap-2 items-center w-full">
+								<FolderPlus className="mr-2 h-4 w-4" />
+								<span>Create New Project</span>
+							</DialogTrigger>
+						</DropdownMenuItem>
 
-					<DropdownMenuSeparator className="bg-separator" />
+						<DropdownMenuSeparator className="bg-separator" />
 
-					<ScrollArea className="h-48">
-						<DropdownMenuLabel className="text-sm font-medium text-gray-400">Switch Projects</DropdownMenuLabel>
-						{projects?.map((project) => (
-							<DropdownMenuItem
-								className="focus:bg-hover focus:text-hover-text"
-								key={project.id}
-								asChild
-							>
-								<Link
-									className="w-full cursor-pointer"
-									to="/projects/$projectId/dashboard"
-									params={{ projectId: project.id }}
+						<ScrollArea className="h-48">
+							<DropdownMenuLabel className="text-sm font-medium text-gray-400">Switch Projects</DropdownMenuLabel>
+							{projects?.map((project) => (
+								<DropdownMenuItem
+									className="focus:bg-hover focus:text-hover-text"
+									key={project.id}
+									asChild
 								>
-									{project.name}
-								</Link>
-							</DropdownMenuItem>
-						))}
-					</ScrollArea>
-				</DropdownMenuContent>
-			</DropdownMenu>
+									<Link
+										className={cn(
+											'w-full cursor-pointer',
+											location.pathname.includes(project.id) && 'bg-hover text-text ',
+										)}
+										to="/projects/$projectId/dashboard"
+										params={{ projectId: project.id }}
+									>
+										{project.name}
+									</Link>
+								</DropdownMenuItem>
+							))}
+						</ScrollArea>
+					</DropdownMenuContent>
+				</DropdownMenu>
 
-			<DialogBody
-				projectId={projectResponse.project.id}
-				closeDialog={closeDialog}
-				dialogType={dialogType}
-				projectName={projectResponse.project.name}
-			/>
-		</Dialog>
+				<DialogBody
+					projectId={projectResponse.project.id}
+					closeDialog={closeDialog}
+					dialogType={dialogType}
+					projectName={projectResponse.project.name}
+				/>
+			</Dialog>
+		</div>
 	);
 };
 

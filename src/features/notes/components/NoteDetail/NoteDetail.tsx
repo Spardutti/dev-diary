@@ -24,7 +24,7 @@ const NoteDetail = ({ routeKey, date }: DailyNotesProps) => {
 
 	return (
 		<main className="flex-1">
-			<div className="mx-auto p-4 md:p-6">
+			<div className="mx-auto">
 				<Card>
 					<CardHeader className="flex flex-row items-center space-y-0">
 						<CardTitle className="text-lg">{notesFrom(date)}</CardTitle>

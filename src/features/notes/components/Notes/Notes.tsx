@@ -30,7 +30,7 @@ const DailyNotes = () => {
 
 	return (
 		<ScrollArea
-			className="flex flex-col gap-2 p-4 md:p-6 h-0 flex-grow"
+			className="flex flex-col gap-2 h-0 flex-grow"
 			ref={observerRef}
 		>
 			{Object.entries(mergedNotesByMonth()).map(([key, value]) => {
