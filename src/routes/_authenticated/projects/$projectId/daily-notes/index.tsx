@@ -1,4 +1,6 @@
 import PageBreadcrumb from '@/components/PageBreadcrumb';
+import { getNotes } from '@/features/notes/api/noteApi';
+import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import DailyNotes from '@/features/notes/components/Notes';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -18,4 +20,12 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/daily-
 	context: () => ({
 		routeTitle: 'Notes',
 	}),
+	loader: async ({ context: { queryClient }, params: { projectId } }) => {
+		const response = await queryClient.ensureQueryData({
+			queryKey: noteQueryKeys.list(),
+			queryFn: () => getNotes({ projectId }),
+		});
+
+		return response;
+	},
 });

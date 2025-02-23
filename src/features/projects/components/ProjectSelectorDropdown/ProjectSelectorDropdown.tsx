@@ -15,6 +15,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useAuth } from '@/context/useAuth';
 import { useGetProject, useGetProjects } from '@/features/projects/api/projectQueries';
 import DeleteProjectForm from '@/features/projects/components/DeleteProjectForm';
 import EditProjectForm from '@/features/projects/components/EditrProjectForm';
@@ -27,6 +29,8 @@ import { useState } from 'react';
 const ProjectSelectorDropDown = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [dialogType, setDialogType] = useState<'new' | 'edit' | 'delete'>('new');
+
+	const { profile } = useAuth();
 
 	const { projectId } = useParams({ strict: false });
 
@@ -63,17 +67,37 @@ const ProjectSelectorDropDown = () => {
 							className="text-text focus:bg-hover focus:text-hover-text"
 							onClick={() => handleDialog('edit')}
 						>
-							<DialogTrigger className="flex gap-2 items-center w-full">
-								<Edit3 className="mr-2 size-4" /> Edit
-							</DialogTrigger>
+							<TooltipProvider>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<DialogTrigger
+											disabled={profile?.isGuest}
+											className={cn('flex gap-2 items-center w-full', profile?.isGuest && 'cursor-not-allowed')}
+										>
+											<Edit3 className="mr-2 size-4" /> Edit
+										</DialogTrigger>
+									</TooltipTrigger>
+									{profile?.isGuest && <TooltipContent>Disabled for Guests</TooltipContent>}
+								</Tooltip>
+							</TooltipProvider>
 						</DropdownMenuItem>
 						<DropdownMenuItem
 							className="text-danger focus:bg-hover focus:text-hover-danger-text"
 							onClick={() => handleDialog('delete')}
 						>
-							<DialogTrigger className="flex gap-2 items-center w-full">
-								<Trash2 className="size-4" /> Delete
-							</DialogTrigger>
+							<TooltipProvider>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<DialogTrigger
+											disabled={profile?.isGuest}
+											className={cn('flex gap-2 items-center w-full', profile?.isGuest && 'cursor-not-allowed')}
+										>
+											<Trash2 className="size-4" /> Delete
+										</DialogTrigger>
+									</TooltipTrigger>
+									{profile?.isGuest && <TooltipContent>Disabled for Guests</TooltipContent>}
+								</Tooltip>
+							</TooltipProvider>
 						</DropdownMenuItem>
 
 						<DropdownMenuSeparator className="bg-separator" />
@@ -82,10 +106,20 @@ const ProjectSelectorDropDown = () => {
 							className="text-text focus:bg-hover focus:text-hover-text"
 							onClick={() => handleDialog('new')}
 						>
-							<DialogTrigger className="flex gap-2 items-center w-full">
-								<FolderPlus className="mr-2 h-4 w-4" />
-								<span>Create New Project</span>
-							</DialogTrigger>
+							<TooltipProvider>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<DialogTrigger
+											disabled={profile?.isGuest}
+											className={cn('flex gap-2 items-center w-full', profile?.isGuest && 'cursor-not-allowed')}
+										>
+											<FolderPlus className="mr-2 h-4 w-4" />
+											<span>Create New Project</span>
+										</DialogTrigger>
+									</TooltipTrigger>
+									{profile?.isGuest && <TooltipContent>Disabled for Guests</TooltipContent>}
+								</Tooltip>
+							</TooltipProvider>
 						</DropdownMenuItem>
 
 						<DropdownMenuSeparator className="bg-separator" />
