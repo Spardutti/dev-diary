@@ -1,3 +1,4 @@
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { getTodos } from '@/features/todos/api/todosApi';
 import { todosQueryKeys } from '@/features/todos/api/todosQueries';
 import TodosTable from '@/features/todos/components/TodosTable';
@@ -12,7 +13,9 @@ const RouteComponent = () => {
 	const todos = routeApi.useLoaderData();
 
 	return (
-		<div className="flex flex-grow p-4">
+		<div className="flex flex-grow flex-col p-4 gap-6">
+			<PageBreadcrumb />
+
 			<TodosTable
 				data={todos?.data}
 				columns={todoColumns}
@@ -31,4 +34,7 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/todos/
 			queryFn: () => getTodos(todosTableFilterQuery(params.projectId)),
 		});
 	},
+	context: () => ({
+		routeTitle: 'Todos',
+	}),
 });

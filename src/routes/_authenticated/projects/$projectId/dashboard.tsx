@@ -8,13 +8,18 @@ import { getNote } from '@/features/notes/api/noteApi';
 import { useFeatureAnnouncement } from '@/hooks/useFeatureAnnouncement';
 import { setDefaultHeaders } from '@/lib/axios';
 import { Skeleton } from '@/components/ui/skeleton';
+import PageBreadcrumb from '@/components/PageBreadcrumb';
 
 const Dashboard = () => {
 	useFeatureAnnouncement();
 
 	return (
-		<div className="flex flex-grow">
-			<NoteDetail routeKey="/_authenticated/projects/$projectId/dashboard" />
+		<div className="flex flex-grow  gap-4">
+			<div className="flex flex-col flex-grow p-4 gap-6">
+				<PageBreadcrumb />
+
+				<NoteDetail routeKey="/_authenticated/projects/$projectId/dashboard" />
+			</div>
 
 			<Todos />
 		</div>
@@ -24,7 +29,9 @@ const Dashboard = () => {
 export const Route = createFileRoute('/_authenticated/projects/$projectId/dashboard')({
 	component: Dashboard,
 	pendingComponent: () => <Skeleton className="w-full h-full p-4" />,
-
+	context: () => ({
+		routeTitle: 'Dashboard',
+	}),
 	loader: async ({ context, params }) => {
 		const { queryClient } = context;
 

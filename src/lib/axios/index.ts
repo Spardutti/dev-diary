@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const axiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
-	withCredentials: true, // Ensures cookies are sent
+	withCredentials: true,
 });
 
 export const setDefaultHeaders = (token: string | null) => {
