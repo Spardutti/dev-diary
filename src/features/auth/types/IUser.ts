@@ -3,6 +3,7 @@ export interface IUser {
 	email: string;
 	name: string;
 	lastVisitedProjectId: string;
+	isGuest: boolean;
 }
 
 export interface ILoginPayload {
