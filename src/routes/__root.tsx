@@ -7,6 +7,7 @@ interface RouterContext {
 	authentication: AuthContext;
 	queryClient: QueryClient;
 	routeTitle: string;
+	routeMethod: string;
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({

@@ -1,5 +1,5 @@
 import { menuItems } from '@/constants/navigation';
-import ProjectSelector from '@/features/projects/components/ProjectSelector';
+import ProjectSelectorDropDown from '@/features/projects/components/ProjectSelectorDropdown';
 import { Link, useParams } from '@tanstack/react-router';
 
 const Sidebar = () => {
@@ -8,7 +8,7 @@ const Sidebar = () => {
 	return (
 		<nav className="hidden w-64 border-r border-r-separator md:block flex-shrink-0">
 			<div className="grid gap-2 p-4">
-				<ProjectSelector />
+				<ProjectSelectorDropDown />
 				{menuItems.map(({ path, label, icon: Icon }) => (
 					<Link
 						key={path}

@@ -24,14 +24,20 @@ const RouteComponent = () => {
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId/snippets/$snippetId/edit')({
 	component: RouteComponent,
+	context: () => ({
+		routeTitle: 'Edit Snippet',
+		routeMethod: 'PUT',
+	}),
 	loader: async ({ context, params }) => {
 		const { queryClient } = context;
 		const { snippetId } = params;
 
-		const response = queryClient.ensureQueryData({
+		const response = await queryClient.ensureQueryData({
 			queryKey: snippetQueryKeys.detail(snippetId),
 			queryFn: () => getSnippet(snippetId),
 		});
+
+		context.routeTitle = response.data.title;
 
 		return response;
 	},

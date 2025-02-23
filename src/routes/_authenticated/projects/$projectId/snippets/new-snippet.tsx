@@ -21,5 +21,6 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/snippe
 	component: RouteComponent,
 	context: () => ({
 		routeTitle: 'New Snippet',
+		routeMethod: 'POST',
 	}),
 });
