@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ISummary } from '@/features/summaries/types/ISummary';
+import { parseHtmlToText } from '@/utils/parseHtmlToText';
 import { Link, useParams } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import { Circle, CircleCheck } from 'lucide-react';
@@ -23,7 +24,7 @@ const SummaryCard = ({ summary }: SummaryCardProps) => {
 
 				<CardContent className="h-32">
 					<div className="flex flex-col gap-2">
-						<p className="line-clamp-2 h-12"> {summary.noteContent}</p>
+						<p className="line-clamp-2 h-12"> {parseHtmlToText(summary.noteContent)}</p>
 
 						<div className="flex flex-col gap-2">
 							<div className="flex gap-2 items-center">

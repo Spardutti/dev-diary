@@ -31,7 +31,7 @@ const NoteDetail = ({ routeKey, date }: DailyNotesProps) => {
 						<SaveIndicator isSavingNote={isSavingNote} />
 					</CardHeader>
 					<CardContent>
-						<ScrollArea className="h-[calc(100vh-16rem)]">
+						<ScrollArea className="h-[calc(100vh-20rem)]">
 							<RichEditor
 								setContent={setNoteContent}
 								content={note?.data.content}
