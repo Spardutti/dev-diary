@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-const FEATURE_ANNOUNCEMENT_KEY = 'featureCodeSnippets';
+const FEATURE_ANNOUNCEMENT_KEY = 'featureDailySummaries';
 
 export function useFeatureAnnouncement() {
 	const hasShownToast = useRef(false);
@@ -24,17 +24,19 @@ export function useFeatureAnnouncement() {
 				className: 'w-[400px]',
 				onClose: () => localStorage.setItem(FEATURE_ANNOUNCEMENT_KEY, 'true'),
 			});
+
+			localStorage.setItem(FEATURE_ANNOUNCEMENT_KEY, 'true');
 		}
 	}, []);
 }
 
 const ToastMessage = () => (
 	<div className="flex flex-col gap-1 text-white flex-grow w-[400px]">
-		<p className="font-bold text-lg">✨ Code Snippets Are Here! 🚀</p>
+		<p className="font-bold text-lg">✨ Stay on Track with Daily Summaries! 📅</p>
 		<p className="text-sm">
-			Tired of digging through repos for that perfect snippet? Now you can
-			<span className="font-bold text-md"> save, organize, and access </span>
-			your favorite code snippets in one place. No more lost gems—your best code is just a click away! 💻🔥
+			Keep up with your progress effortlessly! Each day, you will get a summary of your
+			<span className="font-bold">notes, completed tasks,</span> and <span className="font-bold">pending todos</span>.
+			No more missed details—just a quick snapshot of your day! 🚀
 		</p>
 	</div>
 );
