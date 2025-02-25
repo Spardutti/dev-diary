@@ -15,8 +15,8 @@ export function useFeatureAnnouncement() {
 			hasShownToast.current = true;
 			toast(<ToastMessage />, {
 				position: 'top-center',
-				autoClose: false,
-				hideProgressBar: true,
+				autoClose: 8000,
+				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
 				draggable: true,
