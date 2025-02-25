@@ -9,36 +9,17 @@ import { useFeatureAnnouncement } from '@/hooks/useFeatureAnnouncement';
 import { setDefaultHeaders } from '@/lib/axios';
 import { Skeleton } from '@/components/ui/skeleton';
 import PageBreadcrumb from '@/components/PageBreadcrumb';
-import { Button } from '@/components/ui/button';
-import { useDailyRecap } from '@/features/summaries/hooks/useTodayRecap';
-import { CheckCircle } from 'lucide-react';
+import DailyRecap from '@/features/dashboard/components/DailyRecap';
 
 const Dashboard = () => {
 	useFeatureAnnouncement();
-
-	const { createDailyRecap, isLoading, exists } = useDailyRecap();
 
 	return (
 		<div className="flex flex-grow  gap-4">
 			<div className="flex flex-col flex-grow p-4 gap-6">
 				<PageBreadcrumb />
 
-				<div className="flex justify-end">
-					<Button
-						isLoading={isLoading}
-						disabled={isLoading || exists}
-						onClick={createDailyRecap}
-					>
-						{exists ? (
-							<div className="flex flex-shrink-0 gap-2 items-center">
-								<CheckCircle />
-								Daily Recap Done
-							</div>
-						) : (
-							'Daily Recap'
-						)}
-					</Button>
-				</div>
+				<DailyRecap />
 
 				<NoteDetail routeKey="/_authenticated/projects/$projectId/dashboard" />
 			</div>

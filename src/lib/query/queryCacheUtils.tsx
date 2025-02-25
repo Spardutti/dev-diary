@@ -24,7 +24,7 @@ export const sortedInsertToCache = <T,>({
 	sortBy: string; // Example: "status,createdAt,priority"
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		const updatedData = [...oldData.data, newItem];
 		const sortFields = sortBy.split(',').map((field) => field.trim());

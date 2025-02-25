@@ -1,5 +1,5 @@
-import { createSummary, getSummaries, todaySummaryExist } from '@/features/summaries/api/summaryApi';
-import { sortedInsertToCache } from '@/lib/query/queryCacheUtils';
+import { upsertSummary, getSummaries, todaySummaryExist, updateSummary } from '@/features/summaries/api/summaryApi';
+import { sortedInsertToCache, updateCacheItemDetail } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
@@ -15,16 +15,22 @@ export const useGetSummaries = (projectId: string) =>
 		queryFn: () => getSummaries(projectId),
 	});
 
-export const useCreateSummary = () => {
+export const useUpsertSummary = () => {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationFn: createSummary,
+		mutationFn: upsertSummary,
 		onSuccess: (response, { date, projectId }) => {
 			sortedInsertToCache({
 				queryClient,
 				queryKey: summaryQueryKeys.list(projectId),
 				sortBy: 'createdAt',
 				newItem: response.data,
+			});
+
+			updateCacheItemDetail({
+				queryClient,
+				queryKey: summaryQueryKeys.detail(response.data.id),
+				item: response.data,
 			});
 
 			if (dayjs(date).isSame(dayjs(), 'day')) {
@@ -37,6 +43,13 @@ export const useCreateSummary = () => {
 				});
 			}
 		},
+	});
+};
+
+export const useUpdateSummary = () => {
+	// const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: updateSummary,
 	});
 };
 
