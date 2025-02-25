@@ -29,7 +29,7 @@ const CodeBlock = ({
 			language={language}
 		>
 			<ScrollArea className="w-full">
-				<Wrapper.Code className="bg-black rounded-md p-2 w-screen">
+				<Wrapper.Code className="bg-black rounded-md p-2 w-full">
 					<Wrapper.LineContent>
 						<Wrapper.Token />
 					</Wrapper.LineContent>

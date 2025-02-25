@@ -12,7 +12,7 @@ const RouteComponent = () => {
 	const snippet = Route.useLoaderData();
 
 	return (
-		<div className="p-4 flex flex-col gap-6 overflow-hidden">
+		<div className="p-4 flex flex-col gap-6 overflow-hidden flex-grow">
 			<PageBreadcrumb />
 			<div className="flex gap-2 w-full justify-between">
 				<div>
