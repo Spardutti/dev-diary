@@ -10,7 +10,11 @@ export const getSummaries = (projectId: string) =>
 	axiosHelper<IResponse<ISummary[]>>({ method: 'get', url: `/summary/list?projectId=${projectId}&orderBy=createdAt` });
 
 export const upsertSummary = ({ date, projectId }: { date: string; projectId: string }) =>
-	axiosHelper<IResponse<ISummary>>({ method: 'post', url: '/summary/upsert', data: { date, projectId } });
+	axiosHelper<IResponse<ISummary> | { message: string }>({
+		method: 'post',
+		url: '/summary/upsert',
+		data: { date, projectId },
+	});
 
 export const updateSummary = ({
 	id,

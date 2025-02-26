@@ -7,6 +7,7 @@ export const summaryQueryKeys = {
 	all: ['summary'] as const,
 	list: (projectId: string) => [...summaryQueryKeys.all, 'list', projectId] as const,
 	detail: (id: string) => [...summaryQueryKeys.all, 'detail', id] as const,
+	exist: (projectId: string) => [...summaryQueryKeys.all, 'exist', projectId] as const,
 };
 
 export const useGetSummaries = (projectId: string) =>
@@ -20,27 +21,29 @@ export const useUpsertSummary = () => {
 	return useMutation({
 		mutationFn: upsertSummary,
 		onSuccess: (response, { date, projectId }) => {
-			sortedInsertToCache({
-				queryClient,
-				queryKey: summaryQueryKeys.list(projectId),
-				sortBy: 'createdAt',
-				newItem: response.data,
-			});
-
-			updateCacheItemDetail({
-				queryClient,
-				queryKey: summaryQueryKeys.detail(response.data.id),
-				item: response.data,
-			});
-
-			if (dayjs(date).isSame(dayjs(), 'day')) {
-				queryClient.setQueryData<{ exist: boolean }>(summaryQueryKeys.all, (oldData) => {
-					if (!oldData) return;
-					return {
-						...oldData,
-						exists: true,
-					};
+			if ('data' in response) {
+				sortedInsertToCache({
+					queryClient,
+					queryKey: summaryQueryKeys.list(projectId),
+					sortBy: 'createdAt',
+					newItem: response.data,
 				});
+
+				updateCacheItemDetail({
+					queryClient,
+					queryKey: summaryQueryKeys.detail(response.data.id),
+					item: response.data,
+				});
+
+				if (dayjs(date).isSame(dayjs(), 'day')) {
+					queryClient.setQueryData<{ exist: boolean }>(summaryQueryKeys.all, (oldData) => {
+						if (!oldData) return;
+						return {
+							...oldData,
+							exists: true,
+						};
+					});
+				}
 			}
 		},
 	});
@@ -55,7 +58,7 @@ export const useUpdateSummary = () => {
 
 export const useGetTodaySummaryExists = (projectId: string) =>
 	useQuery({
-		queryKey: summaryQueryKeys.all,
+		queryKey: summaryQueryKeys.exist(projectId),
 		queryFn: () => todaySummaryExist(projectId),
 		select: (data) => data.exists,
 		staleTime: Infinity,

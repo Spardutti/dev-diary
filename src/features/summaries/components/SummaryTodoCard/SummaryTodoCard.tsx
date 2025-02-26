@@ -28,9 +28,9 @@ const SummaryTodoCard = ({ title, todos, icon, todoIcon }: SummaryTodoCardProps)
 				<Badge>{todos.length}</Badge>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				{todos.map((todo) => (
+				{todos.map((todo, index) => (
 					<div
-						key={todo.id}
+						key={todo.id ?? `fallback ${index}`}
 						className="flex items-start gap-2 rounded-lg border bg-background/50 p-3 backdrop-blur"
 					>
 						{todoIcon}
