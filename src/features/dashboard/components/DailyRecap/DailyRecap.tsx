@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useUpsertSummary, useGetTodaySummaryExists } from '@/features/summaries/api/summaryQueries';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import dayjs from 'dayjs';
@@ -26,20 +27,31 @@ const DailyRecap = () => {
 
 	return (
 		<div className="flex justify-end">
-			<Button
-				isLoading={isCreatingSummary}
-				disabled={isCreatingSummary}
-				onClick={createDailyRecap}
-			>
-				{exists ? (
-					<div className="flex flex-shrink-0 gap-2 items-center">
-						<CheckCircle />
-						Daily Recap Done
-					</div>
-				) : (
-					'Daily Recap'
-				)}
-			</Button>
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<Button
+							isLoading={isCreatingSummary}
+							disabled={isCreatingSummary}
+							onClick={createDailyRecap}
+						>
+							{exists ? (
+								<div className="flex flex-shrink-0 gap-2 items-center">
+									<CheckCircle />
+									Daily Recap Done
+								</div>
+							) : (
+								'Daily Recap'
+							)}
+						</Button>
+					</TooltipTrigger>
+					<TooltipContent>
+						{exists
+							? "Update today's daily recap with the latest completed and created tasks."
+							: 'Create a daily recap summarizing all completed and created tasks for today'}
+					</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
 		</div>
 	);
 };
