@@ -3,6 +3,7 @@ import { useUpsertSummary, useGetTodaySummaryExists } from '@/features/summaries
 import { useNavigate, useParams } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import { CheckCircle } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const DailyRecap = () => {
 	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
@@ -16,8 +17,11 @@ const DailyRecap = () => {
 			date: dayjs().toString(),
 			projectId,
 		});
-
-		navigate({ to: '/projects/$projectId/summaries/$summaryId', params: { projectId, summaryId: response.data.id } });
+		if ('message' in response) {
+			toast.info(response.message);
+		} else {
+			navigate({ to: '/projects/$projectId/summaries/$summaryId', params: { projectId, summaryId: response.data.id } });
+		}
 	};
 
 	return (
