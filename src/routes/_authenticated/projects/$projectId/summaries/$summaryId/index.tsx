@@ -1,4 +1,5 @@
 import PageBreadcrumb from '@/components/PageBreadcrumb';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { getSummary } from '@/features/summaries/api/summaryApi';
 import { summaryQueryKeys } from '@/features/summaries/api/summaryQueries';
@@ -20,20 +21,22 @@ const RouteComponent = () => {
 				createdTodos={summary.data.createdTodos.length}
 			/>
 
-			<div className="grid gap-6 md:grid-cols-2">
-				<SummaryTodoCard
-					title="Completed Tasks"
-					todos={summary.data.completedTodos}
-					icon={<CheckCircle className="h-5 w-5 text-emerald-500" />}
-					todoIcon={<CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />}
-				/>
-				<SummaryTodoCard
-					title="Pending Tasks"
-					todos={summary.data.createdTodos}
-					icon={<ClipboardList className="h-5 w-5 text-yellow-500" />}
-					todoIcon={<Circle className="mt-0.5 h-4 w-4 shrink-0 text-yellow-500" />}
-				/>
-			</div>
+			<ScrollArea>
+				<div className="grid gap-6 md:grid-cols-2 overflow-hidden">
+					<SummaryTodoCard
+						title="Completed Tasks"
+						todos={summary.data.completedTodos}
+						icon={<CheckCircle className="h-5 w-5 text-emerald-500" />}
+						todoIcon={<CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />}
+					/>
+					<SummaryTodoCard
+						title="Pending Tasks"
+						todos={summary.data.createdTodos}
+						icon={<ClipboardList className="h-5 w-5 text-yellow-500" />}
+						todoIcon={<Circle className="mt-0.5 h-4 w-4 shrink-0 text-yellow-500" />}
+					/>
+				</div>
+			</ScrollArea>
 		</div>
 	);
 };

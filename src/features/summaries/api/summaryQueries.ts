@@ -1,5 +1,5 @@
 import { upsertSummary, getSummaries, todaySummaryExist, updateSummary } from '@/features/summaries/api/summaryApi';
-import { sortedInsertToCache, updateCacheItemDetail } from '@/lib/query/queryCacheUtils';
+import { sortedInsertToCache, updateAndSortCacheListItem, updateCacheItemDetail } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
@@ -29,6 +29,14 @@ export const useUpsertSummary = () => {
 					newItem: response.data,
 				});
 
+				updateAndSortCacheListItem({
+					queryClient,
+					queryKey: summaryQueryKeys.list(projectId),
+					sortBy: 'createdAt',
+					matchBy: (existingItem) => dayjs(existingItem.createdAt).isSame(dayjs(date), 'day'),
+					item: response.data,
+				});
+
 				updateCacheItemDetail({
 					queryClient,
 					queryKey: summaryQueryKeys.detail(response.data.id),
@@ -36,7 +44,7 @@ export const useUpsertSummary = () => {
 				});
 
 				if (dayjs(date).isSame(dayjs(), 'day')) {
-					queryClient.setQueryData<{ exist: boolean }>(summaryQueryKeys.all, (oldData) => {
+					queryClient.setQueryData<{ exist: boolean }>(summaryQueryKeys.exist(projectId), (oldData) => {
 						if (!oldData) return;
 						return {
 							...oldData,

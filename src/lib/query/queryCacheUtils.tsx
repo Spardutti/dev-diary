@@ -12,7 +12,7 @@ const dynamicSort = <T,>(fields: string[]) => {
 	};
 };
 
-export const sortedInsertToCache = <T,>({
+export const sortedInsertToCache = <T extends { id: string }>({
 	queryClient,
 	newItem,
 	queryKey,
@@ -25,6 +25,9 @@ export const sortedInsertToCache = <T,>({
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
 		if (!oldData?.data) return;
+
+		const exist = oldData.data.find((i) => i.id === newItem.id);
+		if (exist) return oldData;
 
 		const updatedData = [...oldData.data, newItem];
 		const sortFields = sortBy.split(',').map((field) => field.trim());
