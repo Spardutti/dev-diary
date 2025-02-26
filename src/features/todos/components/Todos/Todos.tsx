@@ -27,14 +27,31 @@ const Todos = () => {
 
 	if (isPending) {
 		return (
-			<div className="flex flex-col gap-2 w-[400px] p-4">
-				{Array.from({ length: 3 }).map((_, i) => (
-					<Skeleton
-						key={i}
-						className="h-14 w-full"
-					/>
-				))}
-			</div>
+			<aside className="hidden w-[400px] border-l border-l-separator bg-background lg:block ">
+				<div className="p-4 flex flex-grow flex-col h-full">
+					<h2 className="mb-4 text-lg font-semibold">Unfinished Business</h2>
+					<div className="flex flex-col gap-4 flex-grow ">
+						<Skeleton className="h-[80px] w-full" />
+						<div className="flex gap-1">
+							{Array.from({ length: 3 }).map((_, i) => (
+								<Skeleton
+									key={i}
+									className="h-5 w-10"
+								/>
+							))}
+							<div className="ml-auto">
+								<Skeleton className="h-5 w-10" />
+							</div>
+						</div>
+						{Array.from({ length: 3 }).map((_, i) => (
+							<Skeleton
+								key={i}
+								className="h-14 w-full"
+							/>
+						))}
+					</div>
+				</div>
+			</aside>
 		);
 	}
 
