@@ -3,6 +3,7 @@ import { LogOut, NotebookTabs } from 'lucide-react';
 import { Link, useParams } from '@tanstack/react-router';
 import { useLogout } from '@/features/auth/api/authQueries';
 import MobileNavigation from '@/components/MobileNavigation';
+import ProjectSelectorDropDown from '@/features/projects/components/ProjectSelectorDropdown';
 
 const Header = () => {
 	const { mutateAsync: logout } = useLogout();
@@ -18,11 +19,15 @@ const Header = () => {
 				<MobileNavigation />
 				<Link
 					to="/projects/$projectId/dashboard"
-					className="text-lg font-semibold flex gap-1 items-center"
+					className="text-lg font-semibold  gap-1 items-center hidden md:flex"
 					params={{ projectId: projectId! }}
 				>
 					<NotebookTabs /> DevDiary
 				</Link>
+
+				<div className="md:hidden flex">
+					<ProjectSelectorDropDown />
+				</div>
 			</div>
 			<div className="flex items-center gap-4">
 				<Button

@@ -15,7 +15,7 @@ const Dashboard = () => {
 	useFeatureAnnouncement();
 
 	return (
-		<div className="flex flex-grow  gap-4">
+		<div className="flex flex-grow md:flex-row flex-col  gap-4 overflow-auto">
 			<div className="flex flex-col flex-grow p-4 gap-6">
 				<PageBreadcrumb />
 
@@ -23,7 +23,6 @@ const Dashboard = () => {
 
 				<NoteDetail routeKey="/_authenticated/projects/$projectId/dashboard" />
 			</div>
-
 			<Todos />
 		</div>
 	);

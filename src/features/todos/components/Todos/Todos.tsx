@@ -8,7 +8,6 @@ import EditTodoModal from '@/features/todos/components/EditTodoModal';
 import { todoPriorityColors } from '@/features/todos/types/ITodo';
 import { cn } from '@/lib/utils';
 import { useParams } from '@tanstack/react-router';
-import { useRef } from 'react';
 
 export const todosFilterQuery = (projectId: string) => `status=false&projectId=${projectId}&orderBy=priority,createdAt`;
 
@@ -16,8 +15,6 @@ const Todos = () => {
 	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
 
 	const { data: todos, isPending } = useGetTodos(todosFilterQuery(projectId));
-
-	const observerRef = useRef<HTMLDivElement>(null);
 
 	const { mutateAsync: updateTodo, isPending: isUpdating } = useUpdateTodo();
 
@@ -27,7 +24,7 @@ const Todos = () => {
 
 	if (isPending) {
 		return (
-			<aside className="hidden w-[400px] border-l border-l-separator bg-background lg:block ">
+			<aside className=" md:w-[400px] w-full border-l border-l-separator bg-background">
 				<div className="p-4 flex flex-grow flex-col h-full">
 					<h2 className="mb-4 text-lg font-semibold">Unfinished Business</h2>
 					<div className="flex flex-col gap-4 flex-grow ">
@@ -58,15 +55,12 @@ const Todos = () => {
 	if (!todos) return <p>No Data</p>;
 
 	return (
-		<aside className="hidden w-[400px] border-l border-l-separator bg-background lg:block ">
+		<aside className="md:w-[400px] w-full border-l border-l-separator bg-background">
 			<div className="p-4 flex flex-grow flex-col h-full">
 				<h2 className="mb-4 text-lg font-semibold">Unfinished Business</h2>
 				<div className="flex flex-col gap-4 flex-grow ">
 					<CreateTodoForm />
-					<ScrollArea
-						className="flex-grow h-0"
-						ref={observerRef}
-					>
+					<ScrollArea className="flex-grow md:h-0 h-[320px]">
 						<ul className="space-y-2">
 							{todos.map((todo) => (
 								<li
