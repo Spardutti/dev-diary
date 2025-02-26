@@ -1,8 +1,8 @@
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useCreateTodo } from '@/features/todos/api/todosQueries';
-import { cn } from '@/lib/utils';
+import PriorityBadge from '@/features/todos/components/PriorityBadge';
 import { useParams } from '@tanstack/react-router';
 import React, { useState } from 'react';
 
@@ -15,19 +15,23 @@ const CreateTodoForm = () => {
 
 	const { mutateAsync: createTodo, isPending } = useCreateTodo();
 
+	const onSave = async () => {
+		await createTodo({
+			title: todoTitle,
+			projectId: projectId,
+			description: '',
+			priority,
+			status: false,
+		});
+
+		setTodoTitle('');
+		setIsOpen(false);
+		setPriority(0);
+	};
+
 	const onEnter = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		if (e.key === 'Enter' && !e.shiftKey) {
-			await createTodo({
-				title: todoTitle,
-				projectId: projectId,
-				description: '',
-				priority,
-				status: false,
-			});
-
-			setTodoTitle('');
-			setIsOpen(false);
-			setPriority(0);
+			await onSave();
 		}
 	};
 
@@ -56,35 +60,20 @@ const CreateTodoForm = () => {
 					priority={priority}
 					setPriority={setPriority}
 				/>
+
+				<div className="flex justify-end flex-grow">
+					<Button
+						onClick={onSave}
+						disabled={isPending || !todoTitle}
+						isLoading={isPending}
+						className="bg-primary px-2.5 py-0.5 text-xs font-semibold rounded-md text-neutral-50 transition-colors  h-6"
+					>
+						Save
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
 };
 
 export default CreateTodoForm;
-
-const PriorityBadge = ({ priority, setPriority }: { priority: number; setPriority: (v: number) => void }) => {
-	const config = {
-		0: 'default',
-		1: 'low',
-		2: 'mid',
-		3: 'high',
-	};
-
-	const colors: Record<number, string> = {
-		0: 'bg-background',
-		1: 'bg-priority-low',
-		2: 'bg-priority-mid',
-		3: 'bg-priority-high',
-	};
-
-	return Object.entries(config).map(([key, value]) => (
-		<Badge
-			onClick={() => setPriority(Number(key))}
-			key={key}
-			className={cn('cursor-pointer', colors[Number(key)], Number(key) === priority && 'ring-primary ring-2')}
-		>
-			{value}
-		</Badge>
-	));
-};
