@@ -20,7 +20,10 @@ const TodosTable = <TData, TValue>({ columns, data }: TodosTableProps<TData, TVa
 				{table.getHeaderGroups().map((headerGroup) => (
 					<TableRow key={headerGroup.id}>
 						{headerGroup.headers.map((header) => (
-							<TableHead key={header.id}>
+							<TableHead
+								key={header.id}
+								style={{ width: header.getSize() }}
+							>
 								{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 							</TableHead>
 						))}
@@ -35,7 +38,12 @@ const TodosTable = <TData, TValue>({ columns, data }: TodosTableProps<TData, TVa
 							data-state={row.getIsSelected() && 'selected'}
 						>
 							{row.getVisibleCells().map((cell) => (
-								<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+								<TableCell
+									style={{ width: cell.column.getSize() }}
+									key={cell.id}
+								>
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}
+								</TableCell>
 							))}
 						</TableRow>
 					))

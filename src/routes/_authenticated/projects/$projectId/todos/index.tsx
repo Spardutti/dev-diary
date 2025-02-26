@@ -13,7 +13,7 @@ const RouteComponent = () => {
 	const todos = routeApi.useLoaderData();
 
 	return (
-		<div className="flex flex-grow flex-col p-4 gap-6">
+		<div className="flex flex-grow flex-col p-4 gap-6 overflow-hidden">
 			<PageBreadcrumb />
 
 			<TodosTable
