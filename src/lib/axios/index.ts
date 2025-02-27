@@ -81,7 +81,17 @@ export interface IResponse<T> {
 }
 
 export interface IPaginatedResponse<T> {
-	next: string | null;
-	previous: string | null;
+	status: 200 | 201 | 401 | 400;
+	data: T;
 	results: T[];
+	pagination: IPagination;
+}
+
+export interface IPagination {
+	totalItems: number;
+	totalPages: number;
+	currentPage: number;
+	itemsPerPage: number;
+	skip: number;
+	limit: number;
 }

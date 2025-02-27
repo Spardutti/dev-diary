@@ -1,10 +1,10 @@
 import type { ITodo } from '@/features/todos/types/ITodo';
-import type { IResponse } from '@/lib/axios';
+import type { IPaginatedResponse, IResponse } from '@/lib/axios';
 import { axiosHelper } from '@/lib/axios/axiosHelper';
 
-export const getTodos = (filters?: string) => {
-	const url = filters ? `/todo/list?${filters}` : '/todo/list';
-	return axiosHelper<IResponse<ITodo[]>>({
+export const getTodos = ({ filters, page }: { filters?: string; page: number }) => {
+	const url = filters ? `/todo/list?${filters}&page=${page}` : `/todo/list?page=${page}`;
+	return axiosHelper<IPaginatedResponse<ITodo[]>>({
 		method: 'get',
 		url,
 	});

@@ -6,21 +6,31 @@ import CreateTodoForm from '@/features/todos/components/CreateTodoForm';
 import DeleteTodoModal from '@/features/todos/components/DeleteTodoModal';
 import EditTodoModal from '@/features/todos/components/EditTodoModal';
 import { todoPriorityColors } from '@/features/todos/types/ITodo';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { cn } from '@/lib/utils';
 import { useParams } from '@tanstack/react-router';
 
-export const todosFilterQuery = (projectId: string) => `status=false&projectId=${projectId}&orderBy=priority,createdAt`;
+export const todosFilterQuery = (projectId: string) =>
+	`status=false&projectId=${projectId}&orderBy=priority,createdAt&limit=12`;
 
 const Todos = () => {
 	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/dashboard' });
 
-	const { data: todos, isPending } = useGetTodos(todosFilterQuery(projectId));
+	const {
+		data: todos,
+		isPending,
+		hasNextPage,
+		isFetchingNextPage,
+		fetchNextPage,
+	} = useGetTodos(todosFilterQuery(projectId));
 
 	const { mutateAsync: updateTodo, isPending: isUpdating } = useUpdateTodo();
 
 	const onUpdate = async ({ id, status }: { id: string; status: boolean }) => {
 		await updateTodo({ id, status: !status });
 	};
+
+	const { observerRef } = useInfiniteScroll({ fetchNextPage, hasNextPage, isFetchingNextPage });
 
 	if (isPending) {
 		return (
@@ -89,6 +99,17 @@ const Todos = () => {
 								</li>
 							))}
 						</ul>
+						{isFetchingNextPage && (
+							<div className="flex flex-col gap-2 mt-2">
+								{Array.from({ length: 3 }).map((_, i) => (
+									<Skeleton
+										key={i}
+										className="h-14 w-full"
+									/>
+								))}
+							</div>
+						)}
+						<div ref={observerRef} />
 					</ScrollArea>
 				</div>
 			</div>

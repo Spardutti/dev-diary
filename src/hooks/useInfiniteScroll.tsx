@@ -1,76 +1,32 @@
-import type { RefObject } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-interface useInfiniteScrollProps {
-	observerRef: RefObject<HTMLDivElement>;
-	hasNextPage: boolean;
+interface UseInfiniteScrollProps {
 	fetchNextPage: () => void;
+	hasNextPage: boolean | undefined;
+	isFetchingNextPage: boolean;
 }
 
-const useInfiniteScroll = ({ observerRef, hasNextPage, fetchNextPage }: useInfiniteScrollProps) => {
-	const [isUserInteracting, setIsUserInteracting] = useState(false); // Tracks user interaction
+export const useInfiniteScroll = ({ fetchNextPage, hasNextPage, isFetchingNextPage }: UseInfiniteScrollProps) => {
+	const observerRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
+		if (!hasNextPage || isFetchingNextPage) return;
+
 		const observer = new IntersectionObserver(
 			(entries) => {
-				const [entry] = entries;
-
-				if (entry.isIntersecting && hasNextPage && isUserInteracting) {
+				if (entries[0].isIntersecting) {
 					fetchNextPage();
 				}
 			},
-			{
-				root: null,
-				rootMargin: '0px',
-				threshold: 1.0,
-			},
+			{ threshold: 1.0 },
 		);
 
-		const currentObserverRef = observerRef?.current;
-		if (currentObserverRef) {
-			observer.observe(currentObserverRef);
+		if (observerRef.current) {
+			observer.observe(observerRef.current);
 		}
 
-		return () => {
-			if (currentObserverRef) {
-				observer.unobserve(currentObserverRef);
-			}
-		};
-	}, [fetchNextPage, hasNextPage, observerRef, isUserInteracting]);
+		return () => observer.disconnect();
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-	// Track user interaction (e.g., scrolling)
-	useEffect(() => {
-		const onScroll = () => {
-			setIsUserInteracting(true);
-		};
-
-		window.addEventListener('scroll', onScroll);
-		return () => {
-			window.removeEventListener('scroll', onScroll);
-		};
-	}, []);
-
-	// Trigger fetchNextPage automatically when the content height is too short
-	useEffect(() => {
-		const checkIfContentFitsViewport = () => {
-			const contentHeight = document.body.scrollHeight;
-			const viewportHeight = window.innerHeight;
-
-			if (contentHeight <= viewportHeight && hasNextPage) {
-				fetchNextPage();
-			}
-		};
-
-		checkIfContentFitsViewport();
-
-		window.addEventListener('resize', checkIfContentFitsViewport);
-
-		return () => {
-			window.removeEventListener('resize', checkIfContentFitsViewport);
-		};
-	}, [fetchNextPage, hasNextPage]);
-
-	return null;
+	return { observerRef };
 };
-
-export default useInfiniteScroll;

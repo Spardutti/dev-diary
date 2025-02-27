@@ -1,10 +1,17 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from '@/features/todos/api/todosApi';
 import { todosFilterQuery } from '@/features/todos/components/Todos/Todos';
 import type { ITodo } from '@/features/todos/types/ITodo';
-import { removeFromCacheList, sortedInsertToCache, updateAndSortCacheListItem } from '@/lib/query/queryCacheUtils';
+import { flattenInfiniteQueryData } from '@/features/utils/formatPaginationList';
+import type { IPaginatedResponse } from '@/lib/axios';
+import {
+	removeFromPaginatedCache,
+	sortedInsertToPaginatedCache,
+	updateAndSortPaginatedCacheItem,
+} from '@/lib/query/queryCacheUtils';
 import { todosTableFilterQuery } from '@/routes/_authenticated/projects/$projectId/todos';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { InfiniteData } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 
 export const todosQueryKeys = {
@@ -19,13 +26,13 @@ export const useCreateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => createTodo(data),
 		onSuccess: (response) => {
-			sortedInsertToCache({
+			sortedInsertToPaginatedCache({
 				queryClient,
 				newItem: response.data,
 				queryKey: todosQueryKeys.filter(todosTableFilterQuery(response.data.projectId)),
 				sortBy: 'status,completedAt,createdAt',
 			});
-			sortedInsertToCache({
+			sortedInsertToPaginatedCache({
 				queryClient,
 				newItem: response.data,
 				queryKey: todosQueryKeys.filter(todosFilterQuery(response.data.projectId)),
@@ -35,11 +42,20 @@ export const useCreateTodo = () => {
 	});
 };
 
-export const useGetTodos = (filters: string) =>
-	useQuery({
+export const useGetTodos = (filters: string, initialData?: InfiniteData<IPaginatedResponse<ITodo[]>, number>) =>
+	useInfiniteQuery({
 		queryKey: todosQueryKeys.filter(filters),
-		queryFn: () => getTodos(filters),
-		select: (data) => data.data as ITodo[],
+		queryFn: ({ pageParam }) => getTodos({ filters, page: pageParam }),
+		getNextPageParam: (lastPage) => {
+			if (lastPage.pagination.totalPages > lastPage.pagination.currentPage) {
+				return lastPage.pagination.currentPage + 1;
+			}
+			return undefined;
+		},
+		initialPageParam: 1,
+		select: (data) => flattenInfiniteQueryData(data),
+		initialData,
+		staleTime: 5000,
 	});
 
 export const useUpdateTodo = () => {
@@ -49,14 +65,14 @@ export const useUpdateTodo = () => {
 	return useMutation({
 		mutationFn: (data: Partial<ITodo>) => updateTodo(data),
 		onSuccess: (response) => {
-			updateAndSortCacheListItem({
+			updateAndSortPaginatedCacheItem({
 				queryClient,
 				item: response.data,
 				queryKey: todosQueryKeys.filter(todosTableFilterQuery(response.data.projectId)),
 				matchBy: (a: ITodo) => a.id === response.data.id,
 				sortBy: 'status,completedAt,createdAt',
 			});
-			updateAndSortCacheListItem({
+			updateAndSortPaginatedCacheItem({
 				queryClient,
 				item: response.data,
 				queryKey: todosQueryKeys.filter(todosFilterQuery(response.data.projectId)),
@@ -82,7 +98,7 @@ export const useDeleteTodo = () => {
 			];
 
 			queryKeys.forEach((queryKey) => {
-				removeFromCacheList({
+				removeFromPaginatedCache({
 					queryClient,
 					queryKey,
 					matchBy: (a: ITodo) => a.id === id,
