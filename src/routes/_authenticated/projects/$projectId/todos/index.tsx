@@ -3,33 +3,49 @@ import { getTodos } from '@/features/todos/api/todosApi';
 import { todosQueryKeys, useGetTodos } from '@/features/todos/api/todosQueries';
 import TodosTable from '@/features/todos/components/TodosTable';
 import { todoColumns } from '@/features/todos/components/TodosTable/TodosColumn';
+import TodosTableFilters from '@/features/todos/components/TodosTableFilters';
 import type { ITodo } from '@/features/todos/types/ITodo';
 import type { IPaginatedResponse } from '@/lib/axios';
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute, getRouteApi, useParams } from '@tanstack/react-router';
+import { useState } from 'react';
 
-export const todosTableFilterQuery = (projectId: string) =>
-	`projectId=${projectId}&orderBy=status,completedAt,createdAt&orderDirection=desc,desc&limit=20`;
+export const todosTableFilterQuery = (projectId: string, filter?: string) => {
+	if (filter) {
+		return `projectId=${projectId}&orderBy=status,completedAt,createdAt&orderDirection=desc,desc&limit=20&${filter}`;
+	} else {
+		return `projectId=${projectId}&orderBy=status,completedAt,createdAt&orderDirection=desc,desc&limit=20`;
+	}
+};
 
 const RouteComponent = () => {
 	const routeApi = getRouteApi('/_authenticated/projects/$projectId/todos/');
 	const todos = routeApi.useLoaderData();
+	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/todos/' });
 
-	const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetTodos(
-		todosTableFilterQuery(routeApi.useParams().projectId),
-		todos,
-	);
+	const [filters, setFilters] = useState(todosTableFilterQuery(projectId));
+
+	const { data, hasNextPage, fetchNextPage, isFetchingNextPage, isRefetching } = useGetTodos(filters, todos);
 
 	return (
 		<div className="flex flex-grow flex-col p-4 gap-6 overflow-hidden">
 			<PageBreadcrumb />
 
-			<TodosTable
-				hasNextPage={hasNextPage}
-				fetchNextPage={fetchNextPage}
-				isFetchingNextPage={isFetchingNextPage}
-				data={data}
-				columns={todoColumns}
-			/>
+			<TodosTableFilters setFilters={setFilters} />
+
+			<div className="relative flex flex-grow overflow-hidden">
+				{isRefetching && (
+					<div className="absolute inset-0 bg-background/70 z-10 flex items-start justify-center ">
+						<div className="h-8 w-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+					</div>
+				)}
+				<TodosTable
+					hasNextPage={hasNextPage}
+					fetchNextPage={fetchNextPage}
+					isFetchingNextPage={isFetchingNextPage}
+					data={data ?? []}
+					columns={todoColumns}
+				/>
+			</div>
 		</div>
 	);
 };

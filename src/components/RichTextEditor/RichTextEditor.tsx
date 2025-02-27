@@ -1,13 +1,19 @@
-import { BubbleMenu, useCurrentEditor, useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect, type Dispatch, type SetStateAction } from 'react';
-import { FaBold } from 'react-icons/fa';
+// import { FaBold } from 'react-icons/fa';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
 
 // define your extension array
 const extensions = [
 	StarterKit,
 	Placeholder.configure({ placeholder: 'Track progress, document issues, or list your todos...' }),
+	TaskList,
+	TaskItem.configure({
+		nested: true,
+	}),
 ];
 
 interface RichEditorProps {
@@ -36,9 +42,9 @@ const RichEditor = ({ content, setContent }: RichEditorProps) => {
 			{editor && (
 				<>
 					{/* Bubble Menu */}
-					<BubbleMenu editor={editor}>
+					{/* <BubbleMenu editor={editor}>
 						<MenuActions />
-					</BubbleMenu>
+					</BubbleMenu> */}
 
 					{/* Editor Content */}
 					<EditorContent
@@ -54,13 +60,13 @@ const RichEditor = ({ content, setContent }: RichEditorProps) => {
 
 export default RichEditor;
 
-const MenuActions = () => {
-	const { editor } = useCurrentEditor();
-	return (
-		<div className="flex gap-2">
-			<button onClick={() => editor?.chain().focus().toggleBold().run()}>
-				<FaBold />
-			</button>
-		</div>
-	);
-};
+// const MenuActions = () => {
+// 	const { editor } = useCurrentEditor();
+// 	return (
+// 		<div className="flex gap-2">
+// 			<button onClick={() => editor?.chain().focus().toggleBold().run()}>
+// 				<FaBold />
+// 			</button>
+// 		</div>
+// 	);
+// };

@@ -7,7 +7,7 @@ interface UseInfiniteScrollProps {
 }
 
 export const useInfiniteScroll = ({ fetchNextPage, hasNextPage, isFetchingNextPage }: UseInfiniteScrollProps) => {
-	const observerRef = useRef<HTMLDivElement | null>(null);
+	const observerRef = useRef<HTMLDivElement | HTMLTableSectionElement | null>(null);
 
 	useEffect(() => {
 		if (!hasNextPage || isFetchingNextPage) return;

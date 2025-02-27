@@ -1,8 +1,9 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { MutableRefObject } from 'react';
 
 interface TodosTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -25,7 +26,11 @@ const TodosTable = <TData, TValue>({
 		getCoreRowModel: getCoreRowModel(),
 	});
 
-	const { observerRef } = useInfiniteScroll({ hasNextPage, fetchNextPage, isFetchingNextPage });
+	const { observerRef } = useInfiniteScroll({
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+	});
 
 	return (
 		<Table>
@@ -71,17 +76,16 @@ const TodosTable = <TData, TValue>({
 					</TableRow>
 				)}
 				{isFetchingNextPage && (
-					<div className="flex gap-2 flex-col mt-2">
+					<TableRow className="flex gap-2 flex-col mt-2">
 						{Array.from({ length: 4 }).map((_, index) => (
-							<Skeleton
-								key={index}
-								className="h-14"
-							/>
+							<TableCell key={index}>
+								<Skeleton className="h-14" />
+							</TableCell>
 						))}
-					</div>
+					</TableRow>
 				)}
-				<div ref={observerRef} />
 			</TableBody>
+			<TableFooter ref={observerRef as MutableRefObject<HTMLTableSectionElement | null>} />
 		</Table>
 	);
 };
