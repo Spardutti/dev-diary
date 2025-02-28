@@ -40,7 +40,7 @@ export const todoColumns: ColumnDef<ITodo>[] = [
 	},
 	{
 		accessorKey: 'status',
-		header: () => <div className="flex justify-center">Completed</div>,
+		header: () => <div className="flex justify-center">Status</div>,
 		cell: ({ row }) => {
 			const completed = row.original.status;
 			return (
