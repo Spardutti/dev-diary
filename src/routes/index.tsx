@@ -17,9 +17,15 @@ const Home = () => {
 	};
 
 	return (
-		<div className="grid md:grid-cols-2 h-screen overflow-y-auto">
+		<div className="grid md:grid-cols-2 h-screen overflow-y-auto retro-container text-primary">
 			<div className="bg-background p-10 text-text flex-grow flex flex-col">
-				<h1>Dev Diary</h1>
+				<h1>
+					<div className="flex items-center gap-2">
+						<span className="text-xl font-bold tracking-wide glow-text">[</span>
+						<span className="text-xl font-bold tracking-wide glow-text">DevDiary</span>
+						<span className="text-xl font-bold tracking-wide glow-text">]</span>
+					</div>
+				</h1>
 
 				<motion.div
 					animate={{ rotateY: showSignUp ? 180 : 0 }} // Rotate the card
@@ -50,7 +56,7 @@ const Home = () => {
 					</motion.div>
 				</motion.div>
 			</div>
-			<div className="bg-background-alt gap-2 md:flex hidden px-6 justify-center items-center flex-col">
+			<div className="bg-neutral-950 gap-2 md:flex hidden px-6 justify-center items-center flex-col">
 				<div className="w-full">
 					<Demo />
 				</div>

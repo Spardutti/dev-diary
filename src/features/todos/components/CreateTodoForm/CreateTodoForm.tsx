@@ -52,7 +52,12 @@ const CreateTodoForm = () => {
 							<p>hello</p>
 						</Textarea>
 					</TooltipTrigger>
-					<TooltipContent side="top">Press enter to save changes</TooltipContent>
+					<TooltipContent
+						className="text-primary"
+						side="top"
+					>
+						Press enter to save changes
+					</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
 			<div className="flex gap-1 items-end">
@@ -66,7 +71,8 @@ const CreateTodoForm = () => {
 						onClick={onSave}
 						disabled={isPending || !todoTitle}
 						isLoading={isPending}
-						className="bg-primary px-2.5 py-0.5 text-xs font-semibold rounded-md text-neutral-50 transition-colors  h-6"
+						// className="bg-primary px-2.5 py-0.5 text-xs font-semibold rounded-md text-neutral-50 transition-colors  h-6"
+						className="px-2 py-1 bg-gray-800 text-xs rounded border border-green-900/60 h-6 text-primary"
 					>
 						Save
 					</Button>

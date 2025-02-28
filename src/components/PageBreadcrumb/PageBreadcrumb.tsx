@@ -39,12 +39,12 @@ const PageBreadcrumb = () => {
 						{method}
 					</Badge>
 				</BreadcrumbItem>
-				<BreadcrumbSeparator> /</BreadcrumbSeparator>
+				<BreadcrumbSeparator className="text-primary"> /</BreadcrumbSeparator>
 				{breadcrumbs.map(({ path, title }, index) => (
 					<Fragment key={path}>
 						<BreadcrumbItem key={path}>
 							<BreadcrumbLink
-								className="hover:text-primary"
+								className="text-primary"
 								href={path}
 							>
 								{title}

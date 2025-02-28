@@ -15,7 +15,7 @@ const SummaryTodoCard = ({ title, todos, icon, todoIcon }: SummaryTodoCardProps)
 	const stringValue = todos.map((todo) => `- ${todo.title}`).join('\n');
 
 	return (
-		<Card className="border-none bg-card/50 backdrop-blur">
+		<Card className="border-none backdrop-blur">
 			<CardHeader className="flex flex-row items-center justify-between pb-2">
 				<CardTitle className="flex items-center gap-2 text-xl">
 					{icon}
@@ -31,7 +31,7 @@ const SummaryTodoCard = ({ title, todos, icon, todoIcon }: SummaryTodoCardProps)
 				{todos.map((todo, index) => (
 					<div
 						key={todo.id ?? `fallback ${index}`}
-						className="flex items-start gap-2 rounded-lg border bg-background/50 p-3 backdrop-blur"
+						className="flex items-start gap-2 rounded-lg border border-green-900/60 bg-background/50 p-3 backdrop-blur"
 					>
 						{todoIcon}
 						<p className="text-sm">{todo.title}</p>

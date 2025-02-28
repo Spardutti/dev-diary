@@ -54,19 +54,16 @@ const ProjectSelectorDropDown = () => {
 			>
 				<DropdownMenu>
 					<DropdownMenuTrigger>
-						<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
-							{projectResponse.project.name} <ChevronDown className="text-white size-4" />
+						<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text cursor-pointer">
+							{projectResponse.project.name} <ChevronDown />
 						</span>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className="min-w-[250px] max-h-[400px] shadow-lg ml-1">
-						<DropdownMenuLabel>Project Actions</DropdownMenuLabel>
+						<DropdownMenuLabel className="text-lg font-normal">Project Actions</DropdownMenuLabel>
 
 						<DropdownMenuSeparator className="bg-separator" />
 
-						<DropdownMenuItem
-							className="text-text focus:bg-hover focus:text-hover-text"
-							onClick={() => handleDialog('edit')}
-						>
+						<DropdownMenuItem onClick={() => handleDialog('edit')}>
 							<TooltipProvider>
 								<Tooltip>
 									<TooltipTrigger asChild>
@@ -82,7 +79,7 @@ const ProjectSelectorDropDown = () => {
 							</TooltipProvider>
 						</DropdownMenuItem>
 						<DropdownMenuItem
-							className="text-danger focus:bg-hover focus:text-hover-danger-text"
+							className="text-red-500 focus:bg-red-500/30 "
 							onClick={() => handleDialog('delete')}
 						>
 							<TooltipProvider>
@@ -102,10 +99,7 @@ const ProjectSelectorDropDown = () => {
 
 						<DropdownMenuSeparator className="bg-separator" />
 
-						<DropdownMenuItem
-							className="text-text focus:bg-hover focus:text-hover-text"
-							onClick={() => handleDialog('new')}
-						>
+						<DropdownMenuItem onClick={() => handleDialog('new')}>
 							<TooltipProvider>
 								<Tooltip>
 									<TooltipTrigger asChild>
@@ -125,17 +119,18 @@ const ProjectSelectorDropDown = () => {
 						<DropdownMenuSeparator className="bg-separator" />
 
 						<ScrollArea className="h-48">
-							<DropdownMenuLabel className="text-sm font-medium text-gray-400">Switch Projects</DropdownMenuLabel>
+							<DropdownMenuLabel className="  font-medium glow-text text-primary text-lg">
+								Switch Projects
+							</DropdownMenuLabel>
 							{projects?.map((project) => (
 								<DropdownMenuItem
-									className="focus:bg-hover focus:text-hover-text"
 									key={project.id}
 									asChild
 								>
 									<Link
 										className={cn(
 											'w-full cursor-pointer',
-											location.pathname.includes(project.id) && 'bg-hover text-text ',
+											location.pathname.includes(project.id) && 'bg-green-900/30 border-l-4 border-green-500',
 										)}
 										to="/projects/$projectId/dashboard"
 										params={{ projectId: project.id }}

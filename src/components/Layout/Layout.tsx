@@ -4,8 +4,8 @@ import { Outlet } from '@tanstack/react-router';
 
 const Layout = () => {
 	return (
-		<main className="h-screen flex w-screen">
-			<div className="bg-background flex-grow text-text flex flex-col rounded w-full">
+		<main className="h-screen flex w-screen retro-container text-green-400">
+			<div className="bg-black flex-grow text-text flex flex-col rounded w-full">
 				<Header />
 				<div className="flex flex-grow h-1 overflow-hidden ">
 					<Sidebar />

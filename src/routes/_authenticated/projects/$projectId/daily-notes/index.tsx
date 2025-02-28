@@ -9,7 +9,7 @@ const DailyNote = () => {
 		<div className="flex flex-grow flex-col gap-6 p-4">
 			<PageBreadcrumb />
 
-			<h2 className="text-xl text-center">Daily Notes</h2>
+			<h2 className="text-xl text-center glow-text">Daily Notes</h2>
 			<DailyNotes />
 		</div>
 	);

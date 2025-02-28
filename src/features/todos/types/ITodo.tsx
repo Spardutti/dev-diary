@@ -10,8 +10,8 @@ export interface ITodo {
 }
 
 export const todoPriorityColors = {
-	0: 'bg-background-alt hover:bg-background/60',
-	1: 'bg-priority-low hover:bg-priority-low-hover',
-	2: 'bg-priority-mid hover:bg-priority-mid-hover',
-	3: 'bg-priority-high hover:bg-priority-high-hover',
+	0: 'px-2 py-1 bg-gray-800 text-xs rounded border border-green-900/60',
+	1: 'px-2 py-1 bg-green-900/40 text-xs rounded border border-green-900/60',
+	2: 'px-2 py-1 bg-yellow-900/40 text-xs rounded border border-green-900/60',
+	3: 'px-2 py-1 bg-red-900/40 text-xs rounded border border-green-900/60',
 };
