@@ -6,11 +6,14 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
 	<div
 		ref={ref}
 		className={cn(
-			'rounded-xl border border-green-900/60  text-green-400 shadow dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-50 transition-all',
+			'rounded relative border border-green-900/60  hover:border-green-500 hover:shadow-[0_0_10px_rgba(74,222,128,0.1)] text-green-400 shadow dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-50 transition-all',
 			className,
 		)}
 		{...props}
-	/>
+	>
+		<div className="absolute rounded-tr top-0 right-0 w-2 h-2 bg-green-500/20 group-hover:bg-green-500/40 transition-colors" />{' '}
+		{props.children}
+	</div>
 ));
 Card.displayName = 'Card';
 
@@ -29,7 +32,7 @@ const CardTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn('font-semibold leading-none tracking-tight', className)}
+			className={cn(' tracking-tight font-bold text-green-400 glow-text', className)}
 			{...props}
 		/>
 	),
@@ -51,9 +54,11 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
 	({ className, ...props }, ref) => (
 		<div
 			ref={ref}
-			className={cn('p-6 pt-0', className)}
+			className={cn('p-6 pt-0 text-xs', className)}
 			{...props}
-		/>
+		>
+			{props.children}
+		</div>
 	),
 );
 CardContent.displayName = 'CardContent';

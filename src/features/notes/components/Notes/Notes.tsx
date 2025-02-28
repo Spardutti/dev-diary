@@ -43,17 +43,21 @@ const DailyNotes = () => {
 							{value.map((note: INote) => {
 								return (
 									<Link
-										className="h-28"
+										className="h-40"
 										key={note.id}
 										to="/projects/$projectId/daily-notes/$noteId"
 										params={{ noteId: note.id, projectId: projectId }}
 									>
-										<Card className="w-64 h-full hover:border-4">
+										<Card className="w-64 h-full ">
 											<CardHeader>
 												<CardTitle className="text-primary">{notesFrom(note.createdAt.toString())}</CardTitle>
 											</CardHeader>
 											<CardContent>
-												<p className="line-clamp-1 text-text">{cleanHtml(note.content)}</p>
+												<p className="line-clamp-2">{cleanHtml(note.content)}</p>
+												<div className="flex items-center text-xs text-green-400/50 pt-2 group-hover:text-green-400/70 transition-colors">
+													<span>{'>'}</span>
+													<span className="h-4 w-2 bg-green-400/50 group-hover:bg-green-400 animate-pulse ml-1 group-hover:animate-blink transition-colors" />
+												</div>
 											</CardContent>
 										</Card>
 									</Link>

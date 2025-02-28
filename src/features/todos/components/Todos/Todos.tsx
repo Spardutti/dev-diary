@@ -34,7 +34,7 @@ const Todos = () => {
 
 	if (isPending) {
 		return (
-			<aside className=" md:w-[400px] w-full border-l border-l-separator bg-background">
+			<aside className=" md:w-[400px] w-full border-l border-l-green-900/60">
 				<div className="p-4 flex flex-grow flex-col h-full">
 					<h2 className="mb-4 text-lg font-semibold">Unfinished Business</h2>
 					<div className="flex flex-col gap-4 flex-grow ">
@@ -65,7 +65,7 @@ const Todos = () => {
 	if (!todos) return <p>No Data</p>;
 
 	return (
-		<aside className="md:w-[400px] w-full border-l border-l-separator bg-background">
+		<aside className="md:w-[400px] w-full border-l border-l-green-900/60">
 			<div className="p-4 flex flex-grow flex-col h-full">
 				<h2 className="mb-4 text-lg font-semibold">Unfinished Business</h2>
 				<div className="flex flex-col gap-4 flex-grow ">

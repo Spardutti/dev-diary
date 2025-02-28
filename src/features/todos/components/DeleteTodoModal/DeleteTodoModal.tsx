@@ -49,7 +49,7 @@ export const DeleteTodoContent = ({ todo, setOpen }: DeleteTodoContentProps) => 
 		setOpen(false);
 	};
 	return (
-		<DialogContent>
+		<DialogContent className="bg-black">
 			<DialogTitle>Delete Todo</DialogTitle>
 			<DialogDescription>
 				Are you sure you want to delete <span className="font-bold">&quot;{todo.title}&quot;</span> ? This action is
