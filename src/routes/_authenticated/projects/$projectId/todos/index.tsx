@@ -1,4 +1,5 @@
 import PageBreadcrumb from '@/components/PageBreadcrumb';
+import RetroLoadingOverlay from '@/components/RetroLoadingOverlay';
 import { getTodos } from '@/features/todos/api/todosApi';
 import { todosQueryKeys, useGetTodos } from '@/features/todos/api/todosQueries';
 import TodosTable from '@/features/todos/components/TodosTable';
@@ -33,11 +34,7 @@ const RouteComponent = () => {
 			<TodosTableFilters setFilters={setFilters} />
 
 			<div className="relative flex flex-grow overflow-hidden">
-				{isRefetching && (
-					<div className="absolute inset-0 bg-background/70 z-10 flex items-start justify-center ">
-						<div className="h-8 w-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
-					</div>
-				)}
+				<RetroLoadingOverlay isLoading={isRefetching} />
 				<TodosTable
 					hasNextPage={hasNextPage}
 					fetchNextPage={fetchNextPage}

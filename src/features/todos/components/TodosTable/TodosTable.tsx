@@ -34,7 +34,7 @@ const TodosTable = <TData, TValue>({
 
 	return (
 		<Table>
-			<TableHeader>
+			<TableHeader className="bg-black">
 				{table.getHeaderGroups().map((headerGroup) => (
 					<TableRow key={headerGroup.id}>
 						{headerGroup.headers.map((header) => (

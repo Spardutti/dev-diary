@@ -7,7 +7,7 @@ import Demo from '@/features/demo/components/Demo';
 import { me } from '@/features/auth/api/authApi';
 import { authQueryKeys } from '@/features/auth/api/authQueries';
 import { setDefaultHeaders } from '@/lib/axios';
-import { Skeleton } from '@/components/ui/skeleton';
+import RetroLoadingOverlay from '@/components/RetroLoadingOverlay';
 
 const Home = () => {
 	const [showSignUp, setShowSignUp] = useState(false);
@@ -76,8 +76,7 @@ export const Route = createFileRoute('/')({
 			setDefaultHeaders(token);
 		}
 	},
-	pendingComponent: () => <Skeleton className="w-full h-screen p-4" />,
-
+	pendingComponent: () => <RetroLoadingOverlay isLoading />,
 	loader: async ({ context }) => {
 		const { queryClient } = context;
 		const token = localStorage.getItem('authToken');
