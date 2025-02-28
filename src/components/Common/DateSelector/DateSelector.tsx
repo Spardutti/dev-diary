@@ -18,11 +18,11 @@ const DateSelector = ({ date, setDate }: DateSelectorProps) => {
 					<Button
 						variant="outline"
 						className={cn(
-							'w-[240px] justify-start text-left font-normal bg-black border-gray-700 text-gray-300',
+							'w-[240px] justify-start text-left font-normal bg-black border-green-900/60 text-primary/40',
 							!date && 'text-gray-500',
 						)}
 					>
-						<div className="flex gap-2 items-center">
+						<div className="flex gap-2 items-center text-primary/40">
 							<CalendarIcon className="mr-2 h-4 w-4" />
 							{date ? dayjs(date).format('YYYY - MM - DD') : 'Select a date'}
 						</div>

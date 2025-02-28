@@ -48,9 +48,9 @@ const DailyNotes = () => {
 										to="/projects/$projectId/daily-notes/$noteId"
 										params={{ noteId: note.id, projectId: projectId }}
 									>
-										<Card className="w-64 h-full hover:bg-background-alt/60">
+										<Card className="w-64 h-full hover:border-4">
 											<CardHeader>
-												<CardTitle className="text-secondary">{notesFrom(note.createdAt.toString())}</CardTitle>
+												<CardTitle className="text-primary">{notesFrom(note.createdAt.toString())}</CardTitle>
 											</CardHeader>
 											<CardContent>
 												<p className="line-clamp-1 text-text">{cleanHtml(note.content)}</p>

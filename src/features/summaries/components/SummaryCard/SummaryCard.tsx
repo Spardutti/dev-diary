@@ -15,9 +15,9 @@ const SummaryCard = ({ summary }: SummaryCardProps) => {
 			to="/projects/$projectId/summaries/$summaryId"
 			params={{ summaryId: summary.id, projectId }}
 		>
-			<Card className="w-60">
+			<Card className="w-60 hover:border-4">
 				<CardHeader>
-					<CardTitle className="font-bold text-lg text-text">{dayjs(summary.createdAt).format('dddd DD')}</CardTitle>
+					<CardTitle className="font-bold text-lg">{dayjs(summary.createdAt).format('dddd DD')}</CardTitle>
 					<CardDescription>{dayjs(summary.createdAt).format('MMMM, YYYY')}</CardDescription>
 				</CardHeader>
 
