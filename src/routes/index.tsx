@@ -17,7 +17,7 @@ const Home = () => {
 	};
 
 	return (
-		<div className="grid grid-cols-2 h-screen">
+		<div className="grid md:grid-cols-2 h-screen overflow-y-auto">
 			<div className="bg-background p-10 text-text flex-grow flex flex-col">
 				<h1>Dev Diary</h1>
 
@@ -50,7 +50,7 @@ const Home = () => {
 					</motion.div>
 				</motion.div>
 			</div>
-			<div className="bg-background-alt gap-2 flex px-6 justify-center items-center flex-col">
+			<div className="bg-background-alt gap-2 md:flex hidden px-6 justify-center items-center flex-col">
 				<div className="w-full">
 					<Demo />
 				</div>

@@ -9,7 +9,7 @@ interface SummaryProgressProps {
 
 const SummaryProgress = ({ completedTodos, createdTodos }: SummaryProgressProps) => {
 	const totalTasks = completedTodos + createdTodos;
-	const progress = (createdTodos / totalTasks) * 100;
+	const progress = (completedTodos / totalTasks) * 100;
 	return (
 		<Card className="border-none bg-background-alt backdrop-blur">
 			<CardHeader className="pb-2">
