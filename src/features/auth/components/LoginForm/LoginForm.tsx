@@ -114,7 +114,7 @@ const LoginForm = ({ handleSignUp }: LoginFormProps) => {
 						<button
 							type="button"
 							onClick={handleSignUp}
-							className=" underline text-secondary"
+							className=" underline "
 						>
 							Sign up
 						</button>
