@@ -55,7 +55,7 @@ const ProjectSelectorDropDown = () => {
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<span className="text-2xl  font-semibold flex items-center gap-1 bg-clip-text">
-							{projectResponse.project.name} <ChevronDown className="text-white size-4" />
+							{projectResponse.project.name} <ChevronDown />
 						</span>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className="min-w-[250px] max-h-[400px] shadow-lg ml-1">
