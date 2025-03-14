@@ -1,22 +1,10 @@
-const todoData = [
-	{ date: '2025-02-22', created: 5, completed: 3 },
-	{ date: '2025-02-23', created: 7, completed: 4 },
-	{ date: '2025-02-24', created: 3, completed: 6 },
-	{ date: '2025-02-25', created: 8, completed: 5 },
-	{ date: '2025-02-26', created: 4, completed: 7 },
-	{ date: '2025-02-27', created: 6, completed: 4 },
-	{ date: '2025-02-28', created: 9, completed: 8 },
-];
-
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ChartConfig } from '@/components/ui/chart';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { useGetTodos } from '@/features/todos/api/todosQueries';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { TrendingUp } from 'lucide-react';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const chartConfig = {
 	completed: {
@@ -32,9 +20,7 @@ const chartConfig = {
 const today = dayjs();
 const oneMonthAgo = today.subtract(1, 'month');
 const TodoChart = () => {
-	const { data: todos, isPending } = useGetTodos(
-		`from=${oneMonthAgo.toISOString()}&to=${today.toISOString()}&limit=200`,
-	);
+	const { data: todos } = useGetTodos(`from=${oneMonthAgo.toISOString()}&to=${today.toISOString()}&limit=200`);
 	console.log(' todos:', todos);
 
 	const chartData = useMemo(() => {
