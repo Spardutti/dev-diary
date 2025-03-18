@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useUpdateTodo } from '@/features/todos/api/todosQueries';
 import type { ITodo } from '@/features/todos/types/ITodo';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,7 +48,7 @@ const EditTodoForm = ({ todo, setOpen }: EditTodoFormProps) => {
 						<FormItem>
 							<FormLabel>Description</FormLabel>
 							<FormControl>
-								<Input
+								<Textarea
 									placeholder="Title"
 									{...field}
 								/>
