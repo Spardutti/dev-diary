@@ -1,13 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useUpdateTodo } from '@/features/todos/api/todosQueries';
 import type { ITodo } from '@/features/todos/types/ITodo';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SelectValue } from '@radix-ui/react-select';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import PriorityBadge from '../PriorityBadge';
 
 interface EditTodoFormProps {
 	todo: ITodo;
@@ -48,7 +47,7 @@ const EditTodoForm = ({ todo, setOpen }: EditTodoFormProps) => {
 						<FormItem>
 							<FormLabel>Description</FormLabel>
 							<FormControl>
-								<Input
+								<Textarea
 									placeholder="Title"
 									{...field}
 								/>
@@ -62,23 +61,15 @@ const EditTodoForm = ({ todo, setOpen }: EditTodoFormProps) => {
 					control={form.control}
 					name="priority"
 					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Priority</FormLabel>
+						<FormItem className="flex flex-col">
+							<FormLabel className="flex flex-col justify-center">Priority</FormLabel>
 							<FormControl>
-								<Select
-									onValueChange={(value) => field.onChange(Number(value))}
-									value={field.value.toString()}
-								>
-									<SelectTrigger>
-										<SelectValue />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="0">Default</SelectItem>
-										<SelectItem value="1">Low</SelectItem>
-										<SelectItem value="2">Medium</SelectItem>
-										<SelectItem value="3">High</SelectItem>
-									</SelectContent>
-								</Select>
+								<div className="flex gap-1">
+									<PriorityBadge
+										priority={field.value}
+										setPriority={(v) => field.onChange(v)}
+									/>
+								</div>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
