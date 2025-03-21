@@ -12,8 +12,6 @@ const RouteComponent = () => {
 			<PageBreadcrumb />
 			<div className="flex w-full justify-between">
 				<h1>Summaries Vault</h1>
-
-				{/*   */}
 			</div>
 			<div className="flex flex-wrap gap-4">
 				{!summaries.data?.length && <p>No summaries found</p>}
