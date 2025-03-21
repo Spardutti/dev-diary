@@ -13,7 +13,7 @@ interface EditTodoModalProps {
 export const EditTodoContent = ({ todo, setOpen }: { todo: ITodo; setOpen: (open: boolean) => void }) => (
 	<DialogContent className="bg-black">
 		<DialogTitle>Edit Todo</DialogTitle>
-		<DialogDescription>edit the description</DialogDescription>
+		<DialogDescription>Edit your description and/or change the Priority.</DialogDescription>
 		<EditTodoForm
 			todo={todo}
 			setOpen={setOpen}
