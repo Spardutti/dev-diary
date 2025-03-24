@@ -7,11 +7,14 @@ import {
 import { useAuth } from '@/context/useAuth';
 import { useLogout } from '@/features/auth/api/authQueries';
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar';
-import { LogOut } from 'lucide-react';
+import { useNavigate, useParams } from '@tanstack/react-router';
+import { LogOut, PersonStandingIcon } from 'lucide-react';
 
 const AvatarDropdown = () => {
 	const user = useAuth();
 	const { mutateAsync: logout } = useLogout();
+	const navigate = useNavigate();
+	const { projectId } = useParams({ strict: false });
 
 	const onLogout = async () => {
 		await logout();
@@ -38,6 +41,12 @@ const AvatarDropdown = () => {
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
+				<DropdownMenuItem
+					onClick={() => navigate({ to: '/projects/$projectId/profile', params: { projectId: projectId! } })}
+				>
+					<PersonStandingIcon className="h-5 w-5" />
+					Profile
+				</DropdownMenuItem>
 				<DropdownMenuItem onClick={onLogout}>
 					<LogOut className="h-5 w-5" />
 					Disconnect
