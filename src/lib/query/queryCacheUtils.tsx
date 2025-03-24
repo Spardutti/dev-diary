@@ -55,7 +55,7 @@ export const updateAndSortCacheListItem = <T,>({
 	sortBy: string; // Example: "status,createdAt,priority"
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		const updatedData = oldData.data.map((i) => (matchBy(i) ? item : i));
 
@@ -79,7 +79,7 @@ export const prependToCache = <T,>({
 	newItem: T;
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		return {
 			...oldData,
@@ -98,7 +98,7 @@ export const appendToCache = <T,>({
 	newItem: T;
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		return {
 			...oldData,
@@ -119,7 +119,7 @@ export const updateCacheListItem = <T,>({
 	matchBy: (item: T) => boolean;
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		return {
 			...oldData,
@@ -138,7 +138,7 @@ export const removeFromCacheList = <T,>({
 	matchBy: (item: T) => boolean;
 }) => {
 	queryClient.setQueryData<IResponse<T[]>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		const newList = oldData.data.filter((i) => !matchBy(i));
 
@@ -159,7 +159,7 @@ export const updateCacheItemDetail = <T,>({
 	item: T;
 }) => {
 	queryClient.setQueryData<IResponse<T>>(queryKey, (oldData) => {
-		if (!oldData) return;
+		if (!oldData?.data) return;
 
 		return {
 			...oldData,
