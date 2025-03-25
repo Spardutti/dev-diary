@@ -1,6 +1,7 @@
 import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { getSummaries } from '@/features/summaries/api/summaryApi';
 import { summaryQueryKeys } from '@/features/summaries/api/summaryQueries';
+import CreateSummaryModal from '@/features/summaries/components/CreateSummaryModal';
 import SummaryCard from '@/features/summaries/components/SummaryCard';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -12,6 +13,7 @@ const RouteComponent = () => {
 			<PageBreadcrumb />
 			<div className="flex w-full justify-between">
 				<h1>Summaries Vault</h1>
+				<CreateSummaryModal />
 			</div>
 			<div className="flex flex-wrap gap-4">
 				{!summaries.data?.length && <p>No summaries found</p>}
