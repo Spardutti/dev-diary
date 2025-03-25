@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 import dayjs from 'dayjs';
 import { CalendarIcon } from 'lucide-react';
+import { useState } from 'react';
 
 interface DateSelectorProps {
 	date: Date | undefined;
@@ -11,9 +12,14 @@ interface DateSelectorProps {
 }
 
 const DateSelector = ({ date, setDate }: DateSelectorProps) => {
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
 	return (
 		<div className="flex items-center space-x-2">
-			<Popover>
+			<Popover
+				open={isOpen}
+				onOpenChange={setIsOpen}
+			>
 				<PopoverTrigger asChild>
 					<Button
 						variant="outline"
@@ -34,6 +40,7 @@ const DateSelector = ({ date, setDate }: DateSelectorProps) => {
 						selected={date}
 						onSelect={(e) => {
 							setDate(e);
+							setIsOpen(false);
 						}}
 						initialFocus
 						className="bg-gray-900 text-white"
