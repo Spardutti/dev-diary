@@ -12,7 +12,7 @@ interface DateSelectorProps {
 
 const DateSelector = ({ date, setDate }: DateSelectorProps) => {
 	return (
-		<div className="flex items-center space-x-2 mb-6">
+		<div className="flex items-center space-x-2">
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button
