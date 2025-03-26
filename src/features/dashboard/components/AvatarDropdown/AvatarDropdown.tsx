@@ -23,7 +23,7 @@ const AvatarDropdown = () => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger>
-				<div className="bg-black p-4 flex items-center gap-3">
+				<div className="bg-black p-2 flex items-center gap-3">
 					<Avatar className="w-10 h-10 text-sm bg-black border-2 border-green-500/80 rounded-none flex items-center justify-center relative overflow-visible">
 						<AvatarFallback className="bg-black text-green-500 font-mono">
 							{user.profile?.name.charAt(0)}
@@ -34,9 +34,9 @@ const AvatarDropdown = () => {
 						<div className="absolute -bottom-1 -left-1 w-2 h-2 bg-green-500 rounded-none" />
 						<div className="absolute -bottom-1 -right-1 w-2 h-2 bg-green-500 rounded-none" />
 					</Avatar>
-					<div className="text-green-500 font-mono">
+					<div className="text-green-500 font-mono flex flex-col items-start w-28">
 						<div className="text-xs opacity-70">[USER_ID:1337]</div>
-						<div>{user.profile?.name}</div>
+						<div className="w-full overflow-hidden whitespace-nowrap text-ellipsis">{user.profile?.name}</div>
 					</div>
 				</div>
 			</DropdownMenuTrigger>
