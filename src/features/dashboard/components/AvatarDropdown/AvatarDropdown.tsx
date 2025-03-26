@@ -34,7 +34,7 @@ const AvatarDropdown = () => {
 						<div className="absolute -bottom-1 -left-1 w-2 h-2 bg-green-500 rounded-none" />
 						<div className="absolute -bottom-1 -right-1 w-2 h-2 bg-green-500 rounded-none" />
 					</Avatar>
-					<div className="text-green-500 font-mono flex flex-col items-start w-28">
+					<div className="text-green-500 font-mono hidden md:flex flex-col items-start w-28 ">
 						<div className="text-xs opacity-70">[USER_ID:1337]</div>
 						<div className="w-full overflow-hidden whitespace-nowrap text-ellipsis">{user.profile?.name}</div>
 					</div>
