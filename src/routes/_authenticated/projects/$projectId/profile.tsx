@@ -1,7 +1,7 @@
 import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { getGithubConfigs } from '@/features/profile/api/githubConfigApi';
 import { githubConfigQueriesKeys } from '@/features/profile/api/githubConfigQueries';
-import GithubForm from '@/features/profile/components/GithubConfigForm';
+import GithubConfigForm from '@/features/profile/components/GithubConfigForm';
 import { createFileRoute } from '@tanstack/react-router';
 
 const RouteComponent = () => {
@@ -13,7 +13,7 @@ const RouteComponent = () => {
 			<div className="flex flex-col flex-grow p-4 gap-6">
 				<PageBreadcrumb />
 
-				<GithubForm
+				<GithubConfigForm
 					author={author}
 					repo={repo}
 					installationId={installationId}
