@@ -1,5 +1,13 @@
-import { createGithubConfig, getGithubConfigs } from '@/features/profile/api/githubConfigApi';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+	createGithubConfig,
+	deleteGithubConfig,
+	getGithubConfigs,
+	updateGithubConfig,
+} from '@/features/profile/api/githubConfigApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { IGithubConfig } from '../types/IGithubConfig';
+import { prependToCache, removeFromCacheList } from '@/lib/query/queryCacheUtils';
+import { useRouter } from '@tanstack/react-router';
 
 export const githubConfigQueriesKeys = {
 	all: ['githubConfig'] as const,
@@ -7,20 +15,18 @@ export const githubConfigQueriesKeys = {
 };
 
 export const useCreateGithubConfig = () => {
+	const queryClient = useQueryClient();
+	const router = useRouter();
 	return useMutation({
-		mutationFn: ({
-			owner,
-			repo,
-			author,
-			installationId,
-			projectId,
-		}: {
-			owner: string;
-			repo: string;
-			author: string;
-			installationId: string;
-			projectId: string;
-		}) => createGithubConfig({ owner, repo, author, installationId, projectId }),
+		mutationFn: (data: Omit<IGithubConfig, 'id'>) => createGithubConfig(data),
+		onSuccess: (response) => {
+			prependToCache({
+				queryClient,
+				queryKey: githubConfigQueriesKeys.list(),
+				newItem: response.data,
+			});
+			router.invalidate();
+		},
 	});
 };
 
@@ -28,5 +34,28 @@ export const useGetGithubConfigs = ({ projectId }: { projectId: string }) => {
 	return useQuery({
 		queryFn: () => getGithubConfigs({ projectId }),
 		queryKey: githubConfigQueriesKeys.list(),
+	});
+};
+
+export const useUpdateGithubConfig = () => {
+	return useMutation({
+		mutationFn: (data: IGithubConfig) => updateGithubConfig(data),
+	});
+};
+
+export const useDeleteGithubConfig = () => {
+	const queryClient = useQueryClient();
+	const router = useRouter();
+
+	return useMutation({
+		mutationFn: ({ id }: { id: string }) => deleteGithubConfig({ id }),
+		onSuccess: (_, { id }) => {
+			removeFromCacheList({
+				queryClient,
+				queryKey: githubConfigQueriesKeys.list(),
+				matchBy: (item: IGithubConfig) => item.id === id,
+			});
+			router.invalidate();
+		},
 	});
 };
