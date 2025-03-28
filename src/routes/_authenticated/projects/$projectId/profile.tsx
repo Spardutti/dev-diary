@@ -7,7 +7,8 @@ import { createFileRoute } from '@tanstack/react-router';
 const RouteComponent = () => {
 	const config = Route.useLoaderData();
 
-	const { author, repo, installationId, owner } = config.data[0] ?? {};
+	const { author, repo, installationId, owner, id } = config.data[0] ?? {};
+
 	return (
 		<div className="flex flex-grow md:flex-row flex-col  gap-4 overflow-auto">
 			<div className="flex flex-col flex-grow p-4 gap-6">
@@ -18,6 +19,7 @@ const RouteComponent = () => {
 					repo={repo}
 					installationId={installationId}
 					owner={owner}
+					id={id}
 				/>
 			</div>
 		</div>

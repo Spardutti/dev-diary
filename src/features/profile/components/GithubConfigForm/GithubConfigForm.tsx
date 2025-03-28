@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useCreateGithubConfig } from '@/features/profile/api/githubConfigQueries';
+import { useCreateGithubConfig, useUpdateGithubConfig } from '@/features/profile/api/githubConfigQueries';
+import DeleteGithubConfigModal from '@/features/profile/components/DeleteGithubConfigModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from '@tanstack/react-router';
-import { useForm } from 'react-hook-form';
-import type { UseFormReturn } from 'react-hook-form';
+import { useForm, type UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -20,9 +20,11 @@ const formSchema = z.object({
 
 type GithubConfigFormProps = z.infer<typeof formSchema>;
 
-const GithubConfigForm = ({ owner, repo, author, installationId }: GithubConfigFormProps) => {
+const GithubConfigForm = ({ owner, repo, author, installationId, id }: GithubConfigFormProps & { id: string }) => {
 	const { projectId } = useParams({ from: '/_authenticated/projects/$projectId/profile' });
+
 	const { mutateAsync, isPending } = useCreateGithubConfig();
+	const { mutateAsync: mutateAsyncUpdate, isPending: isPendingUpdate } = useUpdateGithubConfig();
 
 	const form = useForm<GithubConfigFormProps>({
 		resolver: zodResolver(formSchema),
@@ -35,10 +37,14 @@ const GithubConfigForm = ({ owner, repo, author, installationId }: GithubConfigF
 	});
 
 	const onSubmit = async (values: GithubConfigFormProps) => {
-		await mutateAsync({
-			...values,
-			projectId,
-		});
+		if (owner) {
+			await mutateAsyncUpdate({ ...values, projectId, id });
+		} else {
+			await mutateAsync({
+				...values,
+				projectId,
+			});
+		}
 	};
 
 	return (
@@ -47,7 +53,9 @@ const GithubConfigForm = ({ owner, repo, author, installationId }: GithubConfigF
 				<CardHeader>
 					<CardTitle className="text-green-400">GitHub Repository Configuration</CardTitle>
 					<CardDescription className="text-green-500/70">
-						Enter your GitHub repository details to connect with your project
+						{owner
+							? 'Update or delete your GitHub repository details.'
+							: 'Enter your GitHub repository details to connect with your project'}
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -55,8 +63,9 @@ const GithubConfigForm = ({ owner, repo, author, installationId }: GithubConfigF
 						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<RepositoryConfigForm
 								form={form}
-								isPending={isPending}
+								isPending={isPendingUpdate || isPending}
 								owner={owner}
+								id={id}
 							/>
 						</form>
 					</Form>
@@ -71,9 +80,10 @@ interface RepositoryConfigFormProps {
 	form: UseFormReturn<GithubConfigFormProps>;
 	isPending: boolean;
 	owner: string;
+	id: string;
 }
 
-const RepositoryConfigForm = ({ form, isPending, owner }: RepositoryConfigFormProps) => {
+const RepositoryConfigForm = ({ form, isPending, owner, id }: RepositoryConfigFormProps) => {
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 			<FormField
@@ -153,6 +163,11 @@ const RepositoryConfigForm = ({ form, isPending, owner }: RepositoryConfigFormPr
 					{owner ? 'Update' : 'Save'}
 				</Button>
 			</div>
+			{owner ? (
+				<div className="flex gap-2 justify-start">
+					<DeleteGithubConfigModal id={id} />
+				</div>
+			) : null}
 		</div>
 	);
 };
