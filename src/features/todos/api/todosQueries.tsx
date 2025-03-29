@@ -55,6 +55,7 @@ export const useGetTodos = (filters: string, initialData?: InfiniteData<IPaginat
 		initialPageParam: 1,
 		select: (data) => flattenInfiniteQueryData(data),
 		initialData,
+		enabled: !!filters,
 	});
 
 export const useUpdateTodo = () => {

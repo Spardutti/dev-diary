@@ -49,7 +49,7 @@ const GithubConfigForm = ({ owner, repo, author, installationId, id }: GithubCon
 
 	return (
 		<div className="w-full max-w-4xl mx-auto">
-			<Card className="border border-green-500/20 bg-black/60 backdrop-blur-sm">
+			<Card className="border hover:border-green-900/60  bg-black/60 backdrop-blur-sm">
 				<CardHeader>
 					<CardTitle className="text-green-400">GitHub Repository Configuration</CardTitle>
 					<CardDescription className="text-green-500/70">
