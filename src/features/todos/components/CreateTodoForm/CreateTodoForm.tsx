@@ -48,9 +48,7 @@ const CreateTodoForm = () => {
 							onChange={(e) => setTodoTitle(e.target.value)}
 							onFocus={() => setIsOpen(true)}
 							onBlur={() => setIsOpen(false)}
-						>
-							<p>hello</p>
-						</Textarea>
+						/>
 					</TooltipTrigger>
 					<TooltipContent
 						className="text-primary"

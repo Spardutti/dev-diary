@@ -52,7 +52,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
   pointer-events: none;
   z-index: 11;
 }
@@ -99,7 +99,7 @@ body {
 	all: revert;
 }
 .tiptap {
-	@apply h-full  outline-none  p-2 rounded-sm;
+	@apply h-full  outline-none  p-2 rounded-sm text-sm;
 }
 
 .tiptap p.is-editor-empty:first-child::before {

@@ -1,6 +1,7 @@
 import { upsertSummary, getSummaries, todaySummaryExist, updateSummary } from '@/features/summaries/api/summaryApi';
 import { sortedInsertToCache, updateAndSortCacheListItem, updateCacheItemDetail } from '@/lib/query/queryCacheUtils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 
 export const summaryQueryKeys = {
@@ -18,6 +19,7 @@ export const useGetSummaries = (projectId: string) =>
 
 export const useUpsertSummary = () => {
 	const queryClient = useQueryClient();
+	const router = useRouter();
 	return useMutation({
 		mutationFn: upsertSummary,
 		onSuccess: (response, { date, projectId }) => {
@@ -53,6 +55,7 @@ export const useUpsertSummary = () => {
 					});
 				}
 			}
+			router.invalidate();
 		},
 	});
 };
