@@ -40,10 +40,6 @@ const AvatarDropdown = () => {
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuItem onClick={onLogout}>
-					<LogOut className="h-5 w-5" />
-					Disconnect
-				</DropdownMenuItem>
 				<Link
 					to="/projects/$projectId/stats"
 					params={{ projectId: projectId! }}
@@ -53,6 +49,10 @@ const AvatarDropdown = () => {
 						Stats
 					</DropdownMenuItem>
 				</Link>
+				<DropdownMenuItem onClick={onLogout}>
+					<LogOut className="h-5 w-5" />
+					Disconnect
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

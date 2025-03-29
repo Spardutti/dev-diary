@@ -1,1 +1,1 @@
-export { default } from './TodoStats';
+export { default as TodoStats } from './TodoStats';

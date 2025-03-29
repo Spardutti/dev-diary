@@ -22,7 +22,6 @@ import { Route as AuthenticatedProjectsProjectIdSummariesIndexImport } from './r
 import { Route as AuthenticatedProjectsProjectIdStatsIndexImport } from './routes/_authenticated/projects/$projectId/stats/index'
 import { Route as AuthenticatedProjectsProjectIdSnippetsIndexImport } from './routes/_authenticated/projects/$projectId/snippets/index'
 import { Route as AuthenticatedProjectsProjectIdDailyNotesIndexImport } from './routes/_authenticated/projects/$projectId/daily-notes/index'
-import { Route as AuthenticatedProjectsProjectIdStatsTodoStatsImport } from './routes/_authenticated/projects/$projectId/stats/todo-stats'
 import { Route as AuthenticatedProjectsProjectIdSnippetsNewSnippetImport } from './routes/_authenticated/projects/$projectId/snippets/new-snippet'
 import { Route as AuthenticatedProjectsProjectIdDailyNotesNoteIdImport } from './routes/_authenticated/projects/$projectId/daily-notes/$noteId'
 import { Route as AuthenticatedProjectsProjectIdSummariesSummaryIdIndexImport } from './routes/_authenticated/projects/$projectId/summaries/$summaryId/index'
@@ -103,13 +102,6 @@ const AuthenticatedProjectsProjectIdDailyNotesIndexRoute =
     id: '/projects/$projectId/daily-notes/',
     path: '/projects/$projectId/daily-notes/',
     getParentRoute: () => AuthenticatedRoute,
-  } as any)
-
-const AuthenticatedProjectsProjectIdStatsTodoStatsRoute =
-  AuthenticatedProjectsProjectIdStatsTodoStatsImport.update({
-    id: '/todo-stats',
-    path: '/todo-stats',
-    getParentRoute: () => AuthenticatedProjectsProjectIdStatsRouteRoute,
   } as any)
 
 const AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute =
@@ -207,13 +199,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetImport
       parentRoute: typeof AuthenticatedProjectsProjectIdSnippetsRouteImport
     }
-    '/_authenticated/projects/$projectId/stats/todo-stats': {
-      id: '/_authenticated/projects/$projectId/stats/todo-stats'
-      path: '/todo-stats'
-      fullPath: '/projects/$projectId/stats/todo-stats'
-      preLoaderRoute: typeof AuthenticatedProjectsProjectIdStatsTodoStatsImport
-      parentRoute: typeof AuthenticatedProjectsProjectIdStatsRouteImport
-    }
     '/_authenticated/projects/$projectId/daily-notes/': {
       id: '/_authenticated/projects/$projectId/daily-notes/'
       path: '/projects/$projectId/daily-notes'
@@ -300,14 +285,11 @@ const AuthenticatedProjectsProjectIdSnippetsRouteRouteWithChildren =
   )
 
 interface AuthenticatedProjectsProjectIdStatsRouteRouteChildren {
-  AuthenticatedProjectsProjectIdStatsTodoStatsRoute: typeof AuthenticatedProjectsProjectIdStatsTodoStatsRoute
   AuthenticatedProjectsProjectIdStatsIndexRoute: typeof AuthenticatedProjectsProjectIdStatsIndexRoute
 }
 
 const AuthenticatedProjectsProjectIdStatsRouteRouteChildren: AuthenticatedProjectsProjectIdStatsRouteRouteChildren =
   {
-    AuthenticatedProjectsProjectIdStatsTodoStatsRoute:
-      AuthenticatedProjectsProjectIdStatsTodoStatsRoute,
     AuthenticatedProjectsProjectIdStatsIndexRoute:
       AuthenticatedProjectsProjectIdStatsIndexRoute,
   }
@@ -375,7 +357,6 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
   '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   '/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
-  '/projects/$projectId/stats/todo-stats': typeof AuthenticatedProjectsProjectIdStatsTodoStatsRoute
   '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
   '/projects/$projectId/snippets/': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
   '/projects/$projectId/stats/': typeof AuthenticatedProjectsProjectIdStatsIndexRoute
@@ -392,7 +373,6 @@ export interface FileRoutesByTo {
   '/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
   '/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   '/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
-  '/projects/$projectId/stats/todo-stats': typeof AuthenticatedProjectsProjectIdStatsTodoStatsRoute
   '/projects/$projectId/daily-notes': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
   '/projects/$projectId/snippets': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
   '/projects/$projectId/stats': typeof AuthenticatedProjectsProjectIdStatsIndexRoute
@@ -413,7 +393,6 @@ export interface FileRoutesById {
   '/_authenticated/projects/$projectId/dashboard': typeof AuthenticatedProjectsProjectIdDashboardRoute
   '/_authenticated/projects/$projectId/daily-notes/$noteId': typeof AuthenticatedProjectsProjectIdDailyNotesNoteIdRoute
   '/_authenticated/projects/$projectId/snippets/new-snippet': typeof AuthenticatedProjectsProjectIdSnippetsNewSnippetRoute
-  '/_authenticated/projects/$projectId/stats/todo-stats': typeof AuthenticatedProjectsProjectIdStatsTodoStatsRoute
   '/_authenticated/projects/$projectId/daily-notes/': typeof AuthenticatedProjectsProjectIdDailyNotesIndexRoute
   '/_authenticated/projects/$projectId/snippets/': typeof AuthenticatedProjectsProjectIdSnippetsIndexRoute
   '/_authenticated/projects/$projectId/stats/': typeof AuthenticatedProjectsProjectIdStatsIndexRoute
@@ -435,7 +414,6 @@ export interface FileRouteTypes {
     | '/projects/$projectId/dashboard'
     | '/projects/$projectId/daily-notes/$noteId'
     | '/projects/$projectId/snippets/new-snippet'
-    | '/projects/$projectId/stats/todo-stats'
     | '/projects/$projectId/daily-notes'
     | '/projects/$projectId/snippets/'
     | '/projects/$projectId/stats/'
@@ -451,7 +429,6 @@ export interface FileRouteTypes {
     | '/projects/$projectId/dashboard'
     | '/projects/$projectId/daily-notes/$noteId'
     | '/projects/$projectId/snippets/new-snippet'
-    | '/projects/$projectId/stats/todo-stats'
     | '/projects/$projectId/daily-notes'
     | '/projects/$projectId/snippets'
     | '/projects/$projectId/stats'
@@ -470,7 +447,6 @@ export interface FileRouteTypes {
     | '/_authenticated/projects/$projectId/dashboard'
     | '/_authenticated/projects/$projectId/daily-notes/$noteId'
     | '/_authenticated/projects/$projectId/snippets/new-snippet'
-    | '/_authenticated/projects/$projectId/stats/todo-stats'
     | '/_authenticated/projects/$projectId/daily-notes/'
     | '/_authenticated/projects/$projectId/snippets/'
     | '/_authenticated/projects/$projectId/stats/'
@@ -535,7 +511,6 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/projects/$projectId/stats/route.tsx",
       "parent": "/_authenticated",
       "children": [
-        "/_authenticated/projects/$projectId/stats/todo-stats",
         "/_authenticated/projects/$projectId/stats/"
       ]
     },
@@ -558,10 +533,6 @@ export const routeTree = rootRoute
     "/_authenticated/projects/$projectId/snippets/new-snippet": {
       "filePath": "_authenticated/projects/$projectId/snippets/new-snippet.tsx",
       "parent": "/_authenticated/projects/$projectId/snippets"
-    },
-    "/_authenticated/projects/$projectId/stats/todo-stats": {
-      "filePath": "_authenticated/projects/$projectId/stats/todo-stats.tsx",
-      "parent": "/_authenticated/projects/$projectId/stats"
     },
     "/_authenticated/projects/$projectId/daily-notes/": {
       "filePath": "_authenticated/projects/$projectId/daily-notes/index.tsx",

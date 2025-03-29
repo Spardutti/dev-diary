@@ -1,1 +1,1 @@
-export { default } from './TodoChart';
+export { default as TodoChart } from './TodoChart';
