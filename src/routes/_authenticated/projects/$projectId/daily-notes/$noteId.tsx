@@ -2,6 +2,7 @@ import PageBreadcrumb from '@/components/PageBreadcrumb';
 import { getNote } from '@/features/notes/api/noteApi';
 import { noteQueryKeys } from '@/features/notes/api/noteQueries';
 import NoteDetail from '@/features/notes/components/NoteDetail';
+import { notesFrom } from '@/features/utils/notesFrom';
 import { createFileRoute } from '@tanstack/react-router';
 
 const Note = () => {
@@ -26,7 +27,7 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/daily-
 			queryKey: noteQueryKeys.detail(noteId),
 			queryFn: () => getNote({ noteId }),
 		});
-		context.routeTitle = response.data.title;
+		context.routeTitle = notesFrom(response.data.createdAt.toString());
 
 		return response;
 	},

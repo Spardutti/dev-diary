@@ -31,7 +31,7 @@ const DailyNotes = () => {
 			ref={observerRef}
 		>
 			{Object.entries(mergedNotesByMonth()).map(([key, value]) => {
-				const month = dayjs(key).format('MMM YY');
+				const month = dayjs(key).format('MMMM YYYY');
 
 				return (
 					<div
