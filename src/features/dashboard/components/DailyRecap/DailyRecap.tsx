@@ -3,7 +3,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useUpsertSummary, useGetTodaySummaryExists } from '@/features/summaries/api/summaryQueries';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import dayjs from 'dayjs';
-import { CheckCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 const DailyRecap = () => {
@@ -36,12 +35,9 @@ const DailyRecap = () => {
 							onClick={createDailyRecap}
 						>
 							{exists ? (
-								<div className="flex flex-shrink-0 gap-2 items-center">
-									<CheckCircle />
-									Daily Recap Done
-								</div>
+								<div className="flex flex-shrink-0 gap-2 items-center">Update Daily Recap</div>
 							) : (
-								'Daily Recap'
+								'Create Daily Recap'
 							)}
 						</Button>
 					</TooltipTrigger>
