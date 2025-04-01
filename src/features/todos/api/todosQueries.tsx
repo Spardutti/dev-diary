@@ -16,7 +16,7 @@ import { useRouter } from '@tanstack/react-router';
 
 export const todosQueryKeys = {
 	all: ['todos'] as const,
-	list: () => [...todosQueryKeys.all, 'list'] as const,
+	list: (projectId: string) => [...todosQueryKeys.all, 'list', projectId] as const,
 	detail: (id: string) => [...todosQueryKeys.all, id] as const,
 	filter: (filters: string) => [...todosQueryKeys.all, filters] as const,
 };

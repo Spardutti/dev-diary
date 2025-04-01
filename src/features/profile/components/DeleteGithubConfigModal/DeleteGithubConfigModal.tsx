@@ -12,7 +12,7 @@ import { useDeleteGithubConfig } from '@/features/profile/api/githubConfigQuerie
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-const DeleteGithubConfigModal = ({ id }: { id: string }) => {
+const DeleteGithubConfigModal = ({ id, projectId }: { id: string; projectId: string }) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -25,6 +25,7 @@ const DeleteGithubConfigModal = ({ id }: { id: string }) => {
 			</DialogTrigger>
 			<DeleteGithubConfigModalContent
 				id={id}
+				projectId={projectId}
 				closeDialog={() => setOpen(false)}
 			/>
 		</Dialog>
@@ -34,16 +35,17 @@ export default DeleteGithubConfigModal;
 
 interface DeleteGithubConfigModalContentProps {
 	id: string;
+	projectId: string;
 	closeDialog: () => void;
 }
 
-export const DeleteGithubConfigModalContent = ({ id, closeDialog }: DeleteGithubConfigModalContentProps) => {
+export const DeleteGithubConfigModalContent = ({ id, projectId, closeDialog }: DeleteGithubConfigModalContentProps) => {
 	const { mutateAsync: deleteGithubConfig, isPending } = useDeleteGithubConfig();
 
 	const { reset } = useFormContext();
 
 	const onDelete = async () => {
-		await deleteGithubConfig({ id });
+		await deleteGithubConfig({ id, projectId });
 		reset({
 			owner: '',
 			repo: '',

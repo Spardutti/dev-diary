@@ -37,7 +37,7 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/profil
 		const { projectId } = params;
 
 		return await queryClient.ensureQueryData({
-			queryKey: githubConfigQueriesKeys.list(),
+			queryKey: githubConfigQueriesKeys.list(projectId),
 			queryFn: () => getGithubConfigs({ projectId }),
 		});
 	},
