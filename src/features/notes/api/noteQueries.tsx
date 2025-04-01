@@ -5,8 +5,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const noteQueryKeys = {
 	all: ['notes'] as const,
-	list: () => [...noteQueryKeys.all, 'list'] as const,
-	filter: (filter: string) => [...noteQueryKeys.list(), filter] as const,
+	list: (projectId: string) => [...noteQueryKeys.all, 'list', projectId] as const,
+	filter: (filter: string, projectId: string) => [...noteQueryKeys.list(projectId), filter] as const,
 	details: () => [...noteQueryKeys.all, 'detail'] as const,
 	detail: (id: string) => [...noteQueryKeys.details(), id] as const,
 };
@@ -27,7 +27,7 @@ export const useGetNote = ({ noteId }: { noteId: string }) =>
 
 export const useGetDailyNotes = ({ projectId }: { projectId: string }) =>
 	useQuery({
-		queryKey: noteQueryKeys.list(),
+		queryKey: noteQueryKeys.list(projectId),
 		queryFn: () => getNotes({ projectId }),
 		select: (data) => data.data as INote[],
 	});

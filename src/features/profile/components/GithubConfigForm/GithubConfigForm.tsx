@@ -66,6 +66,7 @@ const GithubConfigForm = ({ owner, repo, author, installationId, id }: GithubCon
 								isPending={isPendingUpdate || isPending}
 								owner={owner}
 								id={id}
+								projectId={projectId}
 							/>
 						</form>
 					</Form>
@@ -81,9 +82,10 @@ interface RepositoryConfigFormProps {
 	isPending: boolean;
 	owner: string;
 	id: string;
+	projectId: string;
 }
 
-const RepositoryConfigForm = ({ form, isPending, owner, id }: RepositoryConfigFormProps) => {
+const RepositoryConfigForm = ({ form, isPending, owner, id, projectId }: RepositoryConfigFormProps) => {
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 			<FormField
@@ -165,7 +167,10 @@ const RepositoryConfigForm = ({ form, isPending, owner, id }: RepositoryConfigFo
 			</div>
 			{owner ? (
 				<div className="flex gap-2 justify-start">
-					<DeleteGithubConfigModal id={id} />
+					<DeleteGithubConfigModal
+						id={id}
+						projectId={projectId}
+					/>
 				</div>
 			) : null}
 		</div>

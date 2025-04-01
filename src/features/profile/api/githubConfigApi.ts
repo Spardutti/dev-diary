@@ -13,11 +13,11 @@ export const getGithubConfigs = ({ projectId }: { projectId: string }) =>
 	axiosHelper<IPaginatedResponse<IGithubConfig[]>>({ method: 'get', url: '/github/list', urlParams: { projectId } });
 
 export const updateGithubConfig = ({ owner, repo, author, installationId, projectId, id }: IGithubConfig) =>
-	axiosHelper({
+	axiosHelper<IResponse<IGithubConfig>>({
 		method: 'put',
 		url: `/github/update/${id}`,
 		data: { owner, repo, author, installationId, projectId },
 	});
 
-export const deleteGithubConfig = ({ id }: { id: string }) =>
-	axiosHelper({ method: 'delete', url: `/github/delete/${id}` });
+export const deleteGithubConfig = ({ id, projectId }: { id: string; projectId: string }) =>
+	axiosHelper({ method: 'delete', url: `/github/delete/${id}`, data: projectId });
