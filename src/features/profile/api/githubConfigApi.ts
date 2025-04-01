@@ -19,5 +19,5 @@ export const updateGithubConfig = ({ owner, repo, author, installationId, projec
 		data: { owner, repo, author, installationId, projectId },
 	});
 
-export const deleteGithubConfig = ({ id, projectId }: { id: string; projectId: string }) =>
-	axiosHelper({ method: 'delete', url: `/github/delete/${id}`, data: projectId });
+export const deleteGithubConfig = ({ id }: { id: string; projectId: string }) =>
+	axiosHelper({ method: 'delete', url: `/github/delete/${id}` });
