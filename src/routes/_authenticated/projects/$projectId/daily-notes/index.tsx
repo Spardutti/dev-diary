@@ -22,7 +22,7 @@ export const Route = createFileRoute('/_authenticated/projects/$projectId/daily-
 	}),
 	loader: async ({ context: { queryClient }, params: { projectId } }) => {
 		const response = await queryClient.ensureQueryData({
-			queryKey: noteQueryKeys.list(),
+			queryKey: noteQueryKeys.list(projectId),
 			queryFn: () => getNotes({ projectId }),
 		});
 
