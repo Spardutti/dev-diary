@@ -2,6 +2,7 @@ import PageBreadcrumb from '@/components/PageBreadcrumb';
 import RetroLoadingOverlay from '@/components/RetroLoadingOverlay';
 import { getTodos } from '@/features/todos/api/todosApi';
 import { todosQueryKeys, useGetTodos } from '@/features/todos/api/todosQueries';
+import CreateTodoModal from '@/features/todos/components/CreateTodoModal';
 import TodosTable from '@/features/todos/components/TodosTable';
 import { todoColumns } from '@/features/todos/components/TodosTable/TodosColumn';
 import TodosTableFilters from '@/features/todos/components/TodosTableFilters';
@@ -29,8 +30,10 @@ const RouteComponent = () => {
 
 	return (
 		<div className="flex flex-grow flex-col p-4 gap-6 overflow-hidden">
-			<PageBreadcrumb />
-
+			<div className="flex justify-between">
+				<PageBreadcrumb />
+				<CreateTodoModal />
+			</div>
 			<TodosTableFilters setFilters={setFilters} />
 
 			<div className="relative flex flex-grow overflow-hidden">
